@@ -1,8 +1,8 @@
 # Stock Control
 
-![GitHub repo size](https://img.shields.io/github/repo-size/DevTroli/ControleEstoque)
-![GitHub stars](https://img.shields.io/github/stars/DevTroli/ControleEstoque)
-![GitHub forks](https://img.shields.io/github/forks/DevTroli/ControleEstoque?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/DevTroli/StockControl)
+![GitHub stars](https://img.shields.io/github/stars/DevTroli/StockControl)
+![GitHub forks](https://img.shields.io/github/forks/DevTroli/StockControl?style=social)
 
 ### Elevate Your Inventory Management with Python Efficiency
 Streamline operations, optimize ordering, and gain actionable insights with our user-friendly Python-based inventory control software.
