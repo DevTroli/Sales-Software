@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from decouple import config, Csv
 
@@ -104,7 +105,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+LOGIN_URL = "/admin/login"
+LOGOUT_REDIRECT_URL = "core:index"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

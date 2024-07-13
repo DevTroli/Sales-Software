@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 class Produto(models.Model):
     ncm = models.CharField("NCM", max_length=8)
     produto = models.TextField("produto", max_length=100, unique=True)
@@ -15,7 +16,7 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.produto
-    
+
     # Função para atualizar o nível de estoque
     def save(self, *args, **kwargs):
         if self.estoque > self.estoque_minimo:
@@ -23,4 +24,3 @@ class Produto(models.Model):
         else:
             self.nivel_estoque = False
         super().save(*args, **kwargs)
-
