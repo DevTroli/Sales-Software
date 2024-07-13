@@ -5,12 +5,13 @@ from .models import Produto
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
     list_display = (
+        "nivel_estoque",
         "produto",
-        "ncm",
-        "preco",
+        "preco_custo",
+        "preco_venda",
         "estoque",
         "estoque_minimo",
-        "nivel_estoque",
+        "ncm",
     )
     search_fields = (
         "produto",

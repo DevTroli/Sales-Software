@@ -4,15 +4,20 @@ from django.dispatch import receiver
 
 
 class Produto(models.Model):
-    ncm = models.CharField("NCM", max_length=8)
+    nivel_estoque = models.BooleanField("Nivel do Estoque")
     produto = models.TextField("produto", max_length=100, unique=True)
-    preco = models.DecimalField("preço", max_digits=7, decimal_places=2)
+    preco_custo = models.DecimalField(
+        "preço de custo", max_digits=7, decimal_places=2, default=0.00
+    )
+    preco_venda = models.DecimalField(
+        "preço de venda", max_digits=7, decimal_places=2, default=0.00
+    )
     estoque = models.IntegerField("estoque atual")
     estoque_minimo = models.PositiveIntegerField("estoque mínimo", default=0)
-    nivel_estoque = models.BooleanField("Nivel do Estoque")
+    ncm = models.CharField("NCM", max_length=8)
 
     class Meta:
-        ordering = ("produto",)
+        ordering = ("-produto",)
 
     def __str__(self):
         return self.produto
