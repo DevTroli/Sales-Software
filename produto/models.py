@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse_lazy
 
 
 class Produto(models.Model):
@@ -21,6 +22,9 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.produto
+
+    def get_absolute_url(self):
+        return reverse_lazy("produto:product_detail", kwargs={"pk": self.pk})
 
     # Função para atualizar o nível de estoque
     def save(self, *args, **kwargs):

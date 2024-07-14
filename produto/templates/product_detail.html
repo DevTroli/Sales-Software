@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class=" items-center mx mx-auto pt-4">
+    <div class="container flex justify-between mx-auto">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'produto:index' %}"><img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-8 w-8"></a>
+            <h1 class="text-xl">{{ object }}</h1>
+        </div>
+        <button type="button" class="fa fa-pencil p-2 bg-amber-500 rounded-lg"><span class="p-1.5">Editar</span></button>
+    </div>
+    <div class="sm:w-1/2 flex justify-center mx-auto my-48">
+        <table class="w-fit divide-y divide-gray-200">
+            <tbody class="bg-transparent divide-y divide-gray-200 text-center items-center">
+                <tr>
+                    <th class="text-right p-4">Nivel do estoque</th>
+                    <td class="p-4">
+                        {% if object.nivel_estoque %}
+                            <i class="fa fa-check-circle text-green-500"></i>
+                        {% else %}
+                            <i class="fa fa-minus-circle text-red-500"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="text-right p-4">NCM</th>
+                    <td class="p-4">{{ object.ncm }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right p-4">Preço de custo</th>
+                    <td class="p-4">R$ {{ object.preco_custo }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right p-4">Preço de venda</th>
+                    <td class="p-4">R$ {{ object.preco_venda }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right p-4">Estoque</th>
+                    <td class="p-4">{{ object.estoque }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right p-4">Estoque mínimo</th>
+                    <td class="p-4">{{ object.estoque_minimo }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

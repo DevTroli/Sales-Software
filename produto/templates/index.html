@@ -1,4 +1,4 @@
-{% extends "produto/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-1">
@@ -25,7 +25,9 @@
                     <i class="fa fa-minus-circle no "></i>
                   {% endif %}
               </td>
-              <td class="p-4">{{ object.produto }}</td>
+              <td class="p-4">
+                <a href="{{ object.get_absolute_url }}">{{ object.produto }}</a>
+              </td>
               <td class="p-6">R$ <span class="">{{ object.preco_custo }}</span></td>
               <td class="p-6">R$ <span class="">{{ object.preco_venda }}</td>
               <td class="p-8">{{ object.estoque }}</td>
