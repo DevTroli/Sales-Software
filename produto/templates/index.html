@@ -2,6 +2,18 @@
 
 {% block content %}
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-1">
+  <div class="mb-4 border-b border-gray-200 pb-2">
+    <h2 class="text-2xl font-bold">
+        Lista de Produtos
+        <span class="float-right">
+            <a href="{% url 'produto:product_add' %}">
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <span class="fa fa-plus"></span> Adicionar
+                </button>
+            </a>
+        </span>
+    </h2>
+  </div>
   {% if object_list %}
     <table class="w-full text-sm text-left rtl:text-right text-gray-400 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

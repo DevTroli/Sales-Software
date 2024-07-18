@@ -14,3 +14,8 @@ def product_detail(request, pk):
     obj = get_object_or_404(Produto, pk=pk)
     context = {"object": obj}
     return render(request, template_name, context)
+
+
+def product_add(request):
+    template_name = "product_form.html"
+    return render(request, template_name)
