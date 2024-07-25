@@ -1,0 +1,147 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<header class="bg-cover bg-center relative pt-12 pb-24" style="background-image: url('https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/praiacinza.png');">
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="container mx-auto relative md:p-2">
+        <img class="h-72 mx-auto" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/e26ab9dc62c28f30b4dbe4fb5b43ed98884eeb6f/logo_final.svg" alt="Gonzaguinha Logo">
+        <p class="text-white text-center mt-16 mb-20 text-3xl font-extrabold leading-tight md:mt-6 md:mb-8 md:text-3xl md:leading-tight">
+            Venha celebrar conosco na Inauguração da Gonzaguinha: Conveniências em <br>
+            <span id="contador">contador</span>
+        </p>
+        <div class="bg-slate-800 rounded-lg flex flex-col justify-between sm:flex-row p-6 w-fit lg:mx-auto mx-4 ">
+            <ul class="flex gap-10 flex-col sm:flex-row">
+                <li class="text-sm sm:text-xs">
+                    <p class="font-bold text-white text-lg">Como participar?</p>
+                    <p class="text-white pt-1">Siga-nos no Instagram e faça um post nos marcando</p>
+                </li>
+                <li class="text-sm sm:text-xs">
+                    <p class="font-bold text-white text-lg">Aonde?</p>
+                    <p class="text-white pt-1">Av. Antônio Rodrigues, 186 | Centro, São Vicente</p>
+                </li>
+                <li class="text-sm sm:text-xs">
+                    <p class="font-bold text-white text-lg">Quando?</p>
+                    <p class="text-white pt-1">17/07/2024</p>
+                </li>
+                <button class="md:w-1/4 border-2 border-neutral-400 relative inline-flex items-center justify-center p-1.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-l from-yellow-500 to-amber-400 group-hover:bg-gradient-to-br from-amber-400 to-amber-500 hover:text-black dark:text-black focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-500 active:translate-y-1 active:shadow-none transition-all duration-150 shadow-[0_4px_0_0_rgba(0,0,0,0.2)]">
+    <a href='https://www.instagram.com/adegagonzaguinha/' target="_blank" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent group-hover:bg-white dark:group-hover:bg-amber-500 rounded-md group-hover:bg-opacity-100 shadow-inner w-full text-white hover:text-black">
+        Siga-nos Agora
+    </a>
+</button>
+            </ul>
+        </div>
+    </div>
+</header>
+<section class="bg-gradient-to-l from-slate-700 to-blue-950 py-12 md:pr-4">
+    <div data-aos="fade-right" data-aos-duration="500" class="container mx-auto flex flex-col md:flex-row md:gap-10 items-center">
+        <div class="flex-1 text-white p-4">
+            <h2 class="font-bold text-2xl pb-6">Desconto de <span class="text-amber-400">10%</span> na primeira compra conosco</h2>
+            <p class="text-base">
+              Está o dia que tão esperado! A <span class="text-amber-400">Gonzaguinha: Conveniências</span> finalmente abre suas portas em frente a praia do Pier e, para celebrar, estamos oferecendo um desconto <span class="text-amber-400">IMPERDÍVEL</span> para nossos novos clientes: <strong>10% de desconto</strong> na sua primeira compra!
+              <span class="underline">Sim, você leu certo!</span> Aproveite esta oportunidade única para conhecer nossos produtos incríveis e economizar em sua primeira compra.               
+            </p>
+        </div>
+        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/praia.png" alt="Mesa de salgadinho">
+    </div>
+</section>
+<section class="bg-gradient-to-l from-stone-200 to-neutral-200 py-10 md:pr-4">
+    <div data-aos="fade-left" data-aos-duration="500" class="container mx-auto flex flex-col-reverse md:flex-row md:gap-10 items-center">
+        <div class="flex-1 text-slate-900 p-4">
+            <h2 class="font-bold text-2xl pb-6">Salgadinhos de cortesia</h2>
+            <p class="text-base">
+                Prepare-se para uma experiência saborosa e inesquecível na inauguração da <span class="text-amber-600">Gonzaguinha: Conveniências!</span> Além de produtos de qualidade e um desconto imperdível de <span class="underline decoration-amber-500">10% na sua primeira compra</span>, também vamos te presentear com deliciosos salgadinhos de cortesia para você se deliciar enquanto explora a loja e conhece nossas novidades.
+A promoção é válida apenas no dia da inauguração, <strong>18/07/2024, a partir das 18:00 hrs</strong>
+            </p>
+        </div>
+        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/salgadinhos.png" alt="Entregador do delivery">
+    </div>
+</section>
+<section class="bg-gradient-to-l from-yellow-300 to-amber-400 py-10 md:pr-4">
+    <div data-aos="fade-right" data-aos-duration="500" class="container mx-auto flex flex-col-reverse md:flex-row md:gap-10 items-center">
+        <div class="flex-1 text-zinc-800 p-4">
+            <h2 class="font-bold text-2xl pb-6">Você nem precisa sair de casa para participar com o nosso delivery</h2>
+            <p class="text-base">
+                <strong class="text-slate-800">Bebidas geladas para refrescar o seu dia?</strong> <br> Temos uma variedade incrível de cervejas, vinhos, refrigerantes e sucos. <br>
+                <strong class="text-slate-800">Precisa de algo para matar a fome?</strong> <br> Lanches práticos, salgadinhos deliciosos e até mesmo pratos prontos te esperam na nossa loja. <br>
+                <strong class="text-slate-800">Quer praticidade no dia a dia?</strong> <br> Itens de higiene pessoal, limpeza e até mesmo alguns produtos para casa você encontra aqui. <br>
+            </p>
+        </div>
+        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://boxdelivery.com.br/wp-content/themes/boxdelivery_tmp/assets/img/header-entregador.png" alt="praia do pier">
+    </div>
+</section>
+
+<footer class="bg-slate-900 p-8">
+   <div class='flex lg:flex-row flex-col text-white justify-between items-center'>
+    <div class='lg:w-1/3 w-fit text-center lg:text-start mb-4 lg:mb-0'>
+      <h4 class="mb-4 lg:mb-2"><b>Sobre Nós:</b></h4>
+      <p class="mb-12  md:mb-4 lg:mb-8">
+        Estamos há 3 anos no ramo de bebidas e conveniências, comprometidos em oferecer qualidade e excelência para nossos clientes. Com duas lojas da Gonzaguinha no coração de São Vicente,com o tempo nos tornamos referência na região. Venha nos visitar e descubra produtos de qualidade, desde bebidas populares até itens essenciais para o cotidiano. Aproveite nossas preços, atendimento personalizado e ambiente acolhedor.
+      </p>
+      <span>
+        Gonzaguinha: Conveniências © Todos os direitos reservados
+      </span>
+    </div>
+    <div class="items-center">
+        <img class='rounded-sm w-60 h-60' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_final.svg' alt='Logo_Gonzaguinha' >
+    </div>
+    <div class='lg:ml-36 text-center lg:text-start'>
+      <h4 class="mb-4 lg:mb-2"><b>Fale Conosco:</b></h4>
+      <div class='justify-center items-center mb-4 pr-4 lg:p-0 md:p-0'>
+          <a target="_blank" href='https://wa.me/13978243504/?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Gonzaguina?%20ou%20sobre%20nosso%20delivery?'>
+            <div class="flex items-center">
+              <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/whatsapp.svg' >
+              <span class="ml-0.5">(13) 97824-3504</span>
+            </div>
+          </a>
+          <a target="_blank" href='https://www.instagram.com/adegagonzaguinha/'>
+            <div class="flex items-center">
+                <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/instagram.svg' alt="insatgram">
+                <span class="ml-1.5">@adegagonzaguinha</span>
+            </div>
+          </a>
+          <a href='mailto:adegagonzaguinha8@gmail.com'>
+            <div class="flex items-center">
+                <img class='w-10 h-10 ml-1.5' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/iconEmail.svg' alt='email'>
+                <span class="ml-1.5 text-sm">adegagonzaguinha8@gmail.com</span>
+            </div>
+          </a>
+      </div>
+    </div>
+  </div>
+</footer>
+{% endblock content %}
+
+{% block js %}
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+
+    const dataEvento = new Date("July 18, 2025 19:00:00");
+    const tempoDoEvento = dataEvento.getTime();
+
+    const temporizador = setInterval(() => {
+        const agora = new Date();
+        const tempoAtual = agora.getTime();
+
+        const tempoRestante = tempoDoEvento - tempoAtual;
+
+        const diasEmMs = 1000 * 60 * 60 * 24;
+        const horasEmMs = 1000 * 60 * 60;
+        const minutosEmMs = 1000 * 60;
+        const segundosEmMs = 1000;
+
+        const dias = Math.floor(tempoRestante / diasEmMs);
+        const horas = Math.floor((tempoRestante % diasEmMs) / horasEmMs);
+        const minutos = Math.floor((tempoRestante % horasEmMs) / minutosEmMs);
+        const segundos = Math.floor((tempoRestante % minutosEmMs) / segundosEmMs);
+
+        document.getElementById("contador").innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+
+        if (tempoRestante <= 0) {
+            clearInterval(temporizador);
+            document.getElementById("contador").innerHTML = "0d 0h 0m 0s";
+        }
+
+    }, 1000);
+</script>
+{% endblock js %}

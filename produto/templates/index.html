@@ -1,54 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-1">
-  <div class="mb-4 border-b border-gray-200 pb-2">
-    <h2 class="text-2xl font-bold">
-        Lista de Produtos
-        <span class="float-right">
-            <a href="{% url 'produto:product_add' %}">
-                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <span class="fa fa-plus"></span> Adicionar
-                </button>
-            </a>
-        </span>
-    </h2>
-  </div>
+{% include "includes/nav.html" %}
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4">
+  <header class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-bold">Lista de Produtos</h2>
+    <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+      <span class="fa fa-plus mr-2" aria-hidden="true"></span>
+      <span>Adicionar</span>
+    </a>
+  </header>
+  
   {% if object_list %}
-    <table class="w-full text-sm text-left rtl:text-right text-gray-400 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-              <th scope="col" class="text-center px-2 py-3 border-r border-gray-600">Nivel do Estoque</th>
-              <th scope="col" class="px2.5 py-3 border-r border-gray-600">Produto</th>
-              <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço custo</th>
-              <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Venda</th>
-              <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
-              <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
-              <th scope="col" class="px-2.5 py-3">NCM</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for object in object_list %}
-          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-600/70 border-b dark:border-gray-700">
-              <td class="px-2 py-4 text-center">
-                  {% if object.nivel_estoque %}
-                    <i class="fa fa-check-circle ok"></i>
-                  {% else %}
-                    <i class="fa fa-minus-circle no "></i>
-                  {% endif %}
-              </td>
-              <td class="p-4">
-                <a href="{{ object.get_absolute_url }}">{{ object.produto }}</a>
-              </td>
-              <td class="p-6">R$ <span class="">{{ object.preco_custo }}</span></td>
-              <td class="p-6">R$ <span class="">{{ object.preco_venda }}</td>
-              <td class="p-8">{{ object.estoque }}</td>
-              <td class="p-8">{{ object.estoque_minimo }}</td>
-              <td class="p-2">{{ object.ncm }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-    </table>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left rtl:text-right text-gray-400 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="text-center px-2 py-3 border-r border-gray-600">Nivel do Estoque</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Produto</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço custo</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Venda</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
+                <th scope="col" class="px-2.5 py-3">NCM</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-600/70 border-b dark:border-gray-700">
+                <td class="px-2 py-4 text-center">
+                    {% if object.nivel_estoque %}
+                      <i class="fa fa-check-circle ok"></i>
+                    {% else %}
+                      <i class="fa fa-minus-circle no"></i>
+                    {% endif %}
+                </td>
+                <td class="p-4">
+                  <a href="{{ object.get_absolute_url }}" class="text-blue-600 hover:underline">{{ object.produto }}</a>
+                </td>
+                <td class="p-4">R$ <span>{{ object.preco_custo }}</span></td>
+                <td class="p-4">R$ <span>{{ object.preco_venda }}</span></td>
+                <td class="p-4">{{ object.estoque }}</td>
+                <td class="p-4">{{ object.estoque_minimo }}</td>
+                <td class="p-4">{{ object.ncm }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
     <p>Sem itens cadastrados</p>
   {% endif %}

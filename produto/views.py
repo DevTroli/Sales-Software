@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic.edit import CreateView, UpdateView
 from produto.models import Produto
+from produto.forms import ProdutoForm
 
 
 def index(request):
@@ -19,3 +21,14 @@ def product_detail(request, pk):
 def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
+
+
+class ProductCreate(CreateView):
+    model = Produto
+    template_name = "product_form.html"
+    form_class = ProdutoForm
+
+class ProdutoUpdate(UpdateView):
+    model = Produto
+    template_name = 'product_form.html'
+    form_class = ProdutoForm

@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # apps tercerizado
+    'widget_tweaks',
     # my apps
     "core.apps.CoreConfig",
     "produto.apps.ProdutoConfig",

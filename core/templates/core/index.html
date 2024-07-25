@@ -1,147 +1,440 @@
-{% extends "core/base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<header class="bg-cover bg-center relative pt-12 pb-24" style="background-image: url('https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/praiacinza.png');">
-    <div class="absolute inset-0 bg-black opacity-60"></div>
-    <div class="container mx-auto relative md:p-2">
-        <img class="h-72 mx-auto" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/e26ab9dc62c28f30b4dbe4fb5b43ed98884eeb6f/logo_final.svg" alt="Gonzaguinha Logo">
-        <p class="text-white text-center mt-16 mb-20 text-3xl font-extrabold leading-tight md:mt-6 md:mb-8 md:text-3xl md:leading-tight">
-            Venha celebrar conosco na Inauguração da Gonzaguinha: Conveniências em <br>
-            <span id="contador">contador</span>
-        </p>
-        <div class="bg-slate-800 rounded-lg flex flex-col justify-between sm:flex-row p-6 w-fit lg:mx-auto mx-4 ">
-            <ul class="flex gap-10 flex-col sm:flex-row">
-                <li class="text-sm sm:text-xs">
-                    <p class="font-bold text-white text-lg">Como participar?</p>
-                    <p class="text-white pt-1">Siga-nos no Instagram e faça um post nos marcando</p>
-                </li>
-                <li class="text-sm sm:text-xs">
-                    <p class="font-bold text-white text-lg">Aonde?</p>
-                    <p class="text-white pt-1">Av. Antônio Rodrigues, 186 | Centro, São Vicente</p>
-                </li>
-                <li class="text-sm sm:text-xs">
-                    <p class="font-bold text-white text-lg">Quando?</p>
-                    <p class="text-white pt-1">17/07/2024</p>
-                </li>
-                <button class="md:w-1/4 border-2 border-neutral-400 relative inline-flex items-center justify-center p-1.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-l from-yellow-500 to-amber-400 group-hover:bg-gradient-to-br from-amber-400 to-amber-500 hover:text-black dark:text-black focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-500 active:translate-y-1 active:shadow-none transition-all duration-150 shadow-[0_4px_0_0_rgba(0,0,0,0.2)]">
-    <a href='https://www.instagram.com/adegagonzaguinha/' target="_blank" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent group-hover:bg-white dark:group-hover:bg-amber-500 rounded-md group-hover:bg-opacity-100 shadow-inner w-full text-white hover:text-black">
-        Siga-nos Agora
-    </a>
-</button>
+<header class="top-0 bg-gray-900 text-white shadow-md z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center relative">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg" class="h-14" alt="Logo">
+        </a>
+        <button id="menu-toggle" class="md:hidden text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none">
+            <span class="text-2xl"><i class="fa fa-bars"></i></span>
+        </button>
+        <nav id="menu" class="hidden md:flex md:space-x-6">
+            <a href="#sobre" class="p-3 rounded-md text-slate-200 hover:text-white hover:bg-amber-400">Sobre Nós</a>
+            <a href="#hit" class="p-3 rounded-md text-slate-200 hover:text-white hover:bg-amber-400">Hit de Vendas</a>
+            <a href="#produtos" class="p-3 rounded-md text-slate-200 hover:text-white hover:bg-amber-400">Produtos</a>
+            <a href="#contato" class="p-3 rounded-md text-slate-200 hover:text-white hover:bg-amber-400">Fale Conosco</a>
+        </nav>
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-gray-900 text-white hidden md:hidden z-40">
+            <ul class="flex flex-col p-4 space-y-2">
+                <li><a href="#sobre" class="block py-2 px-4 hover:bg-gray-700">Sobre Nós</a></li>
+                <li><a href="#hit" class="block py-2 px-4 hover:bg-gray-700">Os mais aguardados</a></li>
+                <li><a href="#produtos" class="block py-2 px-4 hover:bg-gray-700">Plataformas</a></li>
+                <li><a href="#contato" class="block py-2 px-4 hover:bg-gray-700">Fale Conosco</a></li>
             </ul>
         </div>
     </div>
 </header>
-<section class="bg-gradient-to-l from-slate-700 to-blue-950 py-12 md:pr-4">
-    <div data-aos="fade-right" data-aos-duration="500" class="container mx-auto flex flex-col md:flex-row md:gap-10 items-center">
-        <div class="flex-1 text-white p-4">
-            <h2 class="font-bold text-2xl pb-6">Desconto de <span class="text-amber-400">10%</span> na primeira compra conosco</h2>
-            <p class="text-base">
-              Está o dia que tão esperado! A <span class="text-amber-400">Gonzaguinha: Conveniências</span> finalmente abre suas portas em frente a praia do Pier e, para celebrar, estamos oferecendo um desconto <span class="text-amber-400">IMPERDÍVEL</span> para nossos novos clientes: <strong>10% de desconto</strong> na sua primeira compra!
-              <span class="underline">Sim, você leu certo!</span> Aproveite esta oportunidade única para conhecer nossos produtos incríveis e economizar em sua primeira compra.               
-            </p>
+
+<div class="scrollspy relative z-30 mb-2" data-bs-spy="scroll" data-bs-target="#nv" data-bs-smooth-scroll="true">
+    <section id="Loja" class="">
+        <div class="relative w-fit h-fit  overflow-hidden">
+            <div class="flex transition-transform duration-500 ease-in-out" id="carousel">
+                <div class="min-w-full">
+                    <img src="https://via.placeholder.com/800x400" alt="Zelda" class="w-full">
+                </div>
+                <div class="min-w-full">
+                    <img src="https://via.placeholder.com/800x400" alt="Spider man 2" class="w-full">
+                </div>
+                <div class="min-w-full">
+                    <img src="https://via.placeholder.com/800x400" alt="Jedi Survivor" class="w-full">
+                </div>
+            </div>
+            <button class="absolute top-1/2 left-0 transform -translate-y-1/2 p-3 bg-transparent text-white rounded-full" id="prev" aria-label="Previous Slide">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button class="absolute top-1/2 right-0 transform -translate-y-1/2 p-3 bg-transparent text-white rounded-full" id="next" aria-label="Next Slide">
+                <i class="fa fa-chevron-right"></i>
+            </button>
         </div>
-        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/praia.png" alt="Mesa de salgadinho">
-    </div>
-</section>
-<section class="bg-gradient-to-l from-stone-200 to-neutral-200 py-10 md:pr-4">
-    <div data-aos="fade-left" data-aos-duration="500" class="container mx-auto flex flex-col-reverse md:flex-row md:gap-10 items-center">
-        <div class="flex-1 text-slate-900 p-4">
-            <h2 class="font-bold text-2xl pb-6">Salgadinhos de cortesia</h2>
-            <p class="text-base">
-                Prepare-se para uma experiência saborosa e inesquecível na inauguração da <span class="text-amber-600">Gonzaguinha: Conveniências!</span> Além de produtos de qualidade e um desconto imperdível de <span class="underline decoration-amber-500">10% na sua primeira compra</span>, também vamos te presentear com deliciosos salgadinhos de cortesia para você se deliciar enquanto explora a loja e conhece nossas novidades.
-A promoção é válida apenas no dia da inauguração, <strong>18/07/2024, a partir das 18:00 hrs</strong>
-            </p>
+    </section>
+</div>
+
+<section id="sobre" class="py-10">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap flex-row">
+            <div class="w-full lg:3/4 mb-6">
+                <img src="https://via.placeholder.com/800x400" alt="Loja Fisica" class="w-full rounded-lg shadow-lg">
+            </div>
+            <div class="w-full md:w-fit md:flex md:flex-row">
+                <div class="m-6"><h2 class="text-3xl font-bold mb-4">Nossa <span class="text-amber-500">Missão</span></h2>
+                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat odio beatae inventore ad blanditiis commodi corrupti laborum nihil optio. Numquam velit dolorem sed eum rem fugiat, necessitatibus minus magni repudiandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur perferendis magni molestias debitis delectus neque nam quas eaque quos ducimus. Perspiciatis eaque perferendis quia, iste minima aliquid eius laudantium consectetur.</p>
+                </div>
+                                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-2">Porque a <span class="text-amber-500">Gonzaguinha: Conveniências</span>?</h3>
+                    <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat eaque cum perspiciatis excepturi ut, amet tempora soluta, optio labore error provident laboriosam quod earum debitis tenetur corporis quo, placeat architecto?</p>
+                    
+                    <ul class="list-disc pl-5 mb-4">
+                        <li class="mb-2">Xbox</li>
+                        <li class="mb-2">Playstation</li>
+                        <li class="mb-2">Nintendo Switch</li>
+                        <li class="mb-2">PC</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/salgadinhos.png" alt="Entregador do delivery">
-    </div>
-</section>
-<section class="bg-gradient-to-l from-yellow-300 to-amber-400 py-10 md:pr-4">
-    <div data-aos="fade-right" data-aos-duration="500" class="container mx-auto flex flex-col-reverse md:flex-row md:gap-10 items-center">
-        <div class="flex-1 text-zinc-800 p-4">
-            <h2 class="font-bold text-2xl pb-6">Você nem precisa sair de casa para participar com o nosso delivery</h2>
-            <p class="text-base">
-                <strong class="text-slate-800">Bebidas geladas para refrescar o seu dia?</strong> <br> Temos uma variedade incrível de cervejas, vinhos, refrigerantes e sucos. <br>
-                <strong class="text-slate-800">Precisa de algo para matar a fome?</strong> <br> Lanches práticos, salgadinhos deliciosos e até mesmo pratos prontos te esperam na nossa loja. <br>
-                <strong class="text-slate-800">Quer praticidade no dia a dia?</strong> <br> Itens de higiene pessoal, limpeza e até mesmo alguns produtos para casa você encontra aqui. <br>
-            </p>
-        </div>
-        <img class="rounded-lg w-64 h-64 max-w-xs md:max-w-sm" src="https://boxdelivery.com.br/wp-content/themes/boxdelivery_tmp/assets/img/header-entregador.png" alt="praia do pier">
     </div>
 </section>
 
-<footer class="bg-slate-900 p-8">
-   <div class='flex lg:flex-row flex-col text-white justify-between items-center'>
-    <div class='lg:w-1/3 w-fit text-center lg:text-start mb-4 lg:mb-0'>
-      <h4 class="mb-4 lg:mb-2"><b>Sobre Nós:</b></h4>
-      <p class="mb-12  md:mb-4 lg:mb-8">
-        Estamos há 3 anos no ramo de bebidas e conveniências, comprometidos em oferecer qualidade e excelência para nossos clientes. Com duas lojas da Gonzaguinha no coração de São Vicente,com o tempo nos tornamos referência na região. Venha nos visitar e descubra produtos de qualidade, desde bebidas populares até itens essenciais para o cotidiano. Aproveite nossas preços, atendimento personalizado e ambiente acolhedor.
-      </p>
-      <span>
-        Gonzaguinha: Conveniências © Todos os direitos reservados
-      </span>
-    </div>
-    <div class="items-center">
-        <img class='rounded-sm w-60 h-60' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_final.svg' alt='Logo_Gonzaguinha' >
-    </div>
-    <div class='lg:ml-36 text-center lg:text-start'>
-      <h4 class="mb-4 lg:mb-2"><b>Fale Conosco:</b></h4>
-      <div class='justify-center items-center mb-4 pr-4 lg:p-0 md:p-0'>
-          <a target="_blank" href='https://wa.me/13978243504/?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Gonzaguina?%20ou%20sobre%20nosso%20delivery?'>
-            <div class="flex items-center">
-              <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/whatsapp.svg' >
-              <span class="ml-0.5">(13) 97824-3504</span>
-            </div>
-          </a>
-          <a target="_blank" href='https://www.instagram.com/adegagonzaguinha/'>
-            <div class="flex items-center">
-                <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/instagram.svg' alt="insatgram">
-                <span class="ml-1.5">@adegagonzaguinha</span>
-            </div>
-          </a>
-          <a href='mailto:adegagonzaguinha8@gmail.com'>
-            <div class="flex items-center">
-                <img class='w-10 h-10 ml-1.5' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/iconEmail.svg' alt='email'>
-                <span class="ml-1.5 text-sm">adegagonzaguinha8@gmail.com</span>
-            </div>
-          </a>
-      </div>
-    </div>
-  </div>
-</footer>
-{% endblock content %}
 
-{% block js %}
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<section id="hit" class="pt-10 pb-10">
+    <div class="container mx-auto px-6 text-center">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-white mb-4">
+                Nossos produtos <span class="text-amber-500">mais vendidos</span> <i class="bi bi-controller"></i>
+            </h2>
+        </div>
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Game Item -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/800x400" alt="Mortal Kombat 1" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Gelo Tradicional & Americano</h3>
+                    <p class="text-gray-700">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis saepe nihil quae voluptate doloremque quibusdam esse numquam commodi eos vel dolorem perferendis quis ad quia laborum, rem, accusantium suscipit minus.
+                    </p>
+                </div>
+            </div>
+            <!-- Game Item -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/800x400" alt="Street Fighter 6" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Frango Assado</h3>
+                    <p class="text-gray-700">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt aut earum quidem optio saepe hic fugit delectus? Facere eveniet neque, debitis dignissimos deserunt amet eius porro assumenda ipsam magni sunt!
+                    </p>
+                </div>
+            </div>
+            <!-- Game Item -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/800x400" alt="Assassins Creed Mirage" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Destilados, Vinhos e Cervejas</h3>
+                    <p class="text-gray-700">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam illo rerum nam magni sequi necessitatibus quo, numquam neque voluptate totam ipsa doloremque quisquam laboriosam optio fugiat blanditiis expedita itaque autem.
+                    </p>
+                </div>
+            </div>
+            <!-- Game Item -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/800x400" alt="Starfield" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Itens de tabacaria</h3>
+                    <p class="text-gray-700">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam illo rerum nam magni sequi necessitatibus quo, numquam neque voluptate totam ipsa doloremque quisquam laboriosam optio fugiat blanditiis expedita itaque autem.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="produtos" class="pt-10 pb-10">
+    <div class="container mx-auto px-6 items-center">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-white mb-4">
+                Nossos Produtos <i class="bi bi-joystick"></i>
+            </h2>
+        </div>
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-center mx-auto">
+            <!-- Tabs -->
+            <aside class="md:col-span-1 bg-white p-4 rounded-lg shadow-md w-fit h-fit items-center mx-auto bg-gray-300">
+                <nav class="flex flex-col space-y-2">
+                    <button type="button" data-tab="Xbox" class="tab-link text-slate-700 text-lg font-bold flex items-center p-6 rounded-lg hover:bg-amber-500 transition duration-300">
+                        Xbox <i class="bi bi-xbox ml-2"></i>
+                    </button>
+                    <button type="button" data-tab="Playstation" class="tab-link text-slate-700 text-lg font-bold flex items-center p-6 rounded-lg hover:bg-amber-500 transition duration-300">
+                        Playstation <i class="bi bi-playstation ml-2"></i>
+                    </button>
+                    <button type="button" data-tab="Nintendo" class="tab-link text-slate-700 text-lg font-bold flex items-start p-6 rounded-lg hover:bg-amber-500 transition duration-300">
+                        Nintendo Switch <i class="bi bi-nintendo-switch ml-2"></i>
+                    </button>
+                    <button type="button" data-tab="PC" class="tab-link text-center text-slate-700 text-lg font-bold flex items-center p-6 rounded-lg hover:bg-amber-500">
+                        PC <i class="bi bi-steam ml-2"></i>
+                    </button>
+                </nav>
+            </aside>
+            <!-- Tab Content -->
+            <div class="md:col-span-3">
+                <div id="Xbox" class="tab-content hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Repeat for 6 items -->
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Xbox+1" alt="Forza 5" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Forza 5</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FFFF00/000000?text=Xbox+4" alt="Gears 5" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Gears 5</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF00FF/FFFFFF?text=Xbox+5" alt="FIFA 22" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">FIFA 22</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/00FFFF/000000?text=Xbox+6" alt="Call of Duty" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Call of Duty</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="Playstation" class="tab-content hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Repeat for 6 items -->
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Playstation+1" alt="God of War Ragnarok" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">God of War Ragnarok</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/00FF00/FFFFFF?text=Playstation+2" alt="Horizon Forbidden West" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Horizon Forbidden West</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/0000FF/FFFFFF?text=Playstation+3" alt="Spider-Man 2" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Spider-Man 2</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/00FFFF/000000?text=Playstation+6" alt="Ratchet & Clank" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Ratchet & Clank</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="Nintendo" class="tab-content hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Repeat for 6 items -->
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Nintendo+1" alt="Super Mario Odyssey" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Super Mario Odyssey</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FFFF00/000000?text=Nintendo+4" alt="Zelda: Breath of the Wild" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Zelda: Breath of the Wild</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF00FF/FFFFFF?text=Nintendo+5" alt="Mario Kart 8 Deluxe" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Mario Kart 8 Deluxe</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/00FFFF/000000?text=Nintendo+6" alt="Splatoon 3" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Splatoon 3</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="PC" class="tab-content hidden text-slate-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Repeat for 6 items -->
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FF0000/FFFFFF?text=PC+1" alt="Lego 2K Driver" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Lego 2K Driver</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/00FF00/FFFFFF?text=PC+2" alt="NBA 2K23" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">NBA 2K23</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/0000FF/FFFFFF?text=PC+3" alt="Cyberpunk 2077" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">Cyberpunk 2077</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                        <div class="p-4">
+                            <img src="https://via.placeholder.com/400x300/FFFF00/000000?text=PC+4" alt="The Witcher 3" class="w-full h-48 object-cover mb-2 rounded-lg shadow-md">
+                            <h5 class="text-xl font-semibold mb-1">The Witcher 3</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formulário -->
+<section id="contato" class="pt-10 pb-10 bg-gray-900">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-gray-100 mb-4">Entre em <span class="text-amber-500">Contato</span></h2>
+            <p class="text-gray-300 mb-4">Preencha o formulário abaixo e entraremos em contato com você em breve!</p>
+        </div>
+        <div class="max-w-lg mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
+            <form id="contactForm" action="https://formsubmit.co/brawlixo123@gmail.com" method="POST">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nome:</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-700">
+                </div>
+                <div class="mb-4">
+                    <label for="numero" class="block text-gray-700 text-sm font-bold mb-2">Número:</label>
+                    <input type="tel" id="numero" name="numero" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-700">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">E-mail:</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-700">
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Mensagem:</label>
+                    <textarea id="message" name="message" rows="4" style="resize: none;" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-700"></textarea>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="px-6 py-2 bg-amber-500 text-white font-bold rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Enviar Mensagem
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de Agradecimento -->
+<div id="thankYouModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Obrigado!</h2>
+        <p class="mb-4 text-gray-700">Sua mensagem foi enviada com sucesso. Entraremos em contato em breve.</p>
+        <button id="closeModal" class="px-4 py-2 bg-amber-500 text-white font-bold rounded-lg hover:bg-amber-600">Fechar</button>
+    </div>
+</div>
+
+
+
+<footer class="p-8 rounded-lg shadow m-4 dark:bg-gray-900">
+    <div class='flex lg:flex-row flex-col text-white justify-between items-center'>
+     <div class='lg:w-1/3 w-fit text-center lg:text-start mb-4 lg:mb-0'>
+       <h4 class="mb-4 lg:mb-2"><b>Sobre Nós:</b></h4>
+       <p class="mb-12  md:mb-4 lg:mb-8">
+         Estamos há 3 anos no ramo de bebidas e conveniências, comprometidos em oferecer qualidade e excelência para nossos clientes. Com duas lojas da Gonzaguinha no coração de São Vicente,com o tempo nos tornamos referência na região. Venha nos visitar e descubra produtos de qualidade, desde bebidas populares até itens essenciais para o cotidiano. Aproveite nossas preços, atendimento personalizado e ambiente acolhedor.
+       </p>
+       <span>
+         Gonzaguinha: Conveniências © Todos os direitos reservados
+       </span>
+     </div>
+     <div class="items-center">
+         <img class='rounded-sm w-60 h-60' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_final.svg' alt='Logo_Gonzaguinha' >
+     </div>
+     <div class='lg:ml-36 text-center lg:text-start'>
+       <h4 class="mb-4 lg:mb-2"><b>Fale Conosco:</b></h4>
+       <div class='justify-center items-center mb-4 pr-4 lg:p-0 md:p-0'>
+           <a target="_blank" href='https://wa.me/13978243504/?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Gonzaguina?%20ou%20sobre%20nosso%20delivery?'>
+             <div class="flex items-center">
+               <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/whatsapp.svg' >
+               <span class="ml-0.5">(13) 97824-3504</span>
+             </div>
+           </a>
+           <a target="_blank" href='https://www.instagram.com/adegagonzaguinha/'>
+             <div class="flex items-center">
+                 <img class='w-12 h-12 mb-2' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/instagram.svg' alt="insatgram">
+                 <span class="ml-1.5">@adegagonzaguinha</span>
+             </div>
+           </a>
+           <a href='mailto:adegagonzaguinha8@gmail.com'>
+             <div class="flex items-center">
+                 <img class='w-10 h-10 ml-1.5' src='https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/iconEmail.svg' alt='email'>
+                 <span class="ml-1.5 text-sm">adegagonzaguinha8@gmail.com</span>
+             </div>
+           </a>
+       </div>
+     </div>
+   </div>
+ </footer>
+
+
+
 <script>
-    AOS.init();
+    // Script para o carrossel
+    const carousel = document.getElementById('carousel');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+    let index = 0;
 
-    const dataEvento = new Date("July 18, 2024 19:00:00");
-    const tempoDoEvento = dataEvento.getTime();
+    next.addEventListener('click', () => {
+        index = (index + 1) % carousel.children.length;
+        carousel.style.transform = `translateX(-${index * 100}%)`;
+    });
 
-    const temporizador = setInterval(() => {
-        const agora = new Date();
-        const tempoAtual = agora.getTime();
+    prev.addEventListener('click', () => {
+        index = (index - 1 + carousel.children.length) % carousel.children.length;
+        carousel.style.transform = `translateX(-${index * 100}%)`;
+    });
 
-        const tempoRestante = tempoDoEvento - tempoAtual;
+    // Script para o menu móvel
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-        const diasEmMs = 1000 * 60 * 60 * 24;
-        const horasEmMs = 1000 * 60 * 60;
-        const minutosEmMs = 1000 * 60;
-        const segundosEmMs = 1000;
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
 
-        const dias = Math.floor(tempoRestante / diasEmMs);
-        const horas = Math.floor((tempoRestante % diasEmMs) / horasEmMs);
-        const minutos = Math.floor((tempoRestante % horasEmMs) / minutosEmMs);
-        const segundos = Math.floor((tempoRestante % minutosEmMs) / segundosEmMs);
+    // Script para as abas (tabs)
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-        document.getElementById("contador").innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
 
-        if (tempoRestante <= 0) {
-            clearInterval(temporizador);
-            document.getElementById("contador").innerHTML = "0d 0h 0m 0s";
-        }
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
 
-    }, 1000);
+                // Show the clicked tab content
+                document.getElementById(target).classList.remove('hidden');
+
+                // Update active tab
+                tabs.forEach(t => {
+                    t.classList.remove('bg-blue-500', 'text-white');
+                    t.classList.add('hover:bg-amber-500');
+                });
+                tab.classList.remove('hover:bg-amber-500');
+                tab.classList.add('bg-blue-500', 'text-white');
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('contactForm');
+    var modal = document.getElementById('thankYouModal');
+    var closeModal = document.getElementById('closeModal');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        }).then(function(response) {
+            if (response.ok) {
+                modal.classList.remove('hidden'); // Mostra o modal
+            } else {
+                alert('Houve um problema com o envio do formulário.');
+            }
+        }).catch(function(error) {
+            alert('Houve um problema com o envio do formulário.');
+        });
+    });
+
+    closeModal.addEventListener('click', function() {
+        modal.classList.add('hidden'); // Esconde o modal
+    });
+});
+
 </script>
-{% endblock js %}
+{% endblock content %}
