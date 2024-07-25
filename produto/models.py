@@ -13,6 +13,9 @@ class Produto(models.Model):
     preco_venda = models.DecimalField(
         "preço de venda", max_digits=7, decimal_places=2, default=0.00
     )
+    margem_vendas = models.DecimalField(
+        "margem de vendas", max_digits=6, decimal_places=2, null=True, blank=True
+    )
     estoque = models.IntegerField("estoque atual")
     estoque_minimo = models.PositiveIntegerField("estoque mínimo", default=0)
     ncm = models.CharField("NCM", max_length=8)
@@ -33,3 +36,15 @@ class Produto(models.Model):
         else:
             self.nivel_estoque = False
         super().save(*args, **kwargs)
+
+    @property
+    def calcular_margem(self):
+        if self.preco_custo == 0:
+            return None
+        margem = (self.preco_venda / self.preco_custo) - 1
+        return f"{margem:.2%}"
+
+    @receiver(post_save, sender=Produto)
+    def atualizar_margem_vendas(sender, instance, **kwargs):
+    instance.margem_vendas = instance.calcular_margem
+    instance.save()
