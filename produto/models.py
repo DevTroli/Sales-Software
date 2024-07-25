@@ -44,7 +44,7 @@ class Produto(models.Model):
         margem = (self.preco_venda / self.preco_custo) - 1
         return f"{margem:.2%}"
 
-    @receiver(post_save, sender=Produto)
-    def atualizar_margem_vendas(sender, instance, **kwargs):
+    
+def atualizar_margem_vendas(sender, instance, **kwargs):
     instance.margem_vendas = instance.calcular_margem
     instance.save()
