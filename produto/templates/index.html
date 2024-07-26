@@ -20,6 +20,7 @@
                 <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Produto</th>
                 <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço custo</th>
                 <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Venda</th>
+                <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem de vendas</th>
                 <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
                 <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
                 <th scope="col" class="px-2.5 py-3">NCM</th>
@@ -40,6 +41,7 @@
                 </td>
                 <td class="p-4">R$ <span>{{ object.preco_custo }}</span></td>
                 <td class="p-4">R$ <span>{{ object.preco_venda }}</span></td>
+                <td class="p-4"><span>{{ object.margem_vendas }} %</span></td>
                 <td class="p-4">{{ object.estoque }}</td>
                 <td class="p-4">{{ object.estoque_minimo }}</td>
                 <td class="p-4">{{ object.ncm }}</td>

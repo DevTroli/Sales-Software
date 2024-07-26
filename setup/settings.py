@@ -13,7 +13,7 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=[], cast=Csv())
 
-CSRF_TRUSTED_ORIGINS = ['https://adegagonzaguinha.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ["https://adegagonzaguinha.up.railway.app"]
 
 # Application definition
 
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # apps tercerizado
-    'widget_tweaks',
+    "widget_tweaks",
     # my apps
     "core.apps.CoreConfig",
     "produto.apps.ProdutoConfig",
