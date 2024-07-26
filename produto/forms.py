@@ -8,4 +8,5 @@ class ProdutoForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "margem_vendas": forms.HiddenInput(),
+            "nivel_estoque": forms.HiddenInput(),
         }
