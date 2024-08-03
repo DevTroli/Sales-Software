@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+<div class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-slate-800 p-8 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
 
         {% if form.errors %}
@@ -24,18 +24,20 @@
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="mb-4">
-                <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" name="username" id="id_username" required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div class="relative">
+                    <input type="text" id="id_username" name="username" class="peer bg-transparent h-12 w-full rounded-lg text-gray-900 placeholder-transparent ring-2 ring-gray-300 focus:ring-sky-600 focus:outline-none focus:border-sky-600 px-4" placeholder="Username" required/>
+                    <label for="id_username" class="absolute left-3 top-3 text-sm text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-black peer-focus:-top-2 peer-focus:text-sky-800 peer-focus:text-sm">Qual o seu usuário 👤</label>
+                </div>
             </div>
             <div class="mb-6">
-                <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="password" id="id_password" required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div class="relative">
+                    <input type="password" id="id_password" name="password" class="peer bg-transparent h-12 w-full rounded-lg text-gray-900 placeholder-transparent ring-2 ring-gray-300 focus:ring-sky-600 focus:outline-none focus:border-sky-600 px-4" placeholder="Password" required/>
+                    <label for="id_password" class="absolute left-3 top-3 text-sm text-black transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:-top-2 peer-focus:text-sky-800 peer-focus:text-sm">Digite sua senha aqui 👇 </label>
+                </div>
             </div>
             <button type="submit"
                 class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Login
+                Entrar no Sistema
             </button>
             <input type="hidden" name="next" value="{{ request.GET.next }}">
         </form>
