@@ -19,7 +19,7 @@ class Produto(models.Model):
     )
     estoque = models.IntegerField("Estoque Atual")
     estoque_minimo = models.PositiveIntegerField("Estoque Mínimo", default=0)
-    ncm = models.CharField("NCM", max_length=8)
+    codigoBarra = models.CharField("codigoBarra", max_length=8)
 
     class Meta:
         ordering = ("-produto",)

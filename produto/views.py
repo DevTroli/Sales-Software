@@ -21,7 +21,7 @@ def index(request):
         queries = query.split()
         q_objects = Q()
         for q in queries:
-            q_objects |= Q(produto__icontains=q) | Q(ncm__icontains=q) | Q(preco_venda__icontains=q)
+            q_objects |= Q(produto__icontains=q) | Q(codigoBarra__icontains=q) | Q(preco_venda__icontains=q)
         objects = objects.filter(q_objects)
     
     context = {"object_list": objects}
