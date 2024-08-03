@@ -2,14 +2,14 @@
 
 {% block content %}
 <section class="dark:bg-gray-900">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+  <div class="flex flex-col items-center justify-center px-8 py-8 mx-auto md:h-screen lg:py-0">
       <a href="{% url 'core:index' %}" class="flex items-center mb-6 text-2xl font-semibold text-white">
-          <img class="w-32 h-32 mr-2" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_basic.svg" alt="logo">
+          <img class="w-64 h-64" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_basic.svg" alt="logo">
       </a>
       <div class="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
-                  Controle de estoque
+              <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white text-center">
+                  Controle de Acesso
               </h1>
 
               {% if form.errors %}
@@ -32,11 +32,11 @@
                   {% csrf_token %}
                   <div class="relative">
                       <input type="text" id="id_username" name="username" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
-                      <label for="id_username" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:dark:text-gray-400 peer-focus:-top-2 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Qual seu usuário 👤 ?</label>
+                      <label for="id_username" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:dark:text-gray-400 peer-focus:-top-4 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Qual seu usuário 👤 ?</label>
                   </div>
                   <div class="relative">
                       <input type="password" id="id_password" name="password" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
-                      <label for="id_password" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-focus:-top-2 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Digite sua senha aqui 👇</label>
+                      <label for="id_password" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Digite sua senha aqui 👇</label>
                   </div>
                   <button type="submit" class="w-full text-white bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-primary-700">Entrar no sistema</button>
               </form>
