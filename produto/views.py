@@ -11,7 +11,18 @@ from produto.forms import ProdutoForm
 @login_required
 def index(request):
     template_name = "index.html"
-    objects = Produto.objects.all()
+    query = request.GET.get('q')  # Obtém o valor do campo 'q' da URL
+    if query:
+        # Filtra os produtos com base no valor de 'q'
+        objects = Produto.objects.filter(
+            Q(produto__icontains=query) | 
+            Q(ncm__icontains=query) | 
+            Q(preco_custo__icontains=query) | 
+            Q(preco_venda__icontains=query)
+        )
+    else:
+        # Caso não haja busca, retorna todos os produtos
+        objects = Produto.objects.all()
     context = {"object_list": objects}
     return render(request, template_name, context)
 

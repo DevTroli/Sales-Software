@@ -5,6 +5,11 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4">
   <header class="mb-6 flex justify-between items-center">
     <h2 class="text-2xl font-bold">Lista de Produtos</h2>
+    <!-- Formulário de Busca -->
+    <form method="GET" action="{% url 'produto:index' %}" class="flex space-x-2">
+      <input type="text" name="q" placeholder="Buscar produtos..." class="border border-gray-300 p-2 rounded" autofocus>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buscar</button>
+    </form>
     <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
       <span class="fa fa-plus mr-2" aria-hidden="true"></span>
       <span>Adicionar</span>
