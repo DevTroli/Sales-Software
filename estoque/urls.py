@@ -1,5 +1,5 @@
 from django.urls import path
-from estoque import views as v
+from . import views as v
 
 app_name = "estoque"
 

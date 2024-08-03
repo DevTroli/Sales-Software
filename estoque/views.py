@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from models import Estoque
+from .models import Estoque
 
 
 def estoque_entrada_list(request):
