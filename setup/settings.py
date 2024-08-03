@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     "estoque.apps.EstoqueConfig",
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Backend padrão
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -122,9 +126,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-LOGIN_URL = "/login"
+LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "core:index"
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'produto:index'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
