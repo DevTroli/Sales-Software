@@ -32,11 +32,11 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     model = Produto
     template_name = "product_form.html"
     form_class = ProdutoForm
-    login_url = '/admin/login'
+    login_url = '/login'
 
 class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     model = Produto
     template_name = "product_form.html"
     form_class = ProdutoForm
     success_url = reverse_lazy("produto:index")
-    login_url = '/admin/login'
+    login_url = '/login'
