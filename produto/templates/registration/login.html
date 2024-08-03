@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class=" dark:bg-gray-900">
+<section class="dark:bg-gray-900">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <a href="{% url 'core:index' %}" class="flex items-center mb-6 text-2xl font-semibold text-white">
           <img class="w-8 h-8 mr-2" src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/logo_basic.svg" alt="logo">
@@ -31,17 +31,30 @@
               <form method="post" action="{% url 'login' %}" class="space-y-4 md:space-y-6">
                   {% csrf_token %}
                   <div class="relative">
-                      <input type="text" id="id_username" name="username" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="nome do seu usuário" required />
+                      <input type="text" id="id_username" name="username" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
                       <label for="id_username" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:dark:text-gray-400 peer-focus:-top-2 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Qual seu usuário 👤 ?</label>
                   </div>
                   <div class="relative">
-                      <input type="password" id="id_password" name="password" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sua senha secreta" required />
-                      <label for="id_password" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:dark:text-gray-400 peer-focus:-top-2 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Digite sua senha aqui 👇</label>
+                      <input type="password" id="id_password" name="password" class="peer bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-3 pt-6 pb-3 placeholder-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+                      <label for="id_password" class="absolute left-3 top-2 text-sm text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-focus:-top-2 peer-focus:text-primary-600 peer-focus:dark:text-primary-500">Digite sua senha aqui 👇</label>
                   </div>
-                  <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Entrar no sistema</button>
+                  <button type="submit" class="w-full text-white bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:bg-primary-700">Entrar no sistema</button>
               </form>
           </div>
       </div>
   </div>
 </section>
+
+<style>
+    /* Remover focus e borda ao clicar */
+    input:focus, button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* Remover placeholders */
+    ::placeholder {
+        color: transparent;
+    }
+</style>
 {% endblock content %}
