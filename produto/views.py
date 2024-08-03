@@ -5,24 +5,25 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 
+from django.db.models import Q
+
 from produto.models import Produto
 from produto.forms import ProdutoForm
 
 @login_required
 def index(request):
     template_name = "index.html"
-    query = request.GET.get('q')  # Obtém o valor do campo 'q' da URL
+    
+    query = request.GET.get('q')
+    objects = Produto.objects.all()
+    
     if query:
-        # Filtra os produtos com base no valor de 'q'
-        objects = Produto.objects.filter(
-            Q(produto__icontains=query) | 
-            Q(ncm__icontains=query) | 
-            Q(preco_custo__icontains=query) | 
-            Q(preco_venda__icontains=query)
-        )
-    else:
-        # Caso não haja busca, retorna todos os produtos
-        objects = Produto.objects.all()
+        queries = query.split()
+        q_objects = Q()
+        for q in queries:
+            q_objects |= Q(produto__icontains=q) | Q(ncm__icontains=q) | Q(preco_venda__icontains=q)
+        objects = objects.filter(q_objects)
+    
     context = {"object_list": objects}
     return render(request, template_name, context)
 
