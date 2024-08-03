@@ -13,10 +13,14 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 # Security settings
 SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=[], cast=Csv())
 
-CSRF_TRUSTED_ORIGINS = ["https://adegagonzaguinha.up.railway.app",'https://adegagonzaguinha.com', 'https://www.adegagonzaguinha.com']
+CSRF_TRUSTED_ORIGINS = [
+    "https://adegagonzaguinha.up.railway.app",
+    "https://adegagonzaguinha.com",
+    "https://www.adegagonzaguinha.com",
+]
 
 # Application definition
 
