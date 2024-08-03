@@ -19,7 +19,16 @@ class Estoque(TimeStampedModel):
         ordering = ("-created",)
 
     def __str__(self):
-        return str(self.pk)
+        if self.nf:
+            return "{} - {} - {}".format(
+                self.pk, self.nf, self.created.strftime("%d-%m-%Y")
+            )
+        return "{} --- {}".format(self.pk, self.created.strftime("%d-%m-%Y"))
+
+    def nf_formated(self):
+        if self.nf:
+            return str(self.nf).zfill(3)
+        return "---"
 
 
 class EstoqueItens(models.Model):
