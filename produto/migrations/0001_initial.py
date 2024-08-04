@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("ncm", models.CharField(max_length=8, verbose_name="NCM")),
+                ("codigoBarra", models.CharField(max_length=8, verbose_name="codigoBarra")),
                 ("produto", models.CharField(max_length=100, unique=True)),
                 (
                     "preco",

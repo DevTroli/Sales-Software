@@ -11,10 +11,10 @@ class ProdutoAdmin(admin.ModelAdmin):
         "preco_venda",
         "estoque",
         "estoque_minimo",
-        "ncm",
+        "codigoBarra",
     )
     search_fields = (
         "produto",
-        "ncm",
+        "codigoBarra",
     )  # Defina os campos pelos quais você deseja buscar
     list_filter = ("nivel_estoque",)
