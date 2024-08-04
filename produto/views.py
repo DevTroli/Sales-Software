@@ -10,20 +10,25 @@ from django.db.models import Q
 from produto.models import Produto
 from produto.forms import ProdutoForm
 
+
 @login_required
 def index(request):
     template_name = "index.html"
-    
-    query = request.GET.get('q')
+
+    query = request.GET.get("q")
     objects = Produto.objects.all()
-    
+
     if query:
         queries = query.split()
         q_objects = Q()
         for q in queries:
-            q_objects |= Q(produto__icontains=q) | Q(codigoBarra__icontains=q) | Q(preco_venda__icontains=q)
+            q_objects |= (
+                Q(produto__icontains=q)
+                | Q(codigoBarra__icontains=q)
+                | Q(preco_venda__icontains=q)
+            )
         objects = objects.filter(q_objects)
-    
+
     context = {"object_list": objects}
     return render(request, template_name, context)
 
@@ -33,6 +38,7 @@ def product_detail(request, pk):
     obj = get_object_or_404(Produto, pk=pk)
     context = {"object": obj}
     return render(request, template_name, context)
+
 
 @login_required
 def product_add(request):
@@ -44,11 +50,12 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     model = Produto
     template_name = "product_form.html"
     form_class = ProdutoForm
-    login_url = '/login'
+    login_url = "/login"
+
 
 class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     model = Produto
     template_name = "product_form.html"
     form_class = ProdutoForm
     success_url = reverse_lazy("produto:index")
-    login_url = '/login'
+    login_url = "/login"
