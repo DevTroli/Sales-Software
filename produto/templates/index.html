@@ -11,7 +11,7 @@
         </a>
     </header>
     <form method="GET" action="">
-        <input type="text" name="q" placeholder="Buscar por nome, codigoBarra, preço..." class="px-4 py-2 w-full border text-slate-900 rounded-md mb-4">
+        <input type="text" name="q" placeholder="Buscar por nome, ncm, preço..." class="px-4 py-2 w-full border text-slate-900 rounded-md mb-4">
     </form>
     {% if object_list %}
     <div class="overflow-x-auto">
@@ -25,7 +25,7 @@
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem de vendas</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
-                    <th scope="col" class="px-2.5 py-3">codigoBarra</th>
+                    <th scope="col" class="px-2.5 py-3">ncm</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                     <td class="p-4"><span>{{ object.margem_vendas }} %</span></td>
                     <td class="p-4">{{ object.estoque }}</td>
                     <td class="p-4">{{ object.estoque_minimo }}</td>
-                    <td class="p-4">{{ object.codigoBarra }}</td>
+                    <td class="p-4">{{ object.ncm }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

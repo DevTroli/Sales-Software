@@ -24,7 +24,7 @@ def index(request):
         for q in queries:
             q_objects |= (
                 Q(produto__icontains=q)
-                | Q(codigoBarra__icontains=q)
+                | Q(ncm__icontains=q)
                 | Q(preco_venda__icontains=q)
             )
         objects = objects.filter(q_objects)
