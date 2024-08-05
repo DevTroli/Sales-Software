@@ -11,7 +11,8 @@ from django.http import HttpResponse
 
 import pandas as pd
 
-from openpyxl.styles import PatternFill, Border, Side, Alignment
+from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 from produto.models import Produto
 from produto.forms import ProdutoForm
@@ -53,6 +54,7 @@ def product_add(request):
 
 
 @login_required
+@login_required
 def gerar_insights(request):
     try:
         # Obter todos os produtos
@@ -75,34 +77,48 @@ def gerar_insights(request):
         with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
 
             def style_worksheet(worksheet):
-                for row in worksheet.iter_rows(
-                    min_row=2, max_col=worksheet.max_column, max_row=worksheet.max_row
-                ):
-                    for cell in row:
-                        if cell.row % 2 == 0:
-                            cell.fill = PatternFill(
-                                start_color="D9EAD3", end_color="D9EAD3", fill_type="solid"
-                            )
-                        else:
-                            cell.fill = PatternFill(
-                                start_color="FFFFFF", end_color="FFFFFF", fill_type="solid"
-                            )
-                        cell.border = Border(
-                            left=Side(border_style="thin"),
-                            right=Side(border_style="thin"),
-                            top=Side(border_style="thin"),
-                            bottom=Side(border_style="thin"),
-                        )
-                        cell.alignment = Alignment(horizontal="center", vertical="center")
+                # Estilo para cabeçalhos
+                header_font = Font(bold=True, color="FFFFFF")
+                header_fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+                
+                # Definir largura das colunas
+                column_widths = [max(len(str(cell.value)) for cell in col) for col in worksheet.columns]
+                for i, width in enumerate(column_widths):
+                    worksheet.column_dimensions[chr(65 + i)].width = width + 6  # Adiciona padding extra
 
+                for cell in worksheet[1]:  # Cabeçalhos
+                    cell.font = header_font
+                    cell.fill = header_fill
+                    cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+                
+                # Estilo para linhas
+                border_style = Border(
+                    left=Side(border_style="thin"),
+                    right=Side(border_style="thin"),
+                    top=Side(border_style="thin"),
+                    bottom=Side(border_style="thin"),
+                )
+                fill_odd = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+                fill_even = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
+                
+                for row in worksheet.iter_rows(min_row=2):
+                    for cell in row:
+                        cell.border = border_style
+                        if cell.row % 2 == 0:
+                            cell.fill = fill_even
+                        else:
+                            cell.fill = fill_odd
+                        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+            # Adicionar abas com os dados
             produtos_abaixo_estoque_minimo.to_excel(
-                writer, sheet_name="Abaixo Estoque Min", index=False
+                writer, sheet_name="Abaixo Estoque", index=False
             )
             df[["produto", "valor_venda_pot"]].to_excel(
                 writer, sheet_name="Venda Potencial", index=False
             )
             produtos_preco_zero.to_excel(
-                writer, sheet_name="Produtos Zerados", index=False
+                writer, sheet_name="Preço Zerado", index=False
             )
             produtos_estoque_excedente.to_excel(
                 writer, sheet_name="Estoque Excedente", index=False
@@ -123,6 +139,7 @@ def gerar_insights(request):
                 sheet = writer.sheets[sheet_name]
                 style_worksheet(sheet)
 
+                
         buffer.seek(0)
 
         # Criar a resposta para o download
@@ -135,7 +152,6 @@ def gerar_insights(request):
         return response
 
     except Exception as e:
-        # Captura qualquer exceção e exibe a mensagem de erro
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
 
 
