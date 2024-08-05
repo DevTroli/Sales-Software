@@ -45,6 +45,9 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
+def import_csv(request):
+    template_name = 'import_csv.html'
+    return render(request, template_name)
 
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Produto
