@@ -1,21 +1,26 @@
+from decimal import Decimal
 from io import BytesIO
+import os
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
 from openpyxl.utils.dataframe import dataframe_to_rows
+import xlrd
 
-from produto.models import Produto
-from produto.forms import ProdutoForm
+from produto.models import Categoria, Produto
+from produto.forms import ProdutoForm, UploadFileForm
 
 
 @login_required
@@ -52,6 +57,97 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
+def import_xlsx(filename):
+    '''
+    Importa planilhas xlsx.
+    '''
+    workbook = xlrd.open_workbook(filename)
+    sheet = workbook.sheet_by_index(0)
+
+    categorias = []
+    for row in range(1, sheet.nrows):
+        categoria = sheet.row(row)[6].value
+        if categoria:
+            categorias.append(categoria)
+
+    for categoria in set(categorias):
+        Categoria.objects.get_or_create(categoria=categoria)
+
+    for row in range(1, sheet.nrows):
+        produto_nome = sheet.row(row)[0].value
+        preco_custo = Decimal(sheet.row(row)[1].value)
+        preco_venda = Decimal(sheet.row(row)[2].value)
+        estoque = int(sheet.row(row)[3].value)
+        estoque_minimo = int(sheet.row(row)[4].value)
+        codigoBarra = sheet.row(row)[5].value
+        categoria_nome = sheet.row(row)[6].value
+
+        try:
+            categoria = Categoria.objects.get(categoria=categoria_nome)
+        except Categoria.DoesNotExist:
+            categoria = None
+
+        produto_data = {
+            "preco_custo": preco_custo,
+            "preco_venda": preco_venda,
+            "estoque": estoque,
+            "estoque_minimo": estoque_minimo,
+            "codigoBarra": codigoBarra,
+            "categoria": categoria,
+        }
+
+        produto, created = Produto.objects.update_or_create(
+            produto=produto_nome,
+            defaults=produto_data
+        )
+
+@login_required
+@require_POST
+def import_data(request):
+    form = UploadFileForm(request.POST, request.FILES)
+    if form.is_valid():
+        file = request.FILES['file']
+        # Salvar o arquivo no sistema de arquivos temporariamente
+        file_path = f'/tmp/{file.name}'
+        with open(file_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+        
+        try:
+            import_xlsx(file_path)
+            messages.success(request, "Dados importados com sucesso.")
+        except Exception as e:
+            messages.error(request, f"Erro ao importar dados: {str(e)}")
+        
+        # Remover o arquivo após o processamento
+        os.remove(file_path)
+        
+        return redirect('produto:index')
+    else:
+        messages.error(request, "Erro ao fazer upload do arquivo.")
+        return redirect('produto:upload')
+
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']  # Obter o arquivo enviado
+            
+            # Verifique o tipo de arquivo e manipule-o
+            if file.name.endswith('.xlsx'):
+                # Processar arquivo Excel (exemplo básico)
+                df = pd.read_excel(file)
+                # Aqui você pode fazer o que precisa com o DataFrame
+                # Exemplo: salvar dados no banco de dados
+                
+                return HttpResponse("Arquivo Excel processado com sucesso!")
+            else:
+                return HttpResponse("O arquivo enviado não é um arquivo Excel válido.")
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'upload.html', {'form': form})
 
 @login_required
 @login_required
@@ -153,11 +249,6 @@ def gerar_insights(request):
 
     except Exception as e:
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
-
-
-def import_csv(request):
-    template_name = "import_csv.html"
-    return render(request, template_name)
 
 
 

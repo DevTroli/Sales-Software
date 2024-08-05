@@ -20,9 +20,14 @@ class Produto(models.Model):
     estoque = models.IntegerField("Estoque Atual")
     estoque_minimo = models.PositiveIntegerField("Estoque Mínimo", default=0)
     codigoBarra = models.CharField("Codigo de Barra", max_length=16)
+    categoria = models.ForeignKey(
+        'Categoria',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
 
-    class Meta:
-        ordering = ("-produto",)
+
 
     def __str__(self):
         return self.produto
@@ -55,3 +60,16 @@ class Produto(models.Model):
         if self.margem_vendas is not None:
             return f"{self.margem_vendas:.2f}%"
         return "0.00%"
+
+class Meta:
+    ordering = ("produto",)
+
+class Categoria(models.Model):   
+    categoria = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ('categoria',)
+
+    def __str__(self):
+        return self.categoria
+    

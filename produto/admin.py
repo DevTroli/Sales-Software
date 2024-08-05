@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Produto
-
+from .models import Produto, Categoria
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
@@ -9,12 +8,20 @@ class ProdutoAdmin(admin.ModelAdmin):
         "produto",
         "preco_custo",
         "preco_venda",
+        "margem_vendas",
         "estoque",
         "estoque_minimo",
         "codigoBarra",
+        "categoria"
     )
     search_fields = (
         "produto",
         "codigoBarra",
-    )  # Defina os campos pelos quais você deseja buscar
-    list_filter = ("nivel_estoque",)
+        "categoria__categoria",  # Use a notação __ para acessar o campo 'categoria' do modelo 'Categoria'
+    )
+    list_filter = ("nivel_estoque", "categoria",)
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ("__str__",)
+    search_fields = ("categoria",)

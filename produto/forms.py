@@ -1,7 +1,6 @@
 from django import forms
 from produto.models import Produto
 
-
 class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
@@ -10,3 +9,6 @@ class ProdutoForm(forms.ModelForm):
             "margem_vendas": forms.HiddenInput(),
             "nivel_estoque": forms.HiddenInput(),
         }
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
