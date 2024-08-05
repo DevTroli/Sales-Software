@@ -26,6 +26,7 @@
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
                     <th scope="col" class="px-2.5 py-3">Código de Barra</th>
+                    <th scope="col" class="px-2.5 py-3">Categoria</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,7 @@
                     <td class="p-4">{{ object.estoque }}</td>
                     <td class="p-4">{{ object.estoque_minimo }}</td>
                     <td class="p-4">{{ object.codigoBarra }}</td>
+                    <td class="p-4">{{ object.categoria }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
