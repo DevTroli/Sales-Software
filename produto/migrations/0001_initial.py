@@ -22,7 +22,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("codigoBarra", models.CharField(max_length=8, verbose_name="codigoBarra")),
+                (
+                    "codigoBarra",
+                    models.CharField(max_length=8, verbose_name="codigoBarra"),
+                ),
                 ("produto", models.CharField(max_length=100, unique=True)),
                 (
                     "preco",

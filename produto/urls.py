@@ -8,4 +8,6 @@ urlpatterns = [
     path("<int:pk>/", v.product_detail, name="product_detail"),
     path("add/", v.ProductCreate.as_view(), name="product_add"),
     path("<int:pk>/edit/", v.ProdutoUpdate.as_view(), name="edit"),
+    path("import", v.import_csv, name="import_csv"),
+    path("insights/", v.gerar_insights, name="gerar_insights"),
 ]

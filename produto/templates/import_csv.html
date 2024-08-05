@@ -1,14 +1,14 @@
 {% extends "base.html" %} {% load widget_tweaks %} {% block content %}
-<div class="w-full max-w-md mx-auto mt-4 p-6 bg-gray-800 shadow-md rounded-lg">
+<div class="w-full max-w-md mx-auto lg:mt-72 p-12 bg-gray-800 shadow-md rounded-lg">
     <header class="mb-6 flex justify-between items-center">
-        <h2 class="text-xl font-bold text-white">Adicionar Produto</h2>
+        <h2 class="text-xl font-bold text-white">Adicionar Produtos por Planilhas/CSV</h2>
     </header>
 
     <form method="post" enctype="multipart/form-data" class="space-y-4">
         {% csrf_token %}
         <div
             id="drop-area"
-            class="flex flex-col justify-center items-center border-4 border-dashed border-gray-600 p-6 rounded-md bg-gray-700"
+            class="flex flex-col justify-center items-center border-4 border-dashed border-gray-600 p-12 rounded-md bg-gray-700"
         >
             <p class="text-white mb-4">
                 Arraste e solte o arquivo CSV ou XLSX aqui, ou clique para
