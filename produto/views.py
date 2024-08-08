@@ -42,11 +42,12 @@ def index(request):
                 Q(produto__icontains=q)
                 | Q(codigoBarra__icontains=q)
                 | Q(preco_venda__icontains=q)
+                | Q(categoria__categoria__icontains=q)
             )
         objects = objects.filter(q_objects)
 
     # Paginação
-    paginator = Paginator(objects, 40)  # Mostra 10 produtos por página
+    paginator = Paginator(objects, 60)  # Mostra 10 produtos por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
