@@ -65,7 +65,7 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
-def import_xlsx(filename):
+ddef import_xlsx(filename):
     '''
     Importa planilhas xlsx.
     '''
@@ -109,6 +109,7 @@ def import_xlsx(filename):
         }
 
         Produto.objects.update_or_create(
+        Produto.objects.update_or_create(
             produto=produto_nome,
             defaults=produto_data
         )
@@ -125,20 +126,17 @@ def import_data(request):
         with open(file_path, 'wb+') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
-        
         try:
             import_xlsx(file_path)
             messages.success(request, "Dados importados com sucesso.")
         except Exception as e:
             messages.error(request, f"Erro ao importar dados: {str(e)}")
-        
         # Remover o arquivo após o processamento
         os.remove(file_path)
-        
         return redirect('produto:index')
     else:
         messages.error(request, "Erro ao fazer upload do arquivo.")
-        return redirect('produto:upload')
+    return redirect('produto:upload')
 
 
 @login_required
@@ -154,7 +152,6 @@ def upload_file(request):
                 df = pd.read_excel(file)
                 # Aqui você pode fazer o que precisa com o DataFrame
                 # Exemplo: salvar dados no banco de dados
-                
                 return HttpResponse("Arquivo Excel processado com sucesso!")
             else:
                 return HttpResponse("O arquivo enviado não é um arquivo Excel válido.")
