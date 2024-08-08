@@ -13,6 +13,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 
+from openpyxl import load_workbook
 import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
@@ -61,26 +62,28 @@ def import_xlsx(filename):
     '''
     Importa planilhas xlsx.
     '''
-    workbook = xlrd.open_workbook(filename)
-    sheet = workbook.sheet_by_index(0)
+    workbook = load_workbook(filename)
+    sheet = workbook.active
 
     categorias = []
-    for row in range(1, sheet.nrows):
-        categoria = sheet.row(row)[6].value
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        categoria = row[8]  # Corrigido para refletir a coluna correta
         if categoria:
             categorias.append(categoria)
 
     for categoria in set(categorias):
         Categoria.objects.get_or_create(categoria=categoria)
 
-    for row in range(1, sheet.nrows):
-        produto_nome = sheet.row(row)[0].value
-        preco_custo = Decimal(sheet.row(row)[1].value)
-        preco_venda = Decimal(sheet.row(row)[2].value)
-        estoque = int(sheet.row(row)[3].value)
-        estoque_minimo = int(sheet.row(row)[4].value)
-        codigoBarra = sheet.row(row)[5].value
-        categoria_nome = sheet.row(row)[6].value
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        nivel_estoque = row[0]
+        produto_nome = row[1]
+        preco_custo = Decimal(row[2])
+        preco_venda = Decimal(row[3])
+        margem_venda = Decimal(row[4])
+        estoque = int(row[5])
+        estoque_minimo = int(row[6])
+        codigoBarra = row[7]
+        categoria_nome = row[8]
 
         try:
             categoria = Categoria.objects.get(categoria=categoria_nome)
@@ -88,18 +91,21 @@ def import_xlsx(filename):
             categoria = None
 
         produto_data = {
+            "nivel_estoque": nivel_estoque,
             "preco_custo": preco_custo,
             "preco_venda": preco_venda,
+            "margem_vendas": margem_venda,
             "estoque": estoque,
             "estoque_minimo": estoque_minimo,
             "codigoBarra": codigoBarra,
             "categoria": categoria,
         }
 
-        produto, created = Produto.objects.update_or_create(
+        Produto.objects.update_or_create(
             produto=produto_nome,
             defaults=produto_data
         )
+
 
 @login_required
 @require_POST
@@ -127,12 +133,13 @@ def import_data(request):
         messages.error(request, "Erro ao fazer upload do arquivo.")
         return redirect('produto:upload')
 
+
 @login_required
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']  # Obter o arquivo enviado
+            file = request.FILES['file']
             
             # Verifique o tipo de arquivo e manipule-o
             if file.name.endswith('.xlsx'):
