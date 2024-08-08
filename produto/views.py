@@ -1,9 +1,10 @@
-from decimal import Decimal
 from io import BytesIO
 import os
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from decimal import Decimal, InvalidOperation
+from django.core.exceptions import ValidationError
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
@@ -65,37 +66,50 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
-def import_xlsx(filename):
+from openpyxl import load_workbook
+from decimal import Decimal, InvalidOperation
+from django.core.exceptions import ValidationError
+
+def import_xlsx(file_path):
     '''
     Importa planilhas xlsx.
     '''
-    workbook = load_workbook(filename)
+    workbook = load_workbook(file_path)
     sheet = workbook.active
 
-    categorias = []
+    categorias = set()
     for row in sheet.iter_rows(min_row=2, values_only=True):
-        categoria = row[8]  # Corrigido para refletir a coluna correta
+        categoria = row[8]
         if categoria:
-            categorias.append(categoria)
+            categorias.add(categoria)
 
-    for categoria in set(categorias):
+    for categoria in categorias:
         Categoria.objects.get_or_create(categoria=categoria)
 
     for row in sheet.iter_rows(min_row=2, values_only=True):
         nivel_estoque = row[0]
         produto_nome = row[1]
-        preco_custo = Decimal(row[2])
-        preco_venda = Decimal(row[3])
-        margem_venda = Decimal(row[4])
-        estoque = int(row[5])
-        estoque_minimo = int(row[6])
-        codigoBarra = row[7]
-        categoria_nome = row[8]
+        
+        try:
+            preco_custo = Decimal(str(row[2]).replace(',', '.')) if row[2] not in (None, '') else Decimal('0.00')
+            preco_venda = Decimal(str(row[3]).replace(',', '.')) if row[3] not in (None, '') else Decimal('0.00')
+            margem_venda = Decimal(str(row[4]).replace(',', '.')) if row[4] not in (None, '') else Decimal('0.00')
+        except (ValueError, InvalidOperation):
+            preco_custo = Decimal('0.00')
+            preco_venda = Decimal('0.00')
+            margem_venda = Decimal('0.00')
 
         try:
-            categoria = Categoria.objects.get(categoria=categoria_nome)
-        except Categoria.DoesNotExist:
-            categoria = None
+            estoque = int(row[5]) if row[5] not in (None, '') and str(row[5]).isdigit() else 0
+            estoque_minimo = int(row[6]) if row[6] not in (None, '') and str(row[6]).isdigit() else 0
+        except ValueError:
+            estoque = 0
+            estoque_minimo = 0
+
+        codigoBarra = row[7] if row[7] not in (None, '') else ''
+        categoria_nome = row[8] if row[8] not in (None, '') else ''
+
+        categoria = Categoria.objects.filter(categoria=categoria_nome).first()
 
         produto_data = {
             "nivel_estoque": nivel_estoque,
@@ -120,7 +134,6 @@ def import_data(request):
     form = UploadFileForm(request.POST, request.FILES)
     if form.is_valid():
         file = request.FILES['file']
-        # Salvar o arquivo no sistema de arquivos temporariamente
         file_path = f'/tmp/{file.name}'
         with open(file_path, 'wb+') as destination:
             for chunk in file.chunks():
@@ -130,7 +143,6 @@ def import_data(request):
             messages.success(request, "Dados importados com sucesso.")
         except Exception as e:
             messages.error(request, f"Erro ao importar dados: {str(e)}")
-        # Remover o arquivo após o processamento
         os.remove(file_path)
         return redirect('produto:index')
     else:
@@ -144,19 +156,12 @@ def upload_file(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES['file']
-            
-            # Verifique o tipo de arquivo e manipule-o
             if file.name.endswith('.xlsx'):
-                # Processar arquivo Excel (exemplo básico)
-                df = pd.read_excel(file)
-                # Aqui você pode fazer o que precisa com o DataFrame
-                # Exemplo: salvar dados no banco de dados
-                return HttpResponse("Arquivo Excel processado com sucesso!")
+                return redirect('produto:import_data')
             else:
-                return HttpResponse("O arquivo enviado não é um arquivo Excel válido.")
+                messages.error(request, "O arquivo enviado não é um arquivo Excel válido.")
     else:
         form = UploadFileForm()
-
     return render(request, 'upload.html', {'form': form})
 
 @login_required

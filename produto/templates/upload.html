@@ -2,22 +2,23 @@
 
 {% block content %}
 {% include "includes/nav.html" %}
-<div class="w-full max-w-md mx-auto my-48 p-8 bg-gray-800 shadow-md rounded-lg">
-    <form method="post" enctype="multipart/form-data" action="{% url 'produto:import' %}" class="space-y-4">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
+    <header class="mb-6 flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Importar Produtos</h2>
+    </header>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'produto:import_data' %}">
         {% csrf_token %}
-        <div class="flex items-center justify-center w-full">
-            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                    </svg>
-                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Clique para enviar</span> ou arraste e solte</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG ou GIF (MAX. 800x400px)</p>
-                </div>
-                <input id="dropzone-file" type="file" name="file" class="hidden" />
-            </label>
-        </div>
-        <button type="submit" class="mt-4 py-2 px-4 bg-blue-500 text-white rounded">Enviar</button>
+        {{ form.as_p }}
+        <button type="submit" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+            Upload
+        </button>
     </form>
+    {% if messages %}
+    <ul class="mt-4">
+        {% for message in messages %}
+        <li class="text-{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
-{% endblock %}
+{% endblock content %}
