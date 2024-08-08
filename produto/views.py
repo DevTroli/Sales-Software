@@ -3,6 +3,7 @@ from io import BytesIO
 import os
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
@@ -25,6 +26,7 @@ from produto.forms import ProdutoForm, UploadFileForm
 
 
 @login_required
+@login_required
 def index(request):
     template_name = "index.html"
 
@@ -42,7 +44,12 @@ def index(request):
             )
         objects = objects.filter(q_objects)
 
-    context = {"object_list": objects}
+    # Paginação
+    paginator = Paginator(objects, 40)  # Mostra 10 produtos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
     return render(request, template_name, context)
 
 

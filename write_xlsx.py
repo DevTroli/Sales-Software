@@ -20,16 +20,16 @@ def create_products_xlsx():
 
     # Escrevendo os dados dos produtos
     for row in [
-        [True, "RED BULL MELANCIA 250ML", 7,29, 11,90, 63,24, 16, 16, "7892840822019", "Energeticos"],
-        [False, "GATORADE UVA", 7,29, 6.5, 25.24, 15, 6, "7892840808051", "Energeticos"],
-        [False, "GATORADE LARANJA", 7,29, 6.5, 25.24, 16, 6, "7892840808020", "Energeticos"],
-        [True, "GATORADE MORANGO & MARACUJÁ", 7,29, 6.5, 25.24, 17, 6, "7892840808174", "Energeticos"],
-        [True, "GATORADE LIMÃO", 7,29, 6.5, 25.24, 18, 6, "7892840808037", "Energeticos"],
-        [True, "GATORADE LIMÃO", 5.19, 6.5, 25.24, 18, 6, "7892840808037", "Energeticos"],
+        [True, "RED BULL MELANCIA 250ML", 7,29, 11,90, 63,24, 16, 12, "7892840822019", "Energeticos"],
+        [True, "GRED BULL TROPICAL 250ML", 7,29, 11,90, 63,24, 24, 12, "7892840808051", "Energeticos"],
+        [True, "RED BULL MORANGO & PÊSSEGO 250ML", 7,29, 11,90, 63,24, 21, 12, "7892840808020", "Energeticos"],
+        [True, "RED BULL PITAYA 250ML", 7,29, 11,90, 63,24, 16, 12, "7892840808174", "Energeticos"],
+        [False, "RED BULL SUGAR FREE 250ML", 7,29, 11,90, 63,24, 8, 8, "7892840808037", "Energeticos"],
+        [False, "RED BULL TRADICIONAL 250ML", 6,89, 10,00, 45,14, 16, 24, "7892840808037", "Energeticos"],
     ]:
         sheet.append(row)
 
     # Salvando o arquivo
-    workbook.save("docs/produtosAdega.xlsx")
+    workbook.save("docs/produtostest.xlsx")
 
 create_products_xlsx()
