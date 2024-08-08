@@ -65,7 +65,7 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
-ddef import_xlsx(filename):
+def import_xlsx(filename):
     '''
     Importa planilhas xlsx.
     '''
@@ -108,7 +108,6 @@ ddef import_xlsx(filename):
             "categoria": categoria,
         }
 
-        Produto.objects.update_or_create(
         Produto.objects.update_or_create(
             produto=produto_nome,
             defaults=produto_data
