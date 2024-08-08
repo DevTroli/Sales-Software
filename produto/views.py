@@ -57,30 +57,30 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
-def import_xlsx(filename):
+ddef import_xlsx(filename):
     '''
     Importa planilhas xlsx.
     '''
-    workbook = xlrd.open_workbook(filename)
-    sheet = workbook.sheet_by_index(0)
+    workbook = openpyxl.load_workbook(filename)
+    sheet = workbook.active
 
     categorias = []
-    for row in range(1, sheet.nrows):
-        categoria = sheet.row(row)[6].value
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        categoria = row[6]
         if categoria:
             categorias.append(categoria)
 
     for categoria in set(categorias):
         Categoria.objects.get_or_create(categoria=categoria)
 
-    for row in range(1, sheet.nrows):
-        produto_nome = sheet.row(row)[0].value
-        preco_custo = Decimal(sheet.row(row)[1].value)
-        preco_venda = Decimal(sheet.row(row)[2].value)
-        estoque = int(sheet.row(row)[3].value)
-        estoque_minimo = int(sheet.row(row)[4].value)
-        codigoBarra = sheet.row(row)[5].value
-        categoria_nome = sheet.row(row)[6].value
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        produto_nome = row[0]
+        preco_custo = Decimal(row[1])
+        preco_venda = Decimal(row[2])
+        estoque = int(row[3])
+        estoque_minimo = int(row[4])
+        codigoBarra = row[5]
+        categoria_nome = row[6]
 
         try:
             categoria = Categoria.objects.get(categoria=categoria_nome)
@@ -96,7 +96,7 @@ def import_xlsx(filename):
             "categoria": categoria,
         }
 
-        produto, created = Produto.objects.update_or_create(
+        Produto.objects.update_or_create(
             produto=produto_nome,
             defaults=produto_data
         )
@@ -112,35 +112,30 @@ def import_data(request):
         with open(file_path, 'wb+') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
-        
         try:
             import_xlsx(file_path)
             messages.success(request, "Dados importados com sucesso.")
         except Exception as e:
             messages.error(request, f"Erro ao importar dados: {str(e)}")
-        
         # Remover o arquivo após o processamento
         os.remove(file_path)
-        
         return redirect('produto:index')
     else:
         messages.error(request, "Erro ao fazer upload do arquivo.")
-        return redirect('produto:upload')
+    return redirect('produto:upload')
 
 @login_required
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']  # Obter o arquivo enviado
-            
+            file = request.FILES['file'] # Obter o arquivo enviado
             # Verifique o tipo de arquivo e manipule-o
             if file.name.endswith('.xlsx'):
                 # Processar arquivo Excel (exemplo básico)
                 df = pd.read_excel(file)
                 # Aqui você pode fazer o que precisa com o DataFrame
                 # Exemplo: salvar dados no banco de dados
-                
                 return HttpResponse("Arquivo Excel processado com sucesso!")
             else:
                 return HttpResponse("O arquivo enviado não é um arquivo Excel válido.")
