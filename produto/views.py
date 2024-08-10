@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse, reverse_lazy
 
-from django.db.models import Q
+from django.db.models import Q, F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
@@ -20,10 +20,9 @@ import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
 from openpyxl.utils.dataframe import dataframe_to_rows
-import xlrd
 
-from produto.models import Categoria, Produto
-from produto.forms import ProdutoForm, UploadFileForm
+from produto.models import Categoria, Produto, Compra, ItemCompra
+from produto.forms import ProdutoForm, UploadFileForm, CompraForm, ItemCompraForm
 
 
 @login_required
@@ -47,7 +46,7 @@ def index(request):
         objects = objects.filter(q_objects)
 
     # Paginação
-    paginator = Paginator(objects, 60)  # Mostra 10 produtos por página
+    paginator = Paginator(objects, 50)  # Mostra 10 produtos por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -67,9 +66,19 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
-from openpyxl import load_workbook
-from decimal import Decimal, InvalidOperation
-from django.core.exceptions import ValidationError
+class ProductCreate(LoginRequiredMixin, CreateView):
+    model = Produto
+    template_name = "product_form.html"
+    form_class = ProdutoForm
+    login_url = "/login"
+
+
+class ProdutoUpdate(LoginRequiredMixin, UpdateView):
+    model = Produto
+    template_name = "product_form.html"
+    form_class = ProdutoForm
+    success_url = reverse_lazy("produto:index")
+    login_url = "/login"
 
 def import_xlsx(file_path):
     '''
@@ -165,24 +174,54 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 
-@login_required
+import pandas as pd
+from io import BytesIO
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+from openpyxl.styles import NamedStyle
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
 @login_required
 def gerar_insights(request):
     try:
         # Obter todos os produtos
-        df = pd.DataFrame(list(Produto.objects.all().values()))
+        df_produtos = pd.DataFrame(list(Produto.objects.all().values()))
 
         # Processar dados
-        produtos_abaixo_estoque_minimo = df[df["estoque"] < df["estoque_minimo"]]
-        df["valor_venda_pot"] = df["estoque"] * df["preco_venda"]
-        produtos_preco_zero = df[df["preco_venda"] == 0]
-        produtos_estoque_excedente = df[df["estoque"] > df["estoque_minimo"] * 2]
-        df["rotatividade"] = df["estoque"] / df["estoque_minimo"]
-        df["custo_estoque"] = df["estoque"] * df["preco_custo"]
-        produtos_alto_custo_estoque = df[df["custo_estoque"] > 1000]
+        produtos_abaixo_estoque_minimo = df_produtos[df_produtos["estoque"] < df_produtos["estoque_minimo"]]
+        df_produtos["valor_venda_pot"] = df_produtos["estoque"] * df_produtos["preco_venda"]
+        produtos_preco_zero = df_produtos[df_produtos["preco_venda"] == 0]
+        produtos_estoque_excedente = df_produtos[df_produtos["estoque"] > df_produtos["estoque_minimo"] * 2]
+        df_produtos["rotatividade"] = df_produtos["estoque"] / df_produtos["estoque_minimo"]
+        df_produtos["custo_estoque"] = df_produtos["estoque"] * df_produtos["preco_custo"]
+        produtos_alto_custo_estoque = df_produtos[df_produtos["custo_estoque"] > 1000]
 
         # Calcular o valor total das vendas
-        valor_total_vendas = (df["estoque"] * df["preco_venda"]).sum()
+        valor_total_vendas = (df_produtos["estoque"] * df_produtos["preco_venda"]).sum()
+
+        # Obter todos os detalhes de pagamento
+        df_compras = pd.DataFrame(list(Compra.objects.all().values('id', 'data', 'metodo_pagamento', 'total')))
+        df_itens_compra = pd.DataFrame(list(ItemCompra.objects.all().values('compra_id', 'produto_id', 'quantidade', 'preco_unitario')))
+
+        # Converta datetimes para timezone naive
+        if not df_compras.empty:
+            df_compras['data'] = pd.to_datetime(df_compras['data']).dt.tz_localize(None)
+        
+        # Adicionar detalhes de itens de compra
+        df_compras_details = df_compras.merge(
+            df_itens_compra,
+            left_on='id',
+            right_on='compra_id',
+            how='left'
+        )
+
+        # Adicionar coluna de semana
+        df_compras_details['semana'] = df_compras_details['data'].dt.to_period('W').apply(lambda r: r.start_time)
+
+        # Agrupar por semana e somar os preços unitários
+        df_totais_semanais = df_compras_details.groupby('semana')['preco_unitario'].sum().reset_index()
+        df_totais_semanais.columns = ['Semana', 'Total Preço Unitário']
 
         # Criar um buffer para o arquivo Excel
         buffer = BytesIO()
@@ -226,7 +265,7 @@ def gerar_insights(request):
             produtos_abaixo_estoque_minimo.to_excel(
                 writer, sheet_name="Abaixo Estoque", index=False
             )
-            df[["produto", "valor_venda_pot"]].to_excel(
+            df_produtos[["produto", "valor_venda_pot"]].to_excel(
                 writer, sheet_name="Venda Potencial", index=False
             )
             produtos_preco_zero.to_excel(
@@ -235,7 +274,7 @@ def gerar_insights(request):
             produtos_estoque_excedente.to_excel(
                 writer, sheet_name="Estoque Excedente", index=False
             )
-            df[["produto", "rotatividade"]].to_excel(
+            df_produtos[["produto", "rotatividade"]].to_excel(
                 writer, sheet_name="Rotatividade", index=False
             )
             produtos_alto_custo_estoque.to_excel(
@@ -246,12 +285,28 @@ def gerar_insights(request):
             total_vendas_df = pd.DataFrame({"Total Vendas": [valor_total_vendas]})
             total_vendas_df.to_excel(writer, sheet_name="Total Vendas", index=False)
 
+            # Adicionar aba com os detalhes dos pagamentos
+            df_compras_details.to_excel(writer, sheet_name="Detalhes Pagamentos", index=False)
+
+            # Adicionar aba com os totais semanais
+            df_totais_semanais.to_excel(writer, sheet_name="Totais Semanais", index=False)
+
             # Aplicar formatação
             for sheet_name in writer.sheets:
                 sheet = writer.sheets[sheet_name]
                 style_worksheet(sheet)
-
                 
+                # Adicionar rodapé com totais (se necessário)
+                if sheet_name == "Detalhes Pagamentos":
+                    # Adicionar uma linha de rodapé
+                    last_row = sheet.max_row + 1
+                    sheet[f'A{last_row}'] = 'Total por Semana'
+                    for col in range(2, sheet.max_column + 1):
+                        sheet.cell(row=last_row, column=col).value = '=SUM({}:{})'.format(
+                            sheet.cell(row=2, column=col).coordinate,
+                            sheet.cell(row=sheet.max_row, column=col).coordinate
+                        )
+
         buffer.seek(0)
 
         # Criar a resposta para o download
@@ -259,7 +314,7 @@ def gerar_insights(request):
             buffer,
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
-        response["Content-Disposition"] = 'attachment; filename="insights_estoque.xlsx"'
+        response["Content-Disposition"] = 'attachment; filename="RELATORIO_GONZAGUINHA.xlsx"'
 
         return response
 
@@ -268,16 +323,114 @@ def gerar_insights(request):
 
 
 
-class ProductCreate(LoginRequiredMixin, CreateView):
-    model = Produto
-    template_name = "product_form.html"
-    form_class = ProdutoForm
-    login_url = "/login"
+@login_required
+def pdv(request):
+    if request.method == 'POST':
+        item_form = ItemCompraForm(request.POST)
+        compra_form = CompraForm(request.POST)
+        
+        if item_form.is_valid() and 'add_item' in request.POST:
+            produto = item_form.get_produto()
+            quantidade = item_form.cleaned_data['quantidade']
+            
+            if produto:
+                if 'itens' not in request.session:
+                    request.session['itens'] = []
+                itens = request.session['itens']
+                itens.append({
+                    'produto_id': produto.id,
+                    'nome': produto.produto,
+                    'quantidade': quantidade,
+                    'preco_unitario': str(produto.preco_venda)
+                })
+                request.session['itens'] = itens
 
+                # Calcular o subtotal
+                subtotal = sum(Decimal(item['preco_unitario']) * item['quantidade'] for item in itens)
+                request.session['subtotal'] = str(subtotal)
 
-class ProdutoUpdate(LoginRequiredMixin, UpdateView):
-    model = Produto
-    template_name = "product_form.html"
-    form_class = ProdutoForm
-    success_url = reverse_lazy("produto:index")
-    login_url = "/login"
+                messages.success(request, f"Produto {produto.produto} adicionado com sucesso.")
+            else:
+                messages.error(request, "Produto não encontrado.")
+            
+            return redirect('produto:pdv')
+
+        elif compra_form.is_valid() and 'finalizar_compra' in request.POST:
+            metodo_pagamento = compra_form.cleaned_data['metodo_pagamento']
+            itens = request.session.get('itens', [])
+            subtotal = request.session.get('subtotal', '0')
+            
+            compra = Compra.objects.create(metodo_pagamento=metodo_pagamento, total=subtotal)
+            
+            for item in itens:
+                produto = Produto.objects.get(pk=item['produto_id'])
+                if produto.estoque >= item['quantidade']:
+                    ItemCompra.objects.create(
+                        compra=compra,
+                        produto=produto,
+                        quantidade=item['quantidade'],
+                        preco_unitario=item['preco_unitario']
+                    )
+                    
+                    # Atualizar o estoque
+                    produto.estoque -= item['quantidade']
+                    produto.save()
+                else:
+                    messages.error(request, f"Estoque insuficiente para o produto {produto.produto}.")
+                    return redirect('produto:pdv')
+            
+            request.session.pop('itens', None)
+            request.session.pop('subtotal', None)
+
+            messages.success(request, "Compra finalizada com sucesso.")
+            return redirect('produto:purchase_details', pk=compra.pk)  # Redirecionar para os detalhes da compra
+    
+    else:
+        item_form = ItemCompraForm()
+        compra_form = CompraForm()
+    
+    itens = request.session.get('itens', [])
+    subtotal = Decimal(request.session.get('subtotal', '0.00'))
+    
+    context = {
+        'item_form': item_form,
+        'compra_form': compra_form,
+        'itens': itens,
+        'subtotal': subtotal
+    }
+    return render(request, 'pdv.html', context)
+
+@login_required
+def purchase_details(request, pk):
+    compra = get_object_or_404(Compra, pk=pk)
+    context = {
+        'compra': compra,
+        'itens': compra.itens.all()
+    }
+    return render(request, 'purchase_details.html', context)
+
+@login_required
+@require_POST
+def remove_item(request):
+    produto_id = request.POST.get('produto_id')
+
+    # Remover o item da sessão
+    if 'itens' in request.session:
+        itens = request.session['itens']
+        request.session['itens'] = [item for item in itens if item['produto_id'] != int(produto_id)]
+
+        # Atualizar subtotal
+        subtotal = sum(Decimal(item['preco_unitario']) * item['quantidade'] for item in request.session['itens'])
+        request.session['subtotal'] = str(subtotal)
+
+    return redirect('produto:pdv')
+
+@login_required
+@require_POST
+def clear_checkout(request):
+    # Limpa todos os itens e o subtotal da sessão
+    request.session.pop('itens', None)
+    request.session.pop('subtotal', None)
+    
+    messages.success(request, "Todos os itens foram removidos do checkout.")
+    return redirect('produto:pdv')
