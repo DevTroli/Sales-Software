@@ -14,12 +14,15 @@ from django.db.models import Q, F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+# from django.conf import settings
 
 from openpyxl import load_workbook
 import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
 from openpyxl.utils.dataframe import dataframe_to_rows
+
+# from satcfe import BibliotecaSAT, ClienteSATLocal
 
 from produto.models import Categoria, Produto, Compra, ItemCompra
 from produto.forms import ProdutoForm, UploadFileForm, CompraForm, ItemCompraForm
@@ -434,3 +437,34 @@ def clear_checkout(request):
     
     messages.success(request, "Todos os itens foram removidos do checkout.")
     return redirect('produto:pdv')
+
+# @login_required
+# def configurar_cliente_sat():
+#     # Configurar o caminho da DLL
+#     biblioteca = BibliotecaSAT(settings.SAT_DLL_PATH)
+    
+#     # Código de ativação fornecido pelo fabricante
+#     codigo_ativacao = '12345678'  # Substitua pelo código real
+
+#     # Criar o cliente SAT
+#     cliente = ClienteSATLocal(biblioteca, codigo_ativacao=codigo_ativacao)
+#     return cliente
+
+# def emitir_nota_fiscal(request):
+#     try:
+#         # Configurar o cliente SAT
+#         cliente = configurar_cliente_sat()
+
+#         # Consultar o SAT
+#         resposta = cliente.consultar_sat()
+#         if resposta.codigo == 0:  # Verifica se o código de resposta indica sucesso
+#             messages.success(request, 'SAT está em operação: ' + resposta.mensagem)
+#         else:
+#             messages.error(request, f"Falha ao consultar o SAT: {resposta.mensagem}")
+
+#     except FileNotFoundError as e:
+#         messages.error(request, str(e))
+#     except Exception as e:
+#         messages.error(request, f"Erro inesperado: {str(e)}")
+
+#     return render(request, 'purchase_details.html')

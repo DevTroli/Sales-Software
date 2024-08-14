@@ -22,6 +22,12 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.adegagonzaguinha.com",
 ]
 
+# SAT 
+# Configurações do SAT
+# SAT_CODIGO_ATIVACAO = config('SAT_CODIGO_ATIVACAO', default='12345678')  # Código de ativação do SAT
+# SAT_DLL_PATH = config('SAT_DLL_PATH', default='C:\Program Files (x86)\Control iD\S@T-iD\lib')  # Caminho para a DLL do SAT
+
+
 # Application definition
 
 INSTALLED_APPS = [
