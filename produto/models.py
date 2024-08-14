@@ -22,13 +22,8 @@ class Produto(models.Model):
     estoque_minimo = models.PositiveIntegerField("Estoque Mínimo", default=0)
     codigoBarra = models.CharField("Codigo de Barra", max_length=16)
     categoria = models.ForeignKey(
-        'Categoria',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
+        "Categoria", on_delete=models.SET_NULL, null=True, blank=True
     )
-
-
 
     def __str__(self):
         return self.produto
@@ -62,35 +57,41 @@ class Produto(models.Model):
             return f"{self.margem_vendas:.2f}%"
         return "0.00%"
 
+
 class Meta:
     ordering = ("produto",)
 
-class Categoria(models.Model):   
+
+class Categoria(models.Model):
     categoria = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        ordering = ('categoria',)
+        ordering = ("categoria",)
 
     def __str__(self):
         return self.categoria
 
+
 class Compra(models.Model):
     METODO_PAGAMENTO = [
-        ('PIX', 'PIX'),
-        ('CREDITO', 'Crédito'),
-        ('DEBITO', 'Débito'),
-        ('DINHEIRO', 'Dinheiro'),
+        ("PIX", "PIX"),
+        ("CREDITO", "Crédito"),
+        ("DEBITO", "Débito"),
+        ("DINHEIRO", "Dinheiro"),
     ]
 
     data = models.DateTimeField(default=timezone.now)
     metodo_pagamento = models.CharField(max_length=10, choices=METODO_PAGAMENTO)
-    total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    total = models.DecimalField(
+        max_digits=10, decimal_places=2, default=Decimal("0.00")
+    )
 
     def __str__(self):
         return f"Compra {self.id} - {self.data.strftime('%d/%m/%Y %H:%M')}"
 
+
 class ItemCompra(models.Model):
-    compra = models.ForeignKey(Compra, related_name='itens', on_delete=models.CASCADE)
+    compra = models.ForeignKey(Compra, related_name="itens", on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
     preco_unitario = models.DecimalField(max_digits=7, decimal_places=2)

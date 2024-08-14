@@ -66,6 +66,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.DeleteModel(
-        name='Venda',
-    ),
+            name="Venda",
+        ),
     ]

@@ -50,7 +50,7 @@ def index(request):
 
     # Paginação
     paginator = Paginator(objects, 50)  # Mostra 10 produtos por página
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     context = {"page_obj": page_obj}
@@ -69,6 +69,7 @@ def product_add(request):
     template_name = "product_form.html"
     return render(request, template_name)
 
+
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Produto
     template_name = "product_form.html"
@@ -83,10 +84,11 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("produto:index")
     login_url = "/login"
 
+
 def import_xlsx(file_path):
-    '''
+    """
     Importa planilhas xlsx.
-    '''
+    """
     workbook = load_workbook(file_path)
     sheet = workbook.active
 
@@ -102,25 +104,41 @@ def import_xlsx(file_path):
     for row in sheet.iter_rows(min_row=2, values_only=True):
         nivel_estoque = row[0]
         produto_nome = row[1]
-        
-        try:
-            preco_custo = Decimal(str(row[2]).replace(',', '.')) if row[2] not in (None, '') else Decimal('0.00')
-            preco_venda = Decimal(str(row[3]).replace(',', '.')) if row[3] not in (None, '') else Decimal('0.00')
-            margem_venda = Decimal(str(row[4]).replace(',', '.')) if row[4] not in (None, '') else Decimal('0.00')
-        except (ValueError, InvalidOperation):
-            preco_custo = Decimal('0.00')
-            preco_venda = Decimal('0.00')
-            margem_venda = Decimal('0.00')
 
         try:
-            estoque = int(row[5]) if row[5] not in (None, '') and str(row[5]).isdigit() else 0
-            estoque_minimo = int(row[6]) if row[6] not in (None, '') and str(row[6]).isdigit() else 0
+            preco_custo = (
+                Decimal(str(row[2]).replace(",", "."))
+                if row[2] not in (None, "")
+                else Decimal("0.00")
+            )
+            preco_venda = (
+                Decimal(str(row[3]).replace(",", "."))
+                if row[3] not in (None, "")
+                else Decimal("0.00")
+            )
+            margem_venda = (
+                Decimal(str(row[4]).replace(",", "."))
+                if row[4] not in (None, "")
+                else Decimal("0.00")
+            )
+        except (ValueError, InvalidOperation):
+            preco_custo = Decimal("0.00")
+            preco_venda = Decimal("0.00")
+            margem_venda = Decimal("0.00")
+
+        try:
+            estoque = (
+                int(row[5]) if row[5] not in (None, "") and str(row[5]).isdigit() else 0
+            )
+            estoque_minimo = (
+                int(row[6]) if row[6] not in (None, "") and str(row[6]).isdigit() else 0
+            )
         except ValueError:
             estoque = 0
             estoque_minimo = 0
 
-        codigoBarra = row[7] if row[7] not in (None, '') else ''
-        categoria_nome = row[8] if row[8] not in (None, '') else ''
+        codigoBarra = row[7] if row[7] not in (None, "") else ""
+        categoria_nome = row[8] if row[8] not in (None, "") else ""
 
         categoria = Categoria.objects.filter(categoria=categoria_nome).first()
 
@@ -135,10 +153,7 @@ def import_xlsx(file_path):
             "categoria": categoria,
         }
 
-        Produto.objects.update_or_create(
-            produto=produto_nome,
-            defaults=produto_data
-        )
+        Produto.objects.update_or_create(produto=produto_nome, defaults=produto_data)
 
 
 @login_required
@@ -146,9 +161,9 @@ def import_xlsx(file_path):
 def import_data(request):
     form = UploadFileForm(request.POST, request.FILES)
     if form.is_valid():
-        file = request.FILES['file']
-        file_path = f'/tmp/{file.name}'
-        with open(file_path, 'wb+') as destination:
+        file = request.FILES["file"]
+        file_path = f"/tmp/{file.name}"
+        with open(file_path, "wb+") as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
         try:
@@ -157,25 +172,28 @@ def import_data(request):
         except Exception as e:
             messages.error(request, f"Erro ao importar dados: {str(e)}")
         os.remove(file_path)
-        return redirect('produto:index')
+        return redirect("produto:index")
     else:
         messages.error(request, "Erro ao fazer upload do arquivo.")
-    return redirect('produto:upload')
+    return redirect("produto:upload")
 
 
 @login_required
 def upload_file(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']
-            if file.name.endswith('.xlsx'):
-                return redirect('produto:import_data')
+            file = request.FILES["file"]
+            if file.name.endswith(".xlsx"):
+                return redirect("produto:import_data")
             else:
-                messages.error(request, "O arquivo enviado não é um arquivo Excel válido.")
+                messages.error(
+                    request, "O arquivo enviado não é um arquivo Excel válido."
+                )
     else:
         form = UploadFileForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, "upload.html", {"form": form})
+
 
 import pandas as pd
 from io import BytesIO
@@ -185,6 +203,7 @@ from openpyxl.styles import NamedStyle
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def gerar_insights(request):
     try:
@@ -192,39 +211,58 @@ def gerar_insights(request):
         df_produtos = pd.DataFrame(list(Produto.objects.all().values()))
 
         # Processar dados
-        produtos_abaixo_estoque_minimo = df_produtos[df_produtos["estoque"] < df_produtos["estoque_minimo"]]
-        df_produtos["valor_venda_pot"] = df_produtos["estoque"] * df_produtos["preco_venda"]
+        produtos_abaixo_estoque_minimo = df_produtos[
+            df_produtos["estoque"] < df_produtos["estoque_minimo"]
+        ]
+        df_produtos["valor_venda_pot"] = (
+            df_produtos["estoque"] * df_produtos["preco_venda"]
+        )
         produtos_preco_zero = df_produtos[df_produtos["preco_venda"] == 0]
-        produtos_estoque_excedente = df_produtos[df_produtos["estoque"] > df_produtos["estoque_minimo"] * 2]
-        df_produtos["rotatividade"] = df_produtos["estoque"] / df_produtos["estoque_minimo"]
-        df_produtos["custo_estoque"] = df_produtos["estoque"] * df_produtos["preco_custo"]
+        produtos_estoque_excedente = df_produtos[
+            df_produtos["estoque"] > df_produtos["estoque_minimo"] * 2
+        ]
+        df_produtos["rotatividade"] = (
+            df_produtos["estoque"] / df_produtos["estoque_minimo"]
+        )
+        df_produtos["custo_estoque"] = (
+            df_produtos["estoque"] * df_produtos["preco_custo"]
+        )
         produtos_alto_custo_estoque = df_produtos[df_produtos["custo_estoque"] > 1000]
 
         # Calcular o valor total das vendas
         valor_total_vendas = (df_produtos["estoque"] * df_produtos["preco_venda"]).sum()
 
         # Obter todos os detalhes de pagamento
-        df_compras = pd.DataFrame(list(Compra.objects.all().values('id', 'data', 'metodo_pagamento', 'total')))
-        df_itens_compra = pd.DataFrame(list(ItemCompra.objects.all().values('compra_id', 'produto_id', 'quantidade', 'preco_unitario')))
+        df_compras = pd.DataFrame(
+            list(Compra.objects.all().values("id", "data", "metodo_pagamento", "total"))
+        )
+        df_itens_compra = pd.DataFrame(
+            list(
+                ItemCompra.objects.all().values(
+                    "compra_id", "produto_id", "quantidade", "preco_unitario"
+                )
+            )
+        )
 
         # Converta datetimes para timezone naive
         if not df_compras.empty:
-            df_compras['data'] = pd.to_datetime(df_compras['data']).dt.tz_localize(None)
-        
+            df_compras["data"] = pd.to_datetime(df_compras["data"]).dt.tz_localize(None)
+
         # Adicionar detalhes de itens de compra
         df_compras_details = df_compras.merge(
-            df_itens_compra,
-            left_on='id',
-            right_on='compra_id',
-            how='left'
+            df_itens_compra, left_on="id", right_on="compra_id", how="left"
         )
 
         # Adicionar coluna de semana
-        df_compras_details['semana'] = df_compras_details['data'].dt.to_period('W').apply(lambda r: r.start_time)
+        df_compras_details["semana"] = (
+            df_compras_details["data"].dt.to_period("W").apply(lambda r: r.start_time)
+        )
 
         # Agrupar por semana e somar os preços unitários
-        df_totais_semanais = df_compras_details.groupby('semana')['preco_unitario'].sum().reset_index()
-        df_totais_semanais.columns = ['Semana', 'Total Preço Unitário']
+        df_totais_semanais = (
+            df_compras_details.groupby("semana")["preco_unitario"].sum().reset_index()
+        )
+        df_totais_semanais.columns = ["Semana", "Total Preço Unitário"]
 
         # Criar um buffer para o arquivo Excel
         buffer = BytesIO()
@@ -233,18 +271,27 @@ def gerar_insights(request):
             def style_worksheet(worksheet):
                 # Estilo para cabeçalhos
                 header_font = Font(bold=True, color="FFFFFF")
-                header_fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
-                
+                header_fill = PatternFill(
+                    start_color="4F81BD", end_color="4F81BD", fill_type="solid"
+                )
+
                 # Definir largura das colunas
-                column_widths = [max(len(str(cell.value)) for cell in col) for col in worksheet.columns]
+                column_widths = [
+                    max(len(str(cell.value)) for cell in col)
+                    for col in worksheet.columns
+                ]
                 for i, width in enumerate(column_widths):
-                    worksheet.column_dimensions[chr(65 + i)].width = width + 6  # Adiciona padding extra
+                    worksheet.column_dimensions[chr(65 + i)].width = (
+                        width + 6
+                    )  # Adiciona padding extra
 
                 for cell in worksheet[1]:  # Cabeçalhos
                     cell.font = header_font
                     cell.fill = header_fill
-                    cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-                
+                    cell.alignment = Alignment(
+                        horizontal="center", vertical="center", wrap_text=True
+                    )
+
                 # Estilo para linhas
                 border_style = Border(
                     left=Side(border_style="thin"),
@@ -252,9 +299,13 @@ def gerar_insights(request):
                     top=Side(border_style="thin"),
                     bottom=Side(border_style="thin"),
                 )
-                fill_odd = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
-                fill_even = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
-                
+                fill_odd = PatternFill(
+                    start_color="F2F2F2", end_color="F2F2F2", fill_type="solid"
+                )
+                fill_even = PatternFill(
+                    start_color="FFFFFF", end_color="FFFFFF", fill_type="solid"
+                )
+
                 for row in worksheet.iter_rows(min_row=2):
                     for cell in row:
                         cell.border = border_style
@@ -262,7 +313,9 @@ def gerar_insights(request):
                             cell.fill = fill_even
                         else:
                             cell.fill = fill_odd
-                        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+                        cell.alignment = Alignment(
+                            horizontal="center", vertical="center", wrap_text=True
+                        )
 
             # Adicionar abas com os dados
             produtos_abaixo_estoque_minimo.to_excel(
@@ -271,9 +324,7 @@ def gerar_insights(request):
             df_produtos[["produto", "valor_venda_pot"]].to_excel(
                 writer, sheet_name="Venda Potencial", index=False
             )
-            produtos_preco_zero.to_excel(
-                writer, sheet_name="Preço Zerado", index=False
-            )
+            produtos_preco_zero.to_excel(writer, sheet_name="Preço Zerado", index=False)
             produtos_estoque_excedente.to_excel(
                 writer, sheet_name="Estoque Excedente", index=False
             )
@@ -289,25 +340,31 @@ def gerar_insights(request):
             total_vendas_df.to_excel(writer, sheet_name="Total Vendas", index=False)
 
             # Adicionar aba com os detalhes dos pagamentos
-            df_compras_details.to_excel(writer, sheet_name="Detalhes Pagamentos", index=False)
+            df_compras_details.to_excel(
+                writer, sheet_name="Detalhes Pagamentos", index=False
+            )
 
             # Adicionar aba com os totais semanais
-            df_totais_semanais.to_excel(writer, sheet_name="Totais Semanais", index=False)
+            df_totais_semanais.to_excel(
+                writer, sheet_name="Totais Semanais", index=False
+            )
 
             # Aplicar formatação
             for sheet_name in writer.sheets:
                 sheet = writer.sheets[sheet_name]
                 style_worksheet(sheet)
-                
+
                 # Adicionar rodapé com totais (se necessário)
                 if sheet_name == "Detalhes Pagamentos":
                     # Adicionar uma linha de rodapé
                     last_row = sheet.max_row + 1
-                    sheet[f'A{last_row}'] = 'Total por Semana'
+                    sheet[f"A{last_row}"] = "Total por Semana"
                     for col in range(2, sheet.max_column + 1):
-                        sheet.cell(row=last_row, column=col).value = '=SUM({}:{})'.format(
-                            sheet.cell(row=2, column=col).coordinate,
-                            sheet.cell(row=sheet.max_row, column=col).coordinate
+                        sheet.cell(row=last_row, column=col).value = (
+                            "=SUM({}:{})".format(
+                                sheet.cell(row=2, column=col).coordinate,
+                                sheet.cell(row=sheet.max_row, column=col).coordinate,
+                            )
                         )
 
         buffer.seek(0)
@@ -317,7 +374,9 @@ def gerar_insights(request):
             buffer,
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
-        response["Content-Disposition"] = 'attachment; filename="RELATORIO_GONZAGUINHA.xlsx"'
+        response["Content-Disposition"] = (
+            'attachment; filename="RELATORIO_GONZAGUINHA.xlsx"'
+        )
 
         return response
 
@@ -325,116 +384,134 @@ def gerar_insights(request):
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
 
 
-
 @login_required
 def pdv(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         item_form = ItemCompraForm(request.POST)
         compra_form = CompraForm(request.POST)
-        
-        if item_form.is_valid() and 'add_item' in request.POST:
+
+        if item_form.is_valid() and "add_item" in request.POST:
             produto = item_form.get_produto()
-            quantidade = item_form.cleaned_data['quantidade']
-            
+            quantidade = item_form.cleaned_data["quantidade"]
+
             if produto:
-                if 'itens' not in request.session:
-                    request.session['itens'] = []
-                itens = request.session['itens']
-                itens.append({
-                    'produto_id': produto.id,
-                    'nome': produto.produto,
-                    'quantidade': quantidade,
-                    'preco_unitario': str(produto.preco_venda)
-                })
-                request.session['itens'] = itens
+                if "itens" not in request.session:
+                    request.session["itens"] = []
+                itens = request.session["itens"]
+                itens.append(
+                    {
+                        "produto_id": produto.id,
+                        "nome": produto.produto,
+                        "quantidade": quantidade,
+                        "preco_unitario": str(produto.preco_venda),
+                    }
+                )
+                request.session["itens"] = itens
 
                 # Calcular o subtotal
-                subtotal = sum(Decimal(item['preco_unitario']) * item['quantidade'] for item in itens)
-                request.session['subtotal'] = str(subtotal)
+                subtotal = sum(
+                    Decimal(item["preco_unitario"]) * item["quantidade"]
+                    for item in itens
+                )
+                request.session["subtotal"] = str(subtotal)
 
-                messages.success(request, f"Produto {produto.produto} adicionado com sucesso.")
+                messages.success(
+                    request, f"Produto {produto.produto} adicionado com sucesso."
+                )
             else:
                 messages.error(request, "Produto não encontrado.")
-            
-            return redirect('produto:pdv')
 
-        elif compra_form.is_valid() and 'finalizar_compra' in request.POST:
-            metodo_pagamento = compra_form.cleaned_data['metodo_pagamento']
-            itens = request.session.get('itens', [])
-            subtotal = request.session.get('subtotal', '0')
-            
-            compra = Compra.objects.create(metodo_pagamento=metodo_pagamento, total=subtotal)
-            
+            return redirect("produto:pdv")
+
+        elif compra_form.is_valid() and "finalizar_compra" in request.POST:
+            metodo_pagamento = compra_form.cleaned_data["metodo_pagamento"]
+            itens = request.session.get("itens", [])
+            subtotal = request.session.get("subtotal", "0")
+
+            compra = Compra.objects.create(
+                metodo_pagamento=metodo_pagamento, total=subtotal
+            )
+
             for item in itens:
-                produto = Produto.objects.get(pk=item['produto_id'])
-                if produto.estoque >= item['quantidade']:
+                produto = Produto.objects.get(pk=item["produto_id"])
+                if produto.estoque >= item["quantidade"]:
                     ItemCompra.objects.create(
                         compra=compra,
                         produto=produto,
-                        quantidade=item['quantidade'],
-                        preco_unitario=item['preco_unitario']
+                        quantidade=item["quantidade"],
+                        preco_unitario=item["preco_unitario"],
                     )
-                    
+
                     # Atualizar o estoque
-                    produto.estoque -= item['quantidade']
+                    produto.estoque -= item["quantidade"]
                     produto.save()
                 else:
-                    messages.error(request, f"Estoque insuficiente para o produto {produto.produto}.")
-                    return redirect('produto:pdv')
-            
-            request.session.pop('itens', None)
-            request.session.pop('subtotal', None)
+                    messages.error(
+                        request,
+                        f"Estoque insuficiente para o produto {produto.produto}.",
+                    )
+                    return redirect("produto:pdv")
+
+            request.session.pop("itens", None)
+            request.session.pop("subtotal", None)
 
             messages.success(request, "Compra finalizada com sucesso.")
-            return redirect('produto:purchase_details', pk=compra.pk)  # Redirecionar para os detalhes da compra
-    
+            return redirect(
+                "produto:purchase_details", pk=compra.pk
+            )  # Redirecionar para os detalhes da compra
+
     else:
         item_form = ItemCompraForm()
         compra_form = CompraForm()
-    
-    itens = request.session.get('itens', [])
-    subtotal = Decimal(request.session.get('subtotal', '0.00'))
-    
+
+    itens = request.session.get("itens", [])
+    subtotal = Decimal(request.session.get("subtotal", "0.00"))
+
     context = {
-        'item_form': item_form,
-        'compra_form': compra_form,
-        'itens': itens,
-        'subtotal': subtotal
+        "item_form": item_form,
+        "compra_form": compra_form,
+        "itens": itens,
+        "subtotal": subtotal,
     }
-    return render(request, 'pdv.html', context)
+    return render(request, "pdv.html", context)
+
 
 @login_required
 def purchase_details(request, pk):
     compra = get_object_or_404(Compra, pk=pk)
-    context = {
-        'compra': compra,
-        'itens': compra.itens.all()
-    }
-    return render(request, 'purchase_details.html', context)
+    context = {"compra": compra, "itens": compra.itens.all()}
+    return render(request, "purchase_details.html", context)
+
 
 @login_required
 @require_POST
 def remove_item(request):
-    produto_id = request.POST.get('produto_id')
+    produto_id = request.POST.get("produto_id")
 
     # Remover o item da sessão
-    if 'itens' in request.session:
-        itens = request.session['itens']
-        request.session['itens'] = [item for item in itens if item['produto_id'] != int(produto_id)]
+    if "itens" in request.session:
+        itens = request.session["itens"]
+        request.session["itens"] = [
+            item for item in itens if item["produto_id"] != int(produto_id)
+        ]
 
         # Atualizar subtotal
-        subtotal = sum(Decimal(item['preco_unitario']) * item['quantidade'] for item in request.session['itens'])
-        request.session['subtotal'] = str(subtotal)
+        subtotal = sum(
+            Decimal(item["preco_unitario"]) * item["quantidade"]
+            for item in request.session["itens"]
+        )
+        request.session["subtotal"] = str(subtotal)
 
-    return redirect('produto:pdv')
+    return redirect("produto:pdv")
+
 
 @login_required
 @require_POST
 def clear_checkout(request):
     # Limpa todos os itens e o subtotal da sessão
-    request.session.pop('itens', None)
-    request.session.pop('subtotal', None)
-    
+    request.session.pop("itens", None)
+    request.session.pop("subtotal", None)
+
     messages.success(request, "Todos os itens foram removidos do checkout.")
     return redirect('produto:pdv')
 
