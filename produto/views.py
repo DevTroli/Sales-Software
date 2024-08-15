@@ -194,16 +194,6 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, "upload.html", {"form": form})
 
-
-import pandas as pd
-from io import BytesIO
-from openpyxl import Workbook
-from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
-from openpyxl.styles import NamedStyle
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-
-
 @login_required
 def gerar_insights(request):
     try:
