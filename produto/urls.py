@@ -15,5 +15,6 @@ urlpatterns = [
     path('pdv/', v.pdv, name='pdv'),
     path('remove_item/', v.remove_item, name='remove_item'),
     path('clear_checkout/', v.clear_checkout, name='clear_checkout'),
+    path('detalhes_pagamentos/', v.detalhes_pagamentos, name='detalhes_pagamentos'),
     # path('emitir_nota_fiscal/', v.emitir_nota_fiscal, name='emitir_nota_fiscal'),
 ]

@@ -31,6 +31,9 @@
                             <li>
                                 <a href="{% url 'produto:gerar_insights' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fazer Relatório</a>
                             </li>
+                            <li>
+                                <a href="{% url 'produto:detalhes_pagamentos' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Detalhes Pagamentos</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -55,12 +58,10 @@
             var dropdownButton = document.getElementById('dropdownNavbarButton');
             var dropdownMenu = document.getElementById('dropdownNavbar');
 
-            // Mostrar o dropdown ao passar o mouse sobre o botão
             dropdownButton.addEventListener('mouseover', function () {
                 dropdownMenu.classList.add('show');
             });
 
-            // Ocultar o dropdown ao sair do botão ou do menu
             document.addEventListener('mouseover', function (event) {
                 if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                     dropdownMenu.classList.remove('show');

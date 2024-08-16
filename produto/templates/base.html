@@ -19,7 +19,7 @@
 <style>
   * {
   font-family: 'Inknut Antiqua', serif;
-  resize: none;
+
 }
   body{
   background-color: rgb(17 24 39);
@@ -47,15 +47,15 @@
     z-index: 9999; 
 }/* Ajuste conforme necessário */
 
+.form-control {
+            resize: none; /* Desativa o redimensionamento do textarea */
+        }
+
 </style>
 </head>
 
 <body>
-
-  
-
   {% block content %}{% endblock content %}
-
   {% block js %}
   <script>
 document.addEventListener('DOMContentLoaded', function () {

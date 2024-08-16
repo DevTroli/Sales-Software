@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "includes/nav.html" %}
+<div class="container mx-auto p-4 md:p-8">
+    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center">
+        <h1 class="text-xl md:text-2xl font-bold mb-4 md:mb-0">Detalhes de Pagamentos</h1>
+    </div>
+    <div class="overflow-x-auto my-4 md:my-8">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-700">
+                    <th class="p-2 md:p-4 text-sm md:text-base">ID da Compra</th>
+                    <th class="p-2 md:p-4 text-sm md:text-base">Data</th>
+                    <th class="p-2 md:p-4 text-sm md:text-base">Método de Pagamento</th>
+                    <th class="p-2 md:p-4 text-sm md:text-base">Total</th>
+                    <th class="p-2 md:p-4 text-sm md:text-base">Itens</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for compra in page_obj %}
+                <tr class="border-b">
+                    <td class="p-2 md:p-4 text-sm md:text-base">{{ compra.id }}</td>
+                    <td class="p-2 md:p-4 text-sm md:text-base">{{ compra.data|date:"d/m/Y H:i" }}</td>
+                    <td class="p-2 md:p-4 text-sm md:text-base">{{ compra.get_metodo_pagamento_display }}</td>
+                    <td class="p-2 md:p-4 text-sm md:text-base">R$ {{ compra.total|floatformat:2 }}</td>
+                    <td class="p-2 md:p-4 text-sm md:text-base">
+                        <ul class="list-none pl-0">
+                            {% for item in compra.itens.all %}
+                            <li class="py-1">{{ item.quantidade }}x {{ item.produto.produto }} - R$ {{ item.subtotal|floatformat:2 }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="p-4 text-center text-sm md:text-base">Nenhuma compra encontrada para o mês atual.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Navegação de paginação -->
+    <nav aria-label="Page navigation example" class="mt-4 md:mt-6">
+        <ul class="flex flex-wrap justify-center items-center space-x-1 h-10 text-base overflow-x-auto scrollbar-hide">
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" class="flex items-center justify-center px-3 md:px-4 h-10 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Previous</span>
+                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    </svg>
+                </a>
+            </li>
+            {% endif %}
+    
+            <!-- Mostra apenas 5 páginas ao redor da página atual -->
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                <li>
+                    <a href="?page={{ num }}&q={{ request.GET.q }}" class="flex items-center justify-center px-2 md:px-3 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white {% if page_obj.number == num %}z-10 text-blue-600 border-blue-300 bg-blue-50 dark:border-gray-700 dark:bg-gray-700 dark:text-white{% endif %}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+    
+            {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" class="flex items-center justify-center px-3 md:px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
