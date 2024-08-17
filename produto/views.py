@@ -16,6 +16,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.utils import timezone
+from datetime import timedelta
 
 from openpyxl import load_workbook
 import pandas as pd
@@ -528,16 +529,17 @@ def clear_checkout(request):
 
 @login_required
 def detalhes_pagamentos(request):
-    # Obter o início e o final do mês atual
-    today = timezone.now()
-    first_day_of_month = today.replace(day=1)
-    last_day_of_month = (today.replace(day=1) + timedelta(days=31)).replace(day=1) - timedelta(days=1)
+       # Obter o dia atual
+    today = timezone.now().date()
     
-    # Filtrar as compras do mês atual
-    compras = Compra.objects.filter(data__range=[first_day_of_month, last_day_of_month]).prefetch_related('itens__produto')
+    # Calcular a data do início da semana (7 dias atrás)
+    start_of_week = today - timedelta(days=6)
     
-    # Paginação
-    paginator = Paginator(compras, 10)  # Mostra 10 compras por página
+    # Filtrar as compras da semana atual (últimos 7 dias)
+    compras = Compra.objects.filter(data__date__range=[start_of_week, today]).prefetch_related('itens__produto')
+    
+    # Paginação, mostra 10 compras por página
+    paginator = Paginator(compras, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
