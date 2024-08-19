@@ -1,56 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="mx-auto p-8 w-screen">
-    <div class="container flex justify-between mx-auto">
-        <div class="flex items-center gap-4">
-            <a href="{% url 'produto:pdv' %}"><img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-8 w-8"></a>
-            <h1 class="text-xl">Detalhes da Compra #{{ compra.id }}</h1>
-        </div>
+<div class="max-w-5xl mx-auto p-6 sm:p-8">
+    <div class="flex items-center gap-4 mb-8">
+        <a href="{% url 'produto:pdv' %}" class="hover:opacity-75 transition-opacity">
+            <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-8 w-8" alt="Voltar">
+        </a>
+        <h1 class="text-2xl font-semibold">Detalhes da Compra #{{ compra.id }}</h1>
     </div>
-    
-    <div class="sm:w-1/2 flex justify-center mx-auto my-48">
-        <h2 class="text-2xl font-bold mb-4">Informações da Compra</h2>
-        <table class="w-full divide-y divide-gray-200">
-            <tbody class="bg-transparent divide-y divide-gray-200 text-center items-center">
-                <tr>
-                    <th class="text-right p-4">Data</th>
-                    <td class="p-4">{{ compra.data }}</td>
+
+    <div class="bg-transparent shadow-md rounded-lg p-6 mb-10">
+        <h2 class="text-xl font-bold mb-4">Informações da Compra</h2>
+        <table class="w-full">
+            <tbody>
+                <tr class="border-b">
+                    <th class="text-left py-2 pr-4">Data:</th>
+                    <td class="py-2">{{ compra.data }}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="text-left py-2 pr-4">Método de Pagamento:</th>
+                    <td class="py-2">{{ compra.get_metodo_pagamento_display }}</td>
                 </tr>
                 <tr>
-                    <th class="text-right p-4">Método de Pagamento</th>
-                    <td class="p-4">{{ compra.get_metodo_pagamento_display }}</td>
-                </tr>
-                <tr>
-                    <th class="text-right p-4">Total</th>
-                    <td class="p-4">R$ {{ compra.total|floatformat:2 }}</td>
+                    <th class="text-left py-2 pr-4">Total:</th>
+                    <td class="py-2">R$ {{ compra.total|floatformat:2 }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="sm:w-1/2 flex justify-center mx-auto my-48">
-        <h2 class="text-2xl font-bold mb-4">Itens da Compra</h2>
-        <table class="w-full divide-y divide-gray-200">
-            <thead>
+    <div class="bg-transparent shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Itens da Compra</h2>
+        <table class="w-full">
+            <thead class="border-b">
                 <tr>
-                    <th class="text-left p-4">Produto</th>
-                    <th class="text-left p-4">Quantidade</th>
-                    <th class="text-left p-4">Preço Unitário</th>
-                    <th class="text-left p-4">Subtotal</th>
+                    <th class="text-left py-2">Produto</th>
+                    <th class="text-left py-2">Quantidade</th>
+                    <th class="text-left py-2">Preço Unitário</th>
+                    <th class="text-left py-2">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in itens %}
-                <tr>
-                    <td class="p-4">{{ item.produto.produto }}</td>
-                    <td class="p-4">{{ item.quantidade }}</td>
-                    <td class="p-4">R$ {{ item.preco_unitario|floatformat:2 }}</td>
-                    <td class="p-4">R$ {{ item.subtotal|floatformat:2 }}</td>
+                <tr class="border-b">
+                    <td class="py-2">{{ item.produto.produto }}</td>
+                    <td class="py-2">{{ item.quantidade }}</td>
+                    <td class="py-2">R$ {{ item.preco_unitario|floatformat:2 }}</td>
+                    <td class="py-2">R$ {{ item.subtotal|floatformat:2 }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4" class="text-center p-4">Nenhum item encontrado.</td>
+                    <td colspan="4" class="text-center py-2">Nenhum item encontrado.</td>
                 </tr>
                 {% endfor %}
             </tbody>

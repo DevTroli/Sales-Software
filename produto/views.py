@@ -1,3 +1,4 @@
+from datetime import timedelta
 from io import BytesIO
 import os
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,12 +15,16 @@ from django.db.models import Q, F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
 
 from openpyxl import load_workbook
 import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
 from openpyxl.utils.dataframe import dataframe_to_rows
+
+# from satcfe import BibliotecaSAT, ClienteSATLocal
 
 from produto.models import Categoria, Produto, Compra, ItemCompra
 from produto.forms import ProdutoForm, UploadFileForm, CompraForm, ItemCompraForm
@@ -45,8 +50,11 @@ def index(request):
             )
         objects = objects.filter(q_objects)
 
+    # Ordenação explícita antes da paginação
+    objects = objects.order_by("produto")  # Substitua 'produto' pelo campo que desejar
+
     # Paginação
-    paginator = Paginator(objects, 50)  # Mostra 10 produtos por página
+    paginator = Paginator(objects, 50)  # Mostra 40 produtos por página
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -192,20 +200,16 @@ def upload_file(request):
     return render(request, "upload.html", {"form": form})
 
 
-import pandas as pd
-from io import BytesIO
-from openpyxl import Workbook
-from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
-from openpyxl.styles import NamedStyle
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-
-
 @login_required
 def gerar_insights(request):
     try:
         # Obter todos os produtos
         df_produtos = pd.DataFrame(list(Produto.objects.all().values()))
+
+        # Filtrar produtos onde preço de venda e estoque mínimo não estão zerados ou nulos
+        df_produtos = df_produtos[
+            (df_produtos["preco_venda"] > 0) & (df_produtos["estoque_minimo"] > 0)
+        ]
 
         # Processar dados
         produtos_abaixo_estoque_minimo = df_produtos[
@@ -241,9 +245,18 @@ def gerar_insights(request):
             )
         )
 
-        # Converta datetimes para timezone naive
+        # Obter o nome dos produtos
+        df_itens_compra = df_itens_compra.merge(
+            df_produtos[["id", "produto"]],
+            left_on="produto_id",
+            right_on="id",
+            how="left",
+        )
+
+        # Converta datetimes para timezone naive e formate para o padrão brasileiro
         if not df_compras.empty:
             df_compras["data"] = pd.to_datetime(df_compras["data"]).dt.tz_localize(None)
+            df_compras["data"] = df_compras["data"].dt.strftime("%d/%m/%Y %H:%M")
 
         # Adicionar detalhes de itens de compra
         df_compras_details = df_compras.merge(
@@ -252,7 +265,10 @@ def gerar_insights(request):
 
         # Adicionar coluna de semana
         df_compras_details["semana"] = (
-            df_compras_details["data"].dt.to_period("W").apply(lambda r: r.start_time)
+            df_compras_details["data"]
+            .apply(lambda x: pd.to_datetime(x, format="%d/%m/%Y %H:%M"))
+            .dt.to_period("W")
+            .apply(lambda r: r.start_time.strftime("%d/%m/%Y %H:%M"))
         )
 
         # Agrupar por semana e somar os preços unitários
@@ -337,9 +353,16 @@ def gerar_insights(request):
             total_vendas_df.to_excel(writer, sheet_name="Total Vendas", index=False)
 
             # Adicionar aba com os detalhes dos pagamentos
-            df_compras_details.to_excel(
-                writer, sheet_name="Detalhes Pagamentos", index=False
-            )
+            df_compras_details[
+                [
+                    "data",
+                    "metodo_pagamento",
+                    "total",
+                    "produto",
+                    "quantidade",
+                    "preco_unitario",
+                ]
+            ].to_excel(writer, sheet_name="Detalhes Pagamentos", index=False)
 
             # Adicionar aba com os totais semanais
             df_totais_semanais.to_excel(
@@ -395,14 +418,18 @@ def pdv(request):
                 if "itens" not in request.session:
                     request.session["itens"] = []
                 itens = request.session["itens"]
-                itens.append(
+
+                # Inserir o item no início da lista
+                itens.insert(
+                    0,
                     {
                         "produto_id": produto.id,
                         "nome": produto.produto,
                         "quantidade": quantidade,
                         "preco_unitario": str(produto.preco_venda),
-                    }
+                    },
                 )
+
                 request.session["itens"] = itens
 
                 # Calcular o subtotal
@@ -453,9 +480,7 @@ def pdv(request):
             request.session.pop("subtotal", None)
 
             messages.success(request, "Compra finalizada com sucesso.")
-            return redirect(
-                "produto:purchase_details", pk=compra.pk
-            )  # Redirecionar para os detalhes da compra
+            return redirect("produto:purchase_details", pk=compra.pk)
 
     else:
         item_form = ItemCompraForm()
@@ -511,3 +536,57 @@ def clear_checkout(request):
 
     messages.success(request, "Todos os itens foram removidos do checkout.")
     return redirect("produto:pdv")
+
+
+@login_required
+def detalhes_pagamentos(request):
+    # Obter o dia atual
+    today = timezone.now().date()
+
+    # Calcular a data do início da semana (7 dias atrás)
+    start_of_week = today - timedelta(days=6)
+
+    # Filtrar as compras da semana atual (últimos 7 dias)
+    compras = Compra.objects.filter(
+        data__date__range=[start_of_week, today]
+    ).prefetch_related("itens__produto")
+
+    # Paginação, mostra 10 compras por página
+    paginator = Paginator(compras, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
+    return render(request, "detalhes_pagamentos.html", context)
+
+
+# @login_required
+# def configurar_cliente_sat():
+#     # Configurar o caminho da DLL
+#     biblioteca = BibliotecaSAT(settings.SAT_DLL_PATH)
+
+#     # Código de ativação fornecido pelo fabricante
+#     codigo_ativacao = '12345678'  # Substitua pelo código real
+
+#     # Criar o cliente SAT
+#     cliente = ClienteSATLocal(biblioteca, codigo_ativacao=codigo_ativacao)
+#     return cliente
+
+# def emitir_nota_fiscal(request):
+#     try:
+#         # Configurar o cliente SAT
+#         cliente = configurar_cliente_sat()
+
+#         # Consultar o SAT
+#         resposta = cliente.consultar_sat()
+#         if resposta.codigo == 0:  # Verifica se o código de resposta indica sucesso
+#             messages.success(request, 'SAT está em operação: ' + resposta.mensagem)
+#         else:
+#             messages.error(request, f"Falha ao consultar o SAT: {resposta.mensagem}")
+
+#     except FileNotFoundError as e:
+#         messages.error(request, str(e))
+#     except Exception as e:
+#         messages.error(request, f"Erro inesperado: {str(e)}")
+
+#     return render(request, 'purchase_details.html')

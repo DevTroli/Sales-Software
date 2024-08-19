@@ -9,6 +9,9 @@ class ProdutoForm(forms.ModelForm):
         widgets = {
             "margem_vendas": forms.HiddenInput(),
             "nivel_estoque": forms.HiddenInput(),
+            "produto": forms.Textarea(
+                attrs={"rows": 2, "cols": 50}
+            ),  # Define o tamanho do textarea
         }
 
 
@@ -30,16 +33,13 @@ class CompraForm(forms.ModelForm):
 
 
 class ItemCompraForm(forms.Form):
-    # produto_id = forms.IntegerField(label="Produto ID", required=False, widget=forms.NumberInput(attrs={
-    #     'class': 'mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-    #     'placeholder': ' ',
-    # }))
     quantidade = forms.IntegerField(
         min_value=1,
+        initial=1,  # Define a quantidade padrão como 1
         widget=forms.NumberInput(
             attrs={
                 "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
-                "placeholder": " Quantas Unidades ? ",
+                "placeholder": "Quantas Unidades?",
             }
         ),
     )
@@ -50,7 +50,7 @@ class ItemCompraForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
-                "placeholder": "Digite o Codigo de Barras ",
+                "placeholder": "Digite o Código de Barras",
             }
         ),
     )
@@ -61,7 +61,7 @@ class ItemCompraForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "mb-0.5 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
-                "placeholder": " Digite o Nome do Produto ",
+                "placeholder": "Digite o Nome do Produto",
             }
         ),
     )
