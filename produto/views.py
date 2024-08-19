@@ -16,7 +16,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.utils import timezone
-from datetime import timedelta
 
 from openpyxl import load_workbook
 import pandas as pd

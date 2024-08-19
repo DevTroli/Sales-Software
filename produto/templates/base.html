@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg">
-  <title>Gonzaguinha: Conveniências | Mercearia | Tabacaria em São Vicente</title>
+  <title>Adega Gonzaguinha: Conveniências | Mercearia | Tabacaria em São Vicente</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap">
@@ -51,35 +51,10 @@
             resize: none; /* Desativa o redimensionamento do textarea */
         }
 
-.opacity-0 {
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-}
-
 </style>
 </head>
 
 <body>
-  {% if messages %}
-  {% if messages %}
-    <div id="notification-container"class="fixed bottom-4 right-4 space-y-4 w-96"><ul id="message-list" class="space-y-4">
-            {% for message in messages %}
-                <li class="flex items-center p-6 rounded-lg shadow-lg bg-gray-700 {{ message.tags|default:'bg-gray-700 text-white' }} transition-all duration-300 ease-in-out transform {{ message.tags }}-notification">
-                    {% if message.tags == 'success' %}
-                        <svg class="w-8 h-8 text-green-400 mr-3"fill="none"stroke="currentColor"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    {% elif message.tags == 'error' %}
-                        <svg class="w-8 h-8 text-red-400 mr-3"fill="none"stroke="currentColor"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    {% elif message.tags == 'info' %}
-                        <svg class="w-8 h-8 text-blue-400 mr-3"fill="none"stroke="currentColor"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1M12 6h.01"></path></svg>
-                    {% endif %}
-                    <spanclass="text-lg font-semibold">{{ message }}</span></li>
-            {% endfor %}
-        </ul>
-      </div>
-{% endif %}
-
-{% endif %}
-
   {% block content %}{% endblock content %}
   {% block js %}
   <script>
@@ -115,35 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Messages error & success
-document.addEventListener('DOMContentLoaded', function() {
-  const messagesContainer = document.getElementById('messages');
-
-  if (messagesContainer && messagesContainer.children.length > 0) {
-    const messages = messagesContainer.querySelectorAll('li');
-    messages.forEach(function(message) {
-      const type = message.getAttribute('data-type');
-      const text = message.innerText;
-
-      if (type === 'success') {
-        alert(`Success: ${text}`);
-      } else if (type === 'error') {
-        alert(`Error: ${text}`);
-      } else {
-        alert(`Info: ${text}`);
-      }
-    });
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-        const notifications = document.querySelectorAll('#message-list li');
-        notifications.forEach(notification => {
-            setTimeout(() => {
-                notification.classList.add('opacity-0');
-            }, 5000); // 5000ms = 5 segundos
-        });
-    });
     </script>
   {% endblock js %}
 </body>
