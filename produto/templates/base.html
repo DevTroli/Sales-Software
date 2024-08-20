@@ -13,11 +13,6 @@
   <!-- Font-awesome (optional) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- Manifest -->
-  {% load static %}
-  <link rel="manifest" href="{% static 'manifest.json' %}">
-  <meta name="theme-color" content="#fbbf24">
-
   <!-- {% block css %}{% endblock css %} -->
 <style>
   * {
@@ -93,19 +88,6 @@
         }
       });
     });
-
-    // Registrar e implementar Service Worker diretamente no HTML
-    if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register("{% static 'js/service-worker.js' %}")
-        .then(function(registration) {
-          console.log('ServiceWorker registrado com sucesso:', registration.scope);
-        })
-        .catch(function(error) {
-          console.error('Falha ao registrar o ServiceWorker:', error);
-        });
-    });
-  }
   </script>
   {% endblock js %}
 </body>
