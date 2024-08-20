@@ -22,7 +22,9 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.adegagonzaguinha.com",
 ]
 
-# SAT 
+CORS_ALLOW_ALL_ORIGINS = True
+
+# SAT
 # Configurações do SAT
 # SAT_CODIGO_ATIVACAO = config('SAT_CODIGO_ATIVACAO', default='12345678')  # Código de ativação do SAT
 # SAT_DLL_PATH = config('SAT_DLL_PATH', default='C:\Program Files (x86)\Control iD\S@T-iD\lib')  # Caminho para a DLL do SAT
@@ -45,7 +47,7 @@ INSTALLED_APPS = [
     "estoque.apps.EstoqueConfig",
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",  # Backend padrão
@@ -133,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "core:index"
