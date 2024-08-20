@@ -10,34 +10,37 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap">
 
-
-
   <!-- Font-awesome (optional) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <!-- Manifest -->
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+  <meta name="theme-color" content="#fbbf24">
+
   <!-- {% block css %}{% endblock css %} -->
-<style>
-  * {
-  font-family: 'Inknut Antiqua', serif;
+  <style>
+    * {
+      font-family: 'Inknut Antiqua', serif;
+      resize: none;
+    }
 
-}
-  body{
-  background-color: rgb(17 24 39);
-  color: white
-}
+    body {
+      background-color: #111827;
+      color: white
+    }
 
-  .ok{
-  color: #84cc16;
-}
+    .ok {
+      color: #84cc16;
+    }
 
-  .no{
-  color: #dc2626;
-}
+    .no {
+      color: #dc2626;
+    }
 
-/* Estilo personalizado para o dropdown */
-.dropdown-menu {
-    display: none;
-}
+    /* Estilo personalizado para o dropdown */
+    .dropdown-menu {
+      display: none;
+    }
 
 .dropdown-menu.show {
     display: block;
@@ -58,37 +61,37 @@
   {% block content %}{% endblock content %}
   {% block js %}
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Toggle dropdown menu
-    const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
-    const dropdownMenu = document.getElementById('dropdownNavbar');
-    
-    if (dropdownToggle) {
+    document.addEventListener('DOMContentLoaded', function () {
+      // Toggle dropdown menu
+      const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
+      const dropdownMenu = document.getElementById('dropdownNavbar');
+
+      if (dropdownToggle) {
         dropdownToggle.addEventListener('click', function () {
-            dropdownMenu.classList.toggle('hidden');
+          dropdownMenu.classList.toggle('hidden');
         });
-    }
-    
-    // Toggle mobile menu
-    const navbarToggle = document.getElementById('navbar-toggle');
-    const navbarDropdown = document.getElementById('navbar-dropdown');
-    
-    if (navbarToggle && navbarDropdown) {
+      }
+
+      // Toggle mobile menu
+      const navbarToggle = document.getElementById('navbar-toggle');
+      const navbarDropdown = document.getElementById('navbar-dropdown');
+
+      if (navbarToggle && navbarDropdown) {
         navbarToggle.addEventListener('click', function () {
-            navbarDropdown.classList.toggle('hidden');
+          navbarDropdown.classList.toggle('hidden');
         });
-    }
-    
-    // Close menus when clicking outside
-    document.addEventListener('click', function (event) {
+      }
+
+      // Close menus when clicking outside
+      document.addEventListener('click', function (event) {
         if (navbarToggle && !navbarToggle.contains(event.target) && !navbarDropdown.contains(event.target)) {
-            navbarDropdown.classList.add('hidden');
+          navbarDropdown.classList.add('hidden');
         }
         if (dropdownToggle && !dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.add('hidden');
+          dropdownMenu.classList.add('hidden');
         }
+      });
     });
-});
 
     </script>
   {% endblock js %}
