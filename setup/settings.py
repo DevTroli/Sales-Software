@@ -22,6 +22,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.adegagonzaguinha.com",
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # SAT
 # Configurações do SAT
 # SAT_CODIGO_ATIVACAO = config('SAT_CODIGO_ATIVACAO', default='12345678')  # Código de ativação do SAT
