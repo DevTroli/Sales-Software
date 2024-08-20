@@ -34,7 +34,7 @@ class Produto(models.Model):
     # Função para atualizar o nível de estoque e calcular a margem de vendas
     def save(self, *args, **kwargs):
         # Atualizar o nível de estoque
-        if self.estoque >= self.estoque_minimo and self.estoque > 0:
+        if self.estoque > self.estoque_minimo:
             self.nivel_estoque = True
         else:
             self.nivel_estoque = False

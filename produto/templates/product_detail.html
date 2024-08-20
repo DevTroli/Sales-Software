@@ -1,19 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="mx-auto lg:p-6 md:p-6 p-4 w-screen">
+<div class="mx-auto p-8 w-screen">
     <div class="container flex justify-between mx-auto">
       <div class="flex items-center gap-4">
-        <a href="{% url 'produto:index' %}">
-          <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-16 w-16">
-        </a>
+        <a href="{% url 'produto:index' %}"><img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-8 w-8"></a>
         <h1 class="text-xl">{{ object }}</h1>
       </div>
-      <button type="button" class="flex items-center w-fit justify-between p-2 md:p-4 bg-amber-500 rounded-lg">
-        <a href="{% url 'produto:edit' object.pk %}" class="flex items-center gap-x-2 text-white font-bold">
-          <i class="fa fa-pencil"></i>
-          <span>Editar</span>
-        </a>
+      <button type="button" class="flex items-center justify-center p-2 bg-amber-500 rounded-lg">
+        <a href="{% url 'produto:edit' object.pk %}" class="fa fa-pencil text-white font-bold">Editar</a>
       </button>
     </div>
   </div>

@@ -1,4 +1,3 @@
-from datetime import timedelta
 from io import BytesIO
 import os
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -50,11 +49,8 @@ def index(request):
             )
         objects = objects.filter(q_objects)
 
-  # Ordenação explícita antes da paginação
-    objects = objects.order_by('produto')  # Substitua 'produto' pelo campo que desejar
-
     # Paginação
-    paginator = Paginator(objects, 50)  # Mostra 40 produtos por página
+    paginator = Paginator(objects, 50)  # Mostra 10 produtos por página
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -205,11 +201,6 @@ def gerar_insights(request):
         # Obter todos os produtos
         df_produtos = pd.DataFrame(list(Produto.objects.all().values()))
 
-        # Filtrar produtos onde preço de venda e estoque mínimo não estão zerados ou nulos
-        df_produtos = df_produtos[
-            (df_produtos["preco_venda"] > 0) & (df_produtos["estoque_minimo"] > 0)
-        ]
-
         # Processar dados
         produtos_abaixo_estoque_minimo = df_produtos[
             df_produtos["estoque"] < df_produtos["estoque_minimo"]
@@ -244,15 +235,9 @@ def gerar_insights(request):
             )
         )
 
-        # Obter o nome dos produtos
-        df_itens_compra = df_itens_compra.merge(
-            df_produtos[["id", "produto"]], left_on="produto_id", right_on="id", how="left"
-        )
-
-        # Converta datetimes para timezone naive e formate para o padrão brasileiro
+        # Converta datetimes para timezone naive
         if not df_compras.empty:
             df_compras["data"] = pd.to_datetime(df_compras["data"]).dt.tz_localize(None)
-            df_compras["data"] = df_compras["data"].dt.strftime("%d/%m/%Y %H:%M")
 
         # Adicionar detalhes de itens de compra
         df_compras_details = df_compras.merge(
@@ -261,11 +246,7 @@ def gerar_insights(request):
 
         # Adicionar coluna de semana
         df_compras_details["semana"] = (
-            df_compras_details["data"].apply(
-                lambda x: pd.to_datetime(x, format="%d/%m/%Y %H:%M")
-            )
-            .dt.to_period("W")
-            .apply(lambda r: r.start_time.strftime("%d/%m/%Y %H:%M"))
+            df_compras_details["data"].dt.to_period("W").apply(lambda r: r.start_time)
         )
 
         # Agrupar por semana e somar os preços unitários
@@ -350,7 +331,7 @@ def gerar_insights(request):
             total_vendas_df.to_excel(writer, sheet_name="Total Vendas", index=False)
 
             # Adicionar aba com os detalhes dos pagamentos
-            df_compras_details[["data", "metodo_pagamento", "total", "produto", "quantidade", "preco_unitario"]].to_excel(
+            df_compras_details.to_excel(
                 writer, sheet_name="Detalhes Pagamentos", index=False
             )
 
@@ -394,7 +375,6 @@ def gerar_insights(request):
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
 
 
-
 @login_required
 def pdv(request):
     if request.method == "POST":
@@ -409,15 +389,14 @@ def pdv(request):
                 if "itens" not in request.session:
                     request.session["itens"] = []
                 itens = request.session["itens"]
-
-                # Inserir o item no início da lista
-                itens.insert(0, {
-                    "produto_id": produto.id,
-                    "nome": produto.produto,
-                    "quantidade": quantidade,
-                    "preco_unitario": str(produto.preco_venda),
-                })
-
+                itens.append(
+                    {
+                        "produto_id": produto.id,
+                        "nome": produto.produto,
+                        "quantidade": quantidade,
+                        "preco_unitario": str(produto.preco_venda),
+                    }
+                )
                 request.session["itens"] = itens
 
                 # Calcular o subtotal
@@ -470,7 +449,7 @@ def pdv(request):
             messages.success(request, "Compra finalizada com sucesso.")
             return redirect(
                 "produto:purchase_details", pk=compra.pk
-            )
+            )  # Redirecionar para os detalhes da compra
 
     else:
         item_form = ItemCompraForm()
