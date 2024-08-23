@@ -13,10 +13,10 @@
         <div class="hidden w-full md:block md:w-auto z-50" id="navbar-dropdown">
             <ul class="flex flex-col font-medium p-0 mt-4 rounded-lg bg-transparent gap-x-4 md:gap-x-2 rtl:space-x-reverse md:flex-row md:p-2 md:m-2 md:border-0 md:text-center text-white items-center justify-center">
                 <li>
-                    <a href="{% url 'produto:index' %}" class="block py-2 px-3 rounded bg-transparent md:p-0 hover:text-amber-300">Produtos</a>
+                    <a href="{% url 'produto:index' %}" class="block py-2 px-3 rounded bg-transparent hover:bg-gray-700 hover:text-white">Produtos</a>
                 </li>
                 <li>
-                    <a href="{% url 'produto:pdv' %}" class="block py-2 px-3 text-white rounded hover:bg-gray-700 hover:text-white">PDV</a>
+                    <a href="{% url 'produto:pdv' %}" class="block py-2 px-2 text-white rounded hover:bg-gray-700 hover:text-white">PDV</a>
                 </li>
                 <li class="relative">
                     <button id="dropdownRelatoriosButton" data-dropdown-toggle="dropdownRelatoriosMenu" type="button" class="inline-flex items-center px-4 py-2 text-white rounded hover:bg-gray-700 hover:text-white">
@@ -74,32 +74,32 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Função para mostrar/ocultar o dropdown de Relatórios
-        var relatoriosButton = document.getElementById('dropdownRelatoriosButton');
-        var relatoriosMenu = document.getElementById('dropdownRelatoriosMenu');
+    var relatoriosButton = document.getElementById('dropdownRelatoriosButton');
+    var relatoriosMenu = document.getElementById('dropdownRelatoriosMenu');
 
-        relatoriosButton.addEventListener('mouseover', function () {
-            relatoriosMenu.classList.add('show');
-        });
-
-        document.addEventListener('mouseover', function (event) {
-            if (!relatoriosButton.contains(event.target) && !relatoriosMenu.contains(event.target)) {
-                relatoriosMenu.classList.remove('show');
-            }
-        });
-
-        // Função para mostrar/ocultar o dropdown do Usuário
-        var dropdownUserButton = document.getElementById('dropdownUserButton');
-        var dropdownUserMenu = document.getElementById('dropdownUserMenu');
-
-        dropdownUserButton.addEventListener('mouseover', function () {
-            dropdownUserMenu.classList.add('show');
-        });
-
-        document.addEventListener('mouseover', function (event) {
-            if (!dropdownUserButton.contains(event.target) && !dropdownUserMenu.contains(event.target)) {
-                dropdownUserMenu.classList.remove('show');
-            }
-        });
+    relatoriosButton.addEventListener('mouseover', function (event) {
+        relatoriosMenu.classList.toggle('show');
+        event.stopPropagation();
     });
+
+    document.addEventListener('mouseover', function (event) {
+        if (!relatoriosButton.contains(event.target) && !relatoriosMenu.contains(event.target)) {
+            relatoriosMenu.classList.remove('show');
+        }
+    });
+
+    var dropdownUserButton = document.getElementById('dropdownUserButton');
+    var dropdownUserMenu = document.getElementById('dropdownUserMenu');
+
+    dropdownUserButton.addEventListener('click', function (event) {
+        dropdownUserMenu.classList.toggle('show');
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!dropdownUserButton.contains(event.target) && !dropdownUserMenu.contains(event.target)) {
+            dropdownUserMenu.classList.remove('show');
+        }
+    });
+});
 </script>

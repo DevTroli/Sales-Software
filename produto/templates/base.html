@@ -13,10 +13,6 @@
   <!-- Font-awesome (optional) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- Manifest -->
-  <link rel="manifest" href="{% static 'manifest.json' %}">
-  <meta name="theme-color" content="#fbbf24">
-
   <!-- {% block css %}{% endblock css %} -->
   <style>
     * {
@@ -36,7 +32,17 @@
     .no {
       color: #dc2626;
     }
+    
+    .show {
+        display: block !important; /* Torna o dropdown visível */
+    }
+    
+    /* Certifique-se de que os dropdowns estão ocultos por padrão */
+    .dropdown-menu {
+        display: none; /* Mantém o dropdown oculto inicialmente */
+    }
 
+    
     /* Estilo personalizado para o dropdown */
     .dropdown-menu {
       display: none;
@@ -59,49 +65,36 @@
   {% block content %}{% endblock content %}
   {% block js %}
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Toggle dropdown menu
+  document.addEventListener('DOMContentLoaded', function () {
       const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
       const dropdownMenu = document.getElementById('dropdownNavbar');
-
+  
       if (dropdownToggle) {
-        dropdownToggle.addEventListener('click', function () {
-          dropdownMenu.classList.toggle('hidden');
-        });
+          dropdownToggle.addEventListener('click', function (event) {
+              dropdownMenu.classList.toggle('hidden');
+              event.stopPropagation();
+          });
       }
-
-      // Toggle mobile menu
+  
       const navbarToggle = document.getElementById('navbar-toggle');
       const navbarDropdown = document.getElementById('navbar-dropdown');
-
+  
       if (navbarToggle && navbarDropdown) {
-        navbarToggle.addEventListener('click', function () {
-          navbarDropdown.classList.toggle('hidden');
-        });
-      }
-
-      // Close menus when clicking outside
-      document.addEventListener('click', function (event) {
-        if (navbarToggle && !navbarToggle.contains(event.target) && !navbarDropdown.contains(event.target)) {
-          navbarDropdown.classList.add('hidden');
-        }
-        if (dropdownToggle && !dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-          dropdownMenu.classList.add('hidden');
-        }
-      });
-    });
-
-    // Registrar Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('{% static "js/service-worker.js" %}')
-          .then(function (registration) {
-            console.log('ServiceWorker registrado com sucesso:', registration.scope);
-          }, function (err) {
-            console.log('Falha ao registrar o ServiceWorker:', err);
+          navbarToggle.addEventListener('click', function (event) {
+              navbarDropdown.classList.toggle('hidden');
+              event.stopPropagation();
           });
+      }
+  
+      document.addEventListener('click', function (event) {
+          if (navbarToggle && !navbarToggle.contains(event.target) && !navbarDropdown.contains(event.target)) {
+              navbarDropdown.classList.add('hidden');
+          }
+          if (dropdownToggle && !dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+              dropdownMenu.classList.add('hidden');
+          }
       });
-    }
+  });
   </script>
   {% endblock js %}
 </body>
