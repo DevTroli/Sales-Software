@@ -30,6 +30,31 @@ class CompraForm(forms.ModelForm):
                 }
             ),
         }
+        
+        valor_compra = forms.DecimalField(
+                required=False,
+                widget=forms.NumberInput(attrs={
+                    "id": "valorCompra",
+                    "class": "hidden",
+                })
+            )
+        
+        valor_entregue = forms.DecimalField(
+                required=False,
+                widget=forms.NumberInput(attrs={
+                    "id": "valorEntregue",
+                    "class": "hidden",
+                })
+            )
+        
+        valor_troco = forms.DecimalField(
+                required=False,
+                widget=forms.NumberInput(attrs={
+                    "id": "valorTroco",
+                    "readonly": True,
+                    "class": "hidden",
+                })
+            )
 
 
 class ItemCompraForm(forms.Form):
@@ -49,7 +74,7 @@ class ItemCompraForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
+                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer autofocus",
                 "placeholder": "Digite o Código de Barras",
             }
         ),

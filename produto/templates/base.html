@@ -1,102 +1,148 @@
 <!doctype html>
 <html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            rel="shortcut icon"
+            href="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg"
+        />
+        <title>
+            Gonzaguinha: Conveniências | Mercearia | Tabacaria em São Vicente
+        </title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap"
+        />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg">
-  <title>Gonzaguinha: Conveniências | Mercearia | Tabacaria em São Vicente</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap">
+        <!-- Font-awesome (optional) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <!-- Font-awesome (optional) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- {% block css %}{% endblock css %} -->
-  <style>
-    * {
-      font-family: 'Inknut Antiqua', serif;
-      resize: none;
-    }
+        <!-- {% block css %}{% endblock css %} -->
+        <style>
+            * {
+                font-family: "Inknut Antiqua", serif;
+                resize: none;
+            }
 
-    body {
-      background-color: #111827;
-      color: white
-    }
+            body {
+                background-color: #111827;
+                color: white;
+            }
 
-    .ok {
-      color: #84cc16;
-    }
+            .ok {
+                color: #84cc16;
+            }
 
-    .no {
-      color: #dc2626;
-    }
-    
-    .show {
-        display: block !important; /* Torna o dropdown visível */
-    }
-    
-    /* Certifique-se de que os dropdowns estão ocultos por padrão */
-    .dropdown-menu {
-        display: none; /* Mantém o dropdown oculto inicialmente */
-    }
+            .no {
+                color: #dc2626;
+            }
 
-    
-    /* Estilo personalizado para o dropdown */
-    .dropdown-menu {
-      display: none;
-    }
+            .show {
+                display: block !important; /* Torna o dropdown visível */
+            }
 
-    .dropdown-menu.show {
-      display: block;
-    }
+            /* Certifique-se de que os dropdowns estão ocultos por padrão */
+            .dropdown-menu {
+                display: none; /* Mantém o dropdown oculto inicialmente */
+            }
 
-    /* Assegura que o dropdown fique acima de outros elementos */
-    #dropdownNavbar {
-      z-index: 9999;
-    }
-    /* Ajuste conforme necessário */
-  </style>
-</head>
+            /* Estilo personalizado para o dropdown */
+            .dropdown-menu {
+                display: none;
+            }
 
-<body>
+            .dropdown-menu.show {
+                display: block;
+            }
 
-  {% block content %}{% endblock content %}
-  {% block js %}
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-      const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
-      const dropdownMenu = document.getElementById('dropdownNavbar');
-  
-      if (dropdownToggle) {
-          dropdownToggle.addEventListener('click', function (event) {
-              dropdownMenu.classList.toggle('hidden');
-              event.stopPropagation();
-          });
-      }
-  
-      const navbarToggle = document.getElementById('navbar-toggle');
-      const navbarDropdown = document.getElementById('navbar-dropdown');
-  
-      if (navbarToggle && navbarDropdown) {
-          navbarToggle.addEventListener('click', function (event) {
-              navbarDropdown.classList.toggle('hidden');
-              event.stopPropagation();
-          });
-      }
-  
-      document.addEventListener('click', function (event) {
-          if (navbarToggle && !navbarToggle.contains(event.target) && !navbarDropdown.contains(event.target)) {
-              navbarDropdown.classList.add('hidden');
-          }
-          if (dropdownToggle && !dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-              dropdownMenu.classList.add('hidden');
-          }
-      });
-  });
-  </script>
-  {% endblock js %}
-</body>
+            /* Assegura que o dropdown fique acima de outros elementos */
+            #dropdownNavbar {
+                z-index: 9999;
+            }
+            /* Ajuste conforme necessário */
+        </style>
+    </head>
 
+    <body>
+        {% block content %}{% endblock content %} {% block js %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
+                const dropdownMenu = document.getElementById('dropdownNavbar');
+
+                if (dropdownToggle) {
+                    dropdownToggle.addEventListener('click', function (event) {
+                        dropdownMenu.classList.toggle('hidden');
+                        event.stopPropagation();
+                    });
+                }
+
+                const navbarToggle = document.getElementById('navbar-toggle');
+                const navbarDropdown = document.getElementById('navbar-dropdown');
+
+                if (navbarToggle && navbarDropdown) {
+                    navbarToggle.addEventListener('click', function (event) {
+                        navbarDropdown.classList.toggle('hidden');
+                        event.stopPropagation();
+                    });
+                }
+
+                document.addEventListener('click', function (event) {
+                    if (navbarToggle && !navbarToggle.contains(event.target) && !navbarDropdown.contains(event.target)) {
+                        navbarDropdown.classList.add('hidden');
+                    }
+                    if (dropdownToggle && !dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Seleciona o campo "Código de Barra" após o carregamento da página
+                document.addEventListener('DOMContentLoaded', function() {
+                    const codigoBarraInput = document.querySelector('input[name="codigo_barra"]');
+                    if (codigoBarraInput) {
+                        codigoBarraInput.focus();
+                    }
+                });
+
+                
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Modal de Cálculo
+                    const openCalcModalBtn = document.getElementById("openCalcModal");
+                    const calcModal = document.getElementById("calcModal");
+                    const closeCalcModalBtn = document.getElementById("closeCalcModal");
+                
+                    openCalcModalBtn.addEventListener("click", function() {
+                        calcModal.classList.remove("hidden");
+                    });
+                
+                    closeCalcModalBtn.addEventListener("click", function() {
+                        calcModal.classList.add("hidden");
+                    });
+                
+                    // Cálculo do troco em tempo real
+                    const valorEntregueInput = document.getElementById("valorEntregue");
+                    const valorTrocoInput = document.getElementById("valorTroco");
+                    const valorCompraInput = document.getElementById("valorCompra");
+                
+                    function atualizarTroco() {
+                        const valorCompra = parseFloat(valorCompraInput.value) || 0;
+                        const valorEntregue = parseFloat(valorEntregueInput.value) || 0;
+                        const valorTroco = valorEntregue - valorCompra;
+                        valorTrocoInput.value = isNaN(valorTroco) ? "" : valorTroco.toFixed(2);
+                    }
+                
+                    valorCompraInput.addEventListener("input", atualizarTroco);
+                    valorEntregueInput.addEventListener("input", atualizarTroco);
+                });
+        </script>
+        {% endblock js %}
+    </body>
 </html>

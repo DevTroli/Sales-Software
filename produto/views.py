@@ -478,6 +478,13 @@ def pdv(request):
 
             request.session.pop("itens", None)
             request.session.pop("subtotal", None)
+            
+            # Atualiza o subtotal após adicionar um item
+            subtotal = sum(
+                Decimal(item["preco_unitario"]) * item["quantidade"]
+                for item in itens
+            )
+            request.session["subtotal"] = str(subtotal)
 
             messages.success(request, "Compra finalizada com sucesso.")
             return redirect("produto:purchase_details", pk=compra.pk)
