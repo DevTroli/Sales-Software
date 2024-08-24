@@ -419,7 +419,6 @@ def pdv(request):
                     request.session["itens"] = []
                 itens = request.session["itens"]
 
-                # Inserir o item no início da lista
                 itens.insert(
                     0,
                     {
@@ -432,7 +431,6 @@ def pdv(request):
 
                 request.session["itens"] = itens
 
-                # Calcular o subtotal
                 subtotal = sum(
                     Decimal(item["preco_unitario"]) * item["quantidade"]
                     for item in itens
@@ -466,7 +464,6 @@ def pdv(request):
                         preco_unitario=item["preco_unitario"],
                     )
 
-                    # Atualizar o estoque
                     produto.estoque -= item["quantidade"]
                     produto.save()
                 else:
@@ -478,11 +475,9 @@ def pdv(request):
 
             request.session.pop("itens", None)
             request.session.pop("subtotal", None)
-            
-            # Atualiza o subtotal após adicionar um item
+
             subtotal = sum(
-                Decimal(item["preco_unitario"]) * item["quantidade"]
-                for item in itens
+                Decimal(item["preco_unitario"]) * item["quantidade"] for item in itens
             )
             request.session["subtotal"] = str(subtotal)
 

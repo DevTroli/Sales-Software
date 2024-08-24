@@ -20,6 +20,37 @@ class UploadFileForm(forms.Form):
 
 
 class CompraForm(forms.ModelForm):
+    valor_compra = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "id": "valorCompra",
+                "class": "hidden",
+            }
+        ),
+    )
+
+    valor_entregue = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "id": "valorEntregue",
+                "class": "hidden",
+            }
+        ),
+    )
+
+    valor_troco = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "id": "valorTroco",
+                "readonly": True,
+                "class": "hidden",
+            }
+        ),
+    )
+
     class Meta:
         model = Compra
         fields = ["metodo_pagamento"]
@@ -30,31 +61,6 @@ class CompraForm(forms.ModelForm):
                 }
             ),
         }
-        
-        valor_compra = forms.DecimalField(
-                required=False,
-                widget=forms.NumberInput(attrs={
-                    "id": "valorCompra",
-                    "class": "hidden",
-                })
-            )
-        
-        valor_entregue = forms.DecimalField(
-                required=False,
-                widget=forms.NumberInput(attrs={
-                    "id": "valorEntregue",
-                    "class": "hidden",
-                })
-            )
-        
-        valor_troco = forms.DecimalField(
-                required=False,
-                widget=forms.NumberInput(attrs={
-                    "id": "valorTroco",
-                    "readonly": True,
-                    "class": "hidden",
-                })
-            )
 
 
 class ItemCompraForm(forms.Form):

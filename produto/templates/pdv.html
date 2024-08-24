@@ -39,9 +39,9 @@
                     <h3 class="text-2xl font-semibold mb-4 text-gray-200">Finalizar Compra</h3>
                     <div class="bg-gray-700 p-6 rounded-lg shadow-md text-white">
                         <div class="flex justify-end items-center mt-4">
-                        {{ compra_form.metodo_pagamento }}
+                            {{ compra_form.metodo_pagamento }}
                             <!-- Botão para abrir o modal -->
-                            <button id="openCalcModal" type="button" class="bg-amber-500 p-2 rounded">
+                            <button id="openCalcModal" type="button" class="bg-amber-500 p-2 rounded" style="display: none;">
                                 <i class="fas fa-calculator"></i>
                             </button>
                         </div>
@@ -49,6 +49,8 @@
                         <button type="submit" name="finalizar_compra" class="w-full mt-6 py-2 px-6 bg-amber-500 hover:bg-amber-600 text-gray-100 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">FECHAR VENDA</button>
                     </div>
                 </form>
+
+
             </div>
         </div>
 

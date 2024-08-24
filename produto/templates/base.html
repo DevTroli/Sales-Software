@@ -142,6 +142,46 @@
                     valorCompraInput.addEventListener("input", atualizarTroco);
                     valorEntregueInput.addEventListener("input", atualizarTroco);
                 });
+                
+                document.addEventListener('DOMContentLoaded', function () {
+                    const metodoPagamentoSelect = document.querySelector('select[name="metodo_pagamento"]');
+                    const calcButton = document.getElementById('openCalcModal');
+
+                    // Função para verificar o método de pagamento e mostrar/ocultar o botão de cálculo
+                    function toggleCalcButton() {
+                        if (metodoPagamentoSelect.value === 'DINHEIRO') {
+                            calcButton.style.display = 'inline-block';
+                        } else {
+                            calcButton.style.display = 'none';
+                        }
+                    }
+
+                    // Inicializa o estado do botão quando a página é carregada
+                    toggleCalcButton();
+
+                    // Verifica quando o método de pagamento é alterado
+                    metodoPagamentoSelect.addEventListener('change', toggleCalcButton);
+
+                    // Função para abrir o modal e definir o valor do subtotal
+                    function openModalAndSetValue() {
+                        // Pegue o valor do subtotal
+                        var subtotal = "{{ subtotal|floatformat:2 }}";
+
+                        // Encontre o campo valorCompra e atualize seu valor
+                        document.getElementById('valorCompra').value = subtotal;
+
+                        // Mostre o modal
+                        document.getElementById('calcModal').classList.remove('hidden');
+                    }
+
+                    // Função para fechar o modal
+                    document.getElementById('closeCalcModal').addEventListener('click', function() {
+                        document.getElementById('calcModal').classList.add('hidden');
+                    });
+
+                    // Associa a função openModalAndSetValue ao clique no botão de cálculo
+                    calcButton.addEventListener('click', openModalAndSetValue);
+                });
         </script>
         {% endblock js %}
     </body>
