@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+<div class="mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold mb-4">Comandas Abertas</h1>
+    <a href="{% url 'produto:criar_tab' %}" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+        <span class="fa fa-plus mr-2" aria-hidden="true"></span>
+        <span>Adicionar</span>
+    </a>
+</div>
+    <ul class="list-disc list-inside">
+        {% for tab in tabs %}
+        <li>
+            <a href="{% url 'produto:detalhes_tab' tab.pk %}" class="text-blue-500 hover:underline">
+                {{ tab.nome_cliente }} - {{ tab.telefone_cliente }} (R$ {{ tab.subtotal }})
+            </a>
+        </li>
+        {% empty %}
+        <h2>
+            Sem Comandas abertas!
+        </h2>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

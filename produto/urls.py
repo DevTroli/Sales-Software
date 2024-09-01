@@ -16,5 +16,9 @@ urlpatterns = [
     path("remove_item/", v.remove_item, name="remove_item"),
     path("clear_checkout/", v.clear_checkout, name="clear_checkout"),
     path("detalhes_pagamentos/", v.detalhes_pagamentos, name="detalhes_pagamentos"),
+    path("criar_comandas/", v.criar_tab, name="criar_tab"),
+    path("comandas/<int:pk>/", v.detalhes_tab, name="detalhes_tab"),
+    path("comandas/", v.listar_tabs, name="listar_tabs"),
+    path("fechar_comanda/<int:pk>/", v.fechar_tab, name="fechar_tab"),
     # path('emitir_nota_fiscal/', v.emitir_nota_fiscal, name='emitir_nota_fiscal'),
 ]

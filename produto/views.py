@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from decimal import Decimal, InvalidOperation
 from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
@@ -26,8 +27,15 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # from satcfe import BibliotecaSAT, ClienteSATLocal
 
-from produto.models import Categoria, Produto, Compra, ItemCompra
-from produto.forms import ProdutoForm, UploadFileForm, CompraForm, ItemCompraForm
+from produto.models import Categoria, Produto, Compra, ItemCompra, TabItem, Tab
+from produto.forms import (
+    ProdutoForm,
+    UploadFileForm,
+    CompraForm,
+    ItemCompraForm,
+    TabForm,
+    TabItemForm,
+)
 
 
 @login_required
@@ -560,6 +568,97 @@ def detalhes_pagamentos(request):
 
     context = {"page_obj": page_obj}
     return render(request, "detalhes_pagamentos.html", context)
+
+
+
+@login_required
+def criar_tab(request):
+    tab_form = TabForm(request.POST or None)
+    item_form = TabItemForm(request.POST or None)
+
+    if request.method == "POST":
+        if tab_form.is_valid():
+            telefone_cliente = tab_form.cleaned_data["telefone_cliente"]
+
+            # Verifica se já existe uma tab aberta para esse cliente
+            try:
+                tab_existente = Tab.objects.get(telefone_cliente=telefone_cliente, aberta=True)
+                messages.info(request, f"Tab já existente encontrada para {tab_existente.nome_cliente}.")
+                return redirect("produto:detalhes_tab", pk=tab_existente.pk)
+            except ObjectDoesNotExist:
+                # Se não existir, cria uma nova tab
+                tab = tab_form.save(commit=False)
+                tab.aberta = True
+                tab.save()
+
+                messages.success(
+                    request, f"Tab criada para {tab.nome_cliente} com sucesso."
+                )
+                return redirect("produto:detalhes_tab", pk=tab.pk)
+
+    context = {
+        "tab_form": tab_form,
+        "item_form": item_form,
+    }
+    return render(request, "criar_tab.html", context)
+
+
+
+@login_required
+def detalhes_tab(request, pk):
+    tab = get_object_or_404(Tab, pk=pk)
+    item_form = TabItemForm(request.POST or None)
+
+    if request.method == "POST" and item_form.is_valid():
+        produto = item_form.get_produto()
+        quantidade = item_form.cleaned_data["quantidade"]
+
+        if produto:
+            TabItem.objects.create(
+                tab=tab,
+                produto=produto,
+                quantidade=quantidade,
+                preco_unitario=produto.preco_venda,
+            )
+
+            tab.subtotal += quantidade * produto.preco_venda
+            tab.save()
+
+            messages.success(
+                request,
+                f"{quantidade}x {produto.produto} adicionados à tab de {tab.nome_cliente}.",
+            )
+        else:
+            messages.error(request, "Produto não encontrado.")
+
+        return redirect("produto:detalhes_tab", pk=tab.pk)
+
+    context = {
+        "tab": tab,
+        "itens": tab.itens.all(),
+        "item_form": item_form,
+    }
+    return render(request, "detalhes_tab.html", context)
+
+
+@login_required
+def listar_tabs(request):
+    tabs = Tab.objects.filter(aberta=True).order_by("-data_criacao")
+    context = {"tabs": tabs}
+    return render(request, "listar_tabs.html", context)
+
+
+@login_required
+def fechar_tab(request, pk):
+    tab = get_object_or_404(Tab, pk=pk)
+    tab.aberta = False
+    tab.save()
+
+    messages.success(
+        request,
+        f"Tab de {tab.nome_cliente} fechada e produtos transferidos para o checkout.",
+    )
+    return redirect("produto:pdv")
 
 
 # @login_required

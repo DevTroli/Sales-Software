@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="lg:w-fit md:w-fit w-full mx-auto lg:my-16 md:my-16 p-6 bg-gray-800 shadow-md rounded-lg">
+  <header class="mb-0 flex justify-between items-center">
+    <h2 class="text-xl font-bold text-white">Nova Comanda</h2>
+  </header>
+
+
+  <form method="post" novalidate class="space-y-4">
+    {% csrf_token %}
+    {% for field in tab_form.visible_fields %}
+      <div class="space-y-0.5">
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300">
+          {% if field.required %}
+            <span class="text-red-500">*</span> {{ field.label }}
+          {% else %}
+            {{ field.label }}
+          {% endif %}
+        </label>
+        {% render_field field class="form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-300 ease-in-out" %}
+        {% for error in field.errors %}
+          <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  
+    <div class="flex justify-end">
+      <button type="submit" class="w-fit mx-auto inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-800 text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+        <span class="fa fa-save mr-2" aria-hidden="true"></span>Criar comanda
+      </button>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

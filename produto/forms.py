@@ -1,5 +1,5 @@
 from django import forms
-from produto.models import Produto, Compra
+from produto.models import Produto, Compra, Tab, TabItem
 
 
 class ProdutoForm(forms.ModelForm):
@@ -113,6 +113,86 @@ class ItemCompraForm(forms.Form):
     def get_produto(self):
         cleaned_data = self.cleaned_data
         # produto_id = cleaned_data.get("produto_id")
+        codigo_barra = cleaned_data.get("codigo_barra")
+        nome_produto = cleaned_data.get("nome_produto")
+
+        if codigo_barra:
+            return Produto.objects.filter(codigoBarra=codigo_barra).first()
+        elif nome_produto:
+            return Produto.objects.filter(produto__icontains=nome_produto).first()
+
+        return None
+
+class TabForm(forms.ModelForm):
+    cliente_existente = forms.ModelChoiceField(
+        queryset=Tab.objects.values_list('telefone_cliente', flat=True).distinct(),
+        required=False,
+        label="Cliente Existente",
+        widget=forms.Select(
+            attrs={
+                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
+                "placeholder": "Selecione um cliente existente",
+            }
+        )
+    )
+
+    class Meta:
+        model = Tab
+        fields = ["nome_cliente", "telefone_cliente"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        cliente_existente = cleaned_data.get("cliente_existente")
+        telefone_cliente = cleaned_data.get("telefone_cliente")
+        
+        # Se um cliente existente for selecionado, use os dados dele
+        if cliente_existente:
+            tab_existente = Tab.objects.filter(telefone_cliente=cliente_existente).first()
+            cleaned_data["nome_cliente"] = tab_existente.nome_cliente
+            cleaned_data["telefone_cliente"] = cliente_existente
+        
+        return cleaned_data
+
+class TabItemForm(forms.Form):
+    quantidade = forms.IntegerField(
+        min_value=1,
+        initial=1,
+        widget=forms.NumberInput(attrs={
+            'class': 'mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
+            'placeholder': 'Quantas Unidades?',
+        })
+    )
+    codigo_barra = forms.CharField(
+        label="Código de Barras",
+        max_length=16,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
+            'placeholder': 'Digite o Código de Barras',
+        })
+    )
+    nome_produto = forms.CharField(
+        label="Nome do Produto",
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'mb-0.5 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
+            'placeholder': 'Digite o Nome do Produto',
+        })
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        codigo_barra = cleaned_data.get("codigo_barra")
+        nome_produto = cleaned_data.get("nome_produto")
+
+        if not codigo_barra and not nome_produto:
+            raise forms.ValidationError("Você deve fornecer um código de barras ou nome do produto.")
+
+        return cleaned_data
+
+    def get_produto(self):
+        cleaned_data = self.cleaned_data
         codigo_barra = cleaned_data.get("codigo_barra")
         nome_produto = cleaned_data.get("nome_produto")
 
