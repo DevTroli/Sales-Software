@@ -1,6 +1,6 @@
 <nav class="border-gray-700 bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 relative">
-        <a href="{% url 'core:index' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="{% url 'core:index' %}" class="flex items-center md:mx-auto space-x-3 rtl:space-x-reverse">
             <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg" class="h-14" alt="Gonzaguinha Logo" />
             <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Gonzaguinha</span>
         </a>
@@ -10,7 +10,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto z-50" id="navbar-dropdown">
+        <div class="hidden w-full md:block md:mx-auto md:w-auto z-50" id="navbar-dropdown">
             <ul class="flex flex-col font-medium p-0 mt-4 rounded-lg bg-transparent gap-x-4 md:gap-x-2 rtl:space-x-reverse md:flex-row md:p-2 md:m-2 md:border-0 md:text-center text-white items-center justify-center">
                 <li>
                     <a href="{% url 'produto:index' %}" class="block py-2 px-3 rounded bg-transparent hover:bg-gray-700 hover:text-white">Produtos</a>

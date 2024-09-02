@@ -35,7 +35,6 @@ from produto.forms import (
     CompraForm,
     ItemCompraForm,
     TabItemForm,
-    ClienteForm,
     AbrirComandaForm,
 )
 
@@ -96,8 +95,11 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     model = Produto
     template_name = "product_form.html"
     form_class = ProdutoForm
-    success_url = reverse_lazy("produto:index")
     login_url = "/login"
+
+    def get_success_url(self):
+        # Redireciona para a página de detalhes do produto após a atualização
+        return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
 
 
 def import_xlsx(file_path):
@@ -553,15 +555,15 @@ def clear_checkout(request):
 
 @login_required
 def detalhes_pagamentos(request):
-    # Obter o dia atual
-    today = timezone.now().date()
+    # Obter o momento atual
+    now = timezone.now()
 
-    # Calcular a data do início da semana (7 dias atrás)
-    start_of_week = today - timedelta(days=6)
+    # Calcular o início das últimas 24 horas
+    start_of_day = now - timedelta(days=1)
 
-    # Filtrar as compras da semana atual (últimos 7 dias)
+    # Filtrar as compras das últimas 24 horas
     compras = Compra.objects.filter(
-        data__date__range=[start_of_week, today]
+        data__range=[start_of_day, now]
     ).prefetch_related("itens__produto")
 
     # Paginação, mostra 10 compras por página
@@ -573,22 +575,6 @@ def detalhes_pagamentos(request):
     return render(request, "detalhes_pagamentos.html", context)
 
 @login_required
-def cadastrar_cliente(request):
-    if request.method == 'POST':
-        cliente_form = ClienteForm(request.POST)
-        if cliente_form.is_valid():
-            cliente_form.save()
-            messages.success(request, "Cliente cadastrado com sucesso.")
-            return redirect('produto:criar_tab')
-    else:
-        cliente_form = ClienteForm()
-
-    context = {
-        'cliente_form': cliente_form
-    }
-    return render(request, 'cadastrar_cliente.html', context)
-
-@login_required
 def abrir_comanda(request):
     form = AbrirComandaForm(request.POST or None)
 
@@ -596,30 +582,50 @@ def abrir_comanda(request):
         nome_cliente = form.cleaned_data.get("nome_cliente")
         telefone_cliente = form.cleaned_data.get("telefone_cliente")
 
-        if cliente_existente:
-            tab_existente = cliente_existente
-        else:
-            try:
-                tab_existente = Tab.objects.get(telefone_cliente=telefone_cliente, aberta=True)
-                messages.warning(request, f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.")
-                return redirect("produto:detalhes_tab", pk=tab_existente.pk)
-            except Tab.DoesNotExist:
-                tab_existente = None
+        tab_existente = None
 
-        if not tab_existente:
-            try:
-                tab_nova = Tab.objects.create(
-                    telefone_cliente=telefone_cliente,
-                    nome_cliente=nome_cliente,
-                    aberta=True
-                )
-                messages.success(request, f"Nova comanda aberta para {tab_nova.nome_cliente}.")
-                return redirect("produto:detalhes_tab", pk=tab_nova.pk)
-            except IntegrityError:
-                messages.error(request, "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.")
+        # Verifica se existe uma comanda aberta para o telefone ou nome do cliente
+        if nome_cliente:
+            tab_existente = Tab.objects.filter(nome_cliente=nome_cliente, aberta=True).first()
+        
+        if not tab_existente and telefone_cliente:
+            tab_existente = Tab.objects.filter(telefone_cliente=telefone_cliente, aberta=True).first()
+
+        if tab_existente:
+            messages.warning(request, f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.")
+            return redirect("produto:detalhes_tab", pk=tab_existente.pk)
+
+        # Criação de nova comanda
+        try:
+            tab_nova = Tab.objects.create(
+                telefone_cliente=telefone_cliente,
+                nome_cliente=nome_cliente,
+                aberta=True
+            )
+            messages.success(request, f"Nova comanda aberta para {tab_nova.nome_cliente}.")
+            return redirect("produto:detalhes_tab", pk=tab_nova.pk)
+        except IntegrityError:
+            messages.error(request, "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.")
 
     context = {"form": form}
     return render(request, "abrir_comanda.html", context)
+
+@login_required
+def listar_tabs(request):
+    query = request.GET.get('q', '')
+    if query:
+        tabs = Tab.objects.filter(
+            Q(nome_cliente__icontains=query) | 
+            Q(telefone_cliente__icontains=query)
+        ).filter(aberta=True).order_by("-data_criacao")
+    else:
+        tabs = Tab.objects.filter(aberta=True).order_by("-data_criacao")
+    
+    context = {
+        "tabs": tabs,
+        "query": query
+    }
+    return render(request, "listar_tabs.html", context)
 
 @require_POST
 def excluir_comanda(request, pk):
@@ -671,24 +677,79 @@ def detalhes_tab(request, pk):
 
 
 @login_required
-def listar_tabs(request):
-    tabs = Tab.objects.filter(aberta=True).order_by("-data_criacao")
-    context = {"tabs": tabs}
-    return render(request, "listar_tabs.html", context)
-
-
-@login_required
 def fechar_tab(request, pk):
     tab = get_object_or_404(Tab, pk=pk)
-    tab.aberta = False
+    compra = Compra.objects.create(metodo_pagamento="DINHEIRO")  # Inicializa uma compra
+
+    # Transferindo os itens da comanda para o checkout (PDV)
+    for item in tab.itens.all():
+        ItemCompra.objects.create(
+            compra=compra,
+            produto=item.produto,
+            quantidade=item.quantidade,
+            preco_unitario=item.preco_unitario
+        )
+        # Atualiza o subtotal da compra
+        compra.total += item.subtotal()
+        # Opcional: ajustar o estoque do produto aqui, se necessário
+        item.produto.estoque -= item.quantidade
+        item.produto.save()
+
+    compra.save()  # Salva a compra com o total atualizado
+
+    # Zera o subtotal da comanda, mas mantém ela aberta
+    tab.subtotal = Decimal("0.00")
     tab.save()
 
     messages.success(
         request,
-        f"Tab de {tab.nome_cliente} fechada e produtos transferidos para o checkout.",
+        f"Produtos da comanda de {tab.nome_cliente} transferidos para o checkout. Comanda ainda aberta.",
     )
     return redirect("produto:pdv")
 
+@login_required
+@require_POST
+def atualizar_quantidade_item(request, pk):
+    item = get_object_or_404(TabItem, pk=pk)
+    nova_quantidade = request.POST.get("nova_quantidade")
+
+    try:
+        nova_quantidade = int(nova_quantidade)
+        if nova_quantidade < 1:
+            raise ValueError("Quantidade deve ser maior que zero.")
+
+        item.quantidade = nova_quantidade
+        item.save()
+        
+        tab = item.tab
+        tab.subtotal = sum(item.quantidade * item.produto.preco_venda for item in tab.itens.all())
+        tab.save()
+
+        messages.success(request, "Quantidade atualizada com sucesso.")
+    except ValueError as e:
+        messages.error(request, str(e))
+    except Exception as e:
+        messages.error(request, f"Erro ao atualizar quantidade: {e}")
+
+    return redirect("produto:detalhes_tab", pk=item.tab.pk)
+
+@login_required
+@require_POST
+def remover_item_comanda(request, pk):
+    item = get_object_or_404(TabItem, pk=pk)
+
+    try:
+        tab = item.tab
+        item.delete()
+
+        tab.subtotal = sum(item.quantidade * item.produto.preco_venda for item in tab.itens.all())
+        tab.save()
+
+        messages.success(request, "Item removido com sucesso.")
+    except Exception as e:
+        messages.error(request, f"Erro ao remover item: {e}")
+
+    return redirect("produto:detalhes_tab", pk=tab.pk)
 
 # @login_required
 # def configurar_cliente_sat():
