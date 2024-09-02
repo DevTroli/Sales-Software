@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-16 p-6 bg-gray-800 shadow-md rounded-lg">
+    <header class="mb-4">
+        <h2 class="text-2xl font-bold text-white">Cadastrar Novo Cliente</h2>
+    </header>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in cliente_form.visible_fields %}
+            <div class="mb-4 flex justify-center mx-auto items-center">
+                <label for="{{ field.id_for_label }}" class="block text-xs font-medium text-gray-300">{{ field.label }}</label>
+                {% render_field field class="form-control text-black p-1.5" %}
+                {% for error in field.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="flex justify-center mx-auto ">
+            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Cadastrar Cliente
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

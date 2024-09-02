@@ -123,33 +123,45 @@ class ItemCompraForm(forms.Form):
 
         return None
 
-class TabForm(forms.ModelForm):
-    cliente_existente = forms.ModelChoiceField(
-        queryset=Tab.objects.values_list('telefone_cliente', flat=True).distinct(),
-        required=False,
-        label="Cliente Existente",
-        widget=forms.Select(
-            attrs={
-                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
-                "placeholder": "Selecione um cliente existente",
-            }
-        )
-    )
-
+class ClienteForm(forms.ModelForm):
     class Meta:
         model = Tab
         fields = ["nome_cliente", "telefone_cliente"]
+        widgets = {
+            'nome_cliente': forms.TextInput(attrs={
+                'class': 'form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent',
+                'placeholder': 'Digite o nome do cliente'
+            }),
+            'telefone_cliente': forms.TextInput(attrs={
+                'class': 'form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent',
+                'placeholder': 'Digite o telefone do cliente'
+            }),
+        }
 
+class AbrirComandaForm(forms.Form):
+    telefone_cliente = forms.CharField(
+        max_length=12,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-black focus:outline-none focus:ring-2 focus:border-transparent',
+            'placeholder': 'Digite o telefone do cliente'
+        })
+    )
+    nome_cliente = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-black focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent',
+            'placeholder': 'Digite o nome do cliente'
+        })
+    )
     def clean(self):
         cleaned_data = super().clean()
-        cliente_existente = cleaned_data.get("cliente_existente")
         telefone_cliente = cleaned_data.get("telefone_cliente")
-        
-        # Se um cliente existente for selecionado, use os dados dele
-        if cliente_existente:
-            tab_existente = Tab.objects.filter(telefone_cliente=cliente_existente).first()
-            cleaned_data["nome_cliente"] = tab_existente.nome_cliente
-            cleaned_data["telefone_cliente"] = cliente_existente
+        nome_cliente = cleaned_data.get("nome_cliente")
+
+        if not telefone_cliente and not nome_cliente :
+            raise forms.ValidationError("Você deve fornecer um número de telefone, um nome de cliente ou selecionar um cliente existente.")
         
         return cleaned_data
 
@@ -157,28 +169,34 @@ class TabItemForm(forms.Form):
     quantidade = forms.IntegerField(
         min_value=1,
         initial=1,
-        widget=forms.NumberInput(attrs={
-            'class': 'mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-            'placeholder': 'Quantas Unidades?',
-        })
+        widget=forms.NumberInput(
+            attrs={
+                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
+                "placeholder": "Quantas Unidades?",
+            }
+        ),
     )
     codigo_barra = forms.CharField(
         label="Código de Barras",
         max_length=16,
         required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-            'placeholder': 'Digite o Código de Barras',
-        })
+        widget=forms.TextInput(
+            attrs={
+                "class": "mb-2 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
+                "placeholder": "Digite o Código de Barras",
+            }
+        ),
     )
     nome_produto = forms.CharField(
         label="Nome do Produto",
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={
-            'class': 'mb-0.5 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-            'placeholder': 'Digite o Nome do Produto',
-        })
+        widget=forms.TextInput(
+            attrs={
+                "class": "mb-0.5 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none text-white border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer",
+                "placeholder": "Digite o Nome do Produto",
+            }
+        ),
     )
 
     def clean(self):
@@ -187,7 +205,9 @@ class TabItemForm(forms.Form):
         nome_produto = cleaned_data.get("nome_produto")
 
         if not codigo_barra and not nome_produto:
-            raise forms.ValidationError("Você deve fornecer um código de barras ou nome do produto.")
+            raise forms.ValidationError(
+                "Você deve fornecer um código de barras ou nome do produto."
+            )
 
         return cleaned_data
 

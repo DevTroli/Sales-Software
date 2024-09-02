@@ -17,6 +17,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.utils import timezone
+from django.db import IntegrityError
 from datetime import timedelta
 
 from openpyxl import load_workbook
@@ -33,8 +34,9 @@ from produto.forms import (
     UploadFileForm,
     CompraForm,
     ItemCompraForm,
-    TabForm,
     TabItemForm,
+    ClienteForm,
+    AbrirComandaForm,
 )
 
 
@@ -388,11 +390,11 @@ def gerar_insights(request):
                     last_row = sheet.max_row + 1
                     sheet[f"A{last_row}"] = "Total por Semana"
                     for col in range(2, sheet.max_column + 1):
-                        sheet.cell(row=last_row, column=col).value = (
-                            "=SUM({}:{})".format(
-                                sheet.cell(row=2, column=col).coordinate,
-                                sheet.cell(row=sheet.max_row, column=col).coordinate,
-                            )
+                        sheet.cell(
+                            row=last_row, column=col
+                        ).value = "=SUM({}:{})".format(
+                            sheet.cell(row=2, column=col).coordinate,
+                            sheet.cell(row=sheet.max_row, column=col).coordinate,
                         )
 
         buffer.seek(0)
@@ -414,6 +416,11 @@ def gerar_insights(request):
 
 @login_required
 def pdv(request):
+    if "nova_venda" not in request.session or request.session["nova_venda"]:
+        request.session["itens"] = []
+        request.session["subtotal"] = "0"
+        request.session["nova_venda"] = False
+
     if request.method == "POST":
         item_form = ItemCompraForm(request.POST)
         compra_form = CompraForm(request.POST)
@@ -481,13 +488,9 @@ def pdv(request):
                     )
                     return redirect("produto:pdv")
 
-            request.session.pop("itens", None)
-            request.session.pop("subtotal", None)
-
-            subtotal = sum(
-                Decimal(item["preco_unitario"]) * item["quantidade"] for item in itens
-            )
-            request.session["subtotal"] = str(subtotal)
+            request.session["itens"] = []
+            request.session["subtotal"] = "0"
+            request.session["nova_venda"] = True
 
             messages.success(request, "Compra finalizada com sucesso.")
             return redirect("produto:purchase_details", pk=compra.pk)
@@ -569,40 +572,66 @@ def detalhes_pagamentos(request):
     context = {"page_obj": page_obj}
     return render(request, "detalhes_pagamentos.html", context)
 
-
-
 @login_required
-def criar_tab(request):
-    tab_form = TabForm(request.POST or None)
-    item_form = TabItemForm(request.POST or None)
-
-    if request.method == "POST":
-        if tab_form.is_valid():
-            telefone_cliente = tab_form.cleaned_data["telefone_cliente"]
-
-            # Verifica se já existe uma tab aberta para esse cliente
-            try:
-                tab_existente = Tab.objects.get(telefone_cliente=telefone_cliente, aberta=True)
-                messages.info(request, f"Tab já existente encontrada para {tab_existente.nome_cliente}.")
-                return redirect("produto:detalhes_tab", pk=tab_existente.pk)
-            except ObjectDoesNotExist:
-                # Se não existir, cria uma nova tab
-                tab = tab_form.save(commit=False)
-                tab.aberta = True
-                tab.save()
-
-                messages.success(
-                    request, f"Tab criada para {tab.nome_cliente} com sucesso."
-                )
-                return redirect("produto:detalhes_tab", pk=tab.pk)
+def cadastrar_cliente(request):
+    if request.method == 'POST':
+        cliente_form = ClienteForm(request.POST)
+        if cliente_form.is_valid():
+            cliente_form.save()
+            messages.success(request, "Cliente cadastrado com sucesso.")
+            return redirect('produto:criar_tab')
+    else:
+        cliente_form = ClienteForm()
 
     context = {
-        "tab_form": tab_form,
-        "item_form": item_form,
+        'cliente_form': cliente_form
     }
-    return render(request, "criar_tab.html", context)
+    return render(request, 'cadastrar_cliente.html', context)
 
+@login_required
+def abrir_comanda(request):
+    form = AbrirComandaForm(request.POST or None)
 
+    if request.method == "POST" and form.is_valid():
+        nome_cliente = form.cleaned_data.get("nome_cliente")
+        telefone_cliente = form.cleaned_data.get("telefone_cliente")
+
+        if cliente_existente:
+            tab_existente = cliente_existente
+        else:
+            try:
+                tab_existente = Tab.objects.get(telefone_cliente=telefone_cliente, aberta=True)
+                messages.warning(request, f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.")
+                return redirect("produto:detalhes_tab", pk=tab_existente.pk)
+            except Tab.DoesNotExist:
+                tab_existente = None
+
+        if not tab_existente:
+            try:
+                tab_nova = Tab.objects.create(
+                    telefone_cliente=telefone_cliente,
+                    nome_cliente=nome_cliente,
+                    aberta=True
+                )
+                messages.success(request, f"Nova comanda aberta para {tab_nova.nome_cliente}.")
+                return redirect("produto:detalhes_tab", pk=tab_nova.pk)
+            except IntegrityError:
+                messages.error(request, "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.")
+
+    context = {"form": form}
+    return render(request, "abrir_comanda.html", context)
+
+@require_POST
+def excluir_comanda(request, pk):
+    comanda = get_object_or_404(Tab, pk=pk)
+    
+    try:
+        comanda.delete()
+        messages.success(request, "Comanda excluída com sucesso.")
+    except Exception as e:
+        messages.error(request, f"Erro ao excluir comanda: {e}")
+
+    return redirect('produto:listar_tabs')
 
 @login_required
 def detalhes_tab(request, pk):
