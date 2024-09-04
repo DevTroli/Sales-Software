@@ -90,6 +90,14 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProdutoForm
     login_url = "/login"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if not self.object.codigoBarra:
+            # Atualiza o código de barras com o ID do produto gerado após o primeiro salvamento
+            self.object.codigoBarra = str(self.object.pk)
+            self.object.save(update_fields=['codigoBarra'])
+        return response
+
 
 class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     model = Produto
