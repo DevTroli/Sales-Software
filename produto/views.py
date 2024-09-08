@@ -392,11 +392,11 @@ def gerar_insights(request):
                     last_row = sheet.max_row + 1
                     sheet[f"A{last_row}"] = "Total por Semana"
                     for col in range(2, sheet.max_column + 1):
-                        sheet.cell(
-                            row=last_row, column=col
-                        ).value = "=SUM({}:{})".format(
-                            sheet.cell(row=2, column=col).coordinate,
-                            sheet.cell(row=sheet.max_row, column=col).coordinate,
+                        sheet.cell(row=last_row, column=col).value = (
+                            "=SUM({}:{})".format(
+                                sheet.cell(row=2, column=col).coordinate,
+                                sheet.cell(row=sheet.max_row, column=col).coordinate,
+                            )
                         )
 
         buffer.seek(0)
@@ -562,9 +562,9 @@ def detalhes_pagamentos(request):
     start_of_day = now - timedelta(days=1)
 
     # Filtrar as compras das últimas 24 horas
-    compras = Compra.objects.filter(
-        data__range=[start_of_day, now]
-    ).prefetch_related("itens__produto")
+    compras = Compra.objects.filter(data__range=[start_of_day, now]).prefetch_related(
+        "itens__produto"
+    )
 
     # Paginação, mostra 10 compras por página
     paginator = Paginator(compras, 10)
@@ -573,6 +573,7 @@ def detalhes_pagamentos(request):
 
     context = {"page_obj": page_obj}
     return render(request, "detalhes_pagamentos.html", context)
+
 
 @login_required
 def abrir_comanda(request):
@@ -586,13 +587,20 @@ def abrir_comanda(request):
 
         # Verifica se existe uma comanda aberta para o telefone ou nome do cliente
         if nome_cliente:
-            tab_existente = Tab.objects.filter(nome_cliente=nome_cliente, aberta=True).first()
-        
+            tab_existente = Tab.objects.filter(
+                nome_cliente=nome_cliente, aberta=True
+            ).first()
+
         if not tab_existente and telefone_cliente:
-            tab_existente = Tab.objects.filter(telefone_cliente=telefone_cliente, aberta=True).first()
+            tab_existente = Tab.objects.filter(
+                telefone_cliente=telefone_cliente, aberta=True
+            ).first()
 
         if tab_existente:
-            messages.warning(request, f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.")
+            messages.warning(
+                request,
+                f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.",
+            )
             return redirect("produto:detalhes_tab", pk=tab_existente.pk)
 
         # Criação de nova comanda
@@ -600,44 +608,52 @@ def abrir_comanda(request):
             tab_nova = Tab.objects.create(
                 telefone_cliente=telefone_cliente,
                 nome_cliente=nome_cliente,
-                aberta=True
+                aberta=True,
             )
-            messages.success(request, f"Nova comanda aberta para {tab_nova.nome_cliente}.")
+            messages.success(
+                request, f"Nova comanda aberta para {tab_nova.nome_cliente}."
+            )
             return redirect("produto:detalhes_tab", pk=tab_nova.pk)
         except IntegrityError:
-            messages.error(request, "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.")
+            messages.error(
+                request,
+                "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.",
+            )
 
     context = {"form": form}
     return render(request, "abrir_comanda.html", context)
 
+
 @login_required
 def listar_tabs(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get("q", "")
     if query:
-        tabs = Tab.objects.filter(
-            Q(nome_cliente__icontains=query) | 
-            Q(telefone_cliente__icontains=query)
-        ).filter(aberta=True).order_by("-data_criacao")
+        tabs = (
+            Tab.objects.filter(
+                Q(nome_cliente__icontains=query) | Q(telefone_cliente__icontains=query)
+            )
+            .filter(aberta=True)
+            .order_by("-data_criacao")
+        )
     else:
         tabs = Tab.objects.filter(aberta=True).order_by("-data_criacao")
-    
-    context = {
-        "tabs": tabs,
-        "query": query
-    }
+
+    context = {"tabs": tabs, "query": query}
     return render(request, "listar_tabs.html", context)
+
 
 @require_POST
 def excluir_comanda(request, pk):
     comanda = get_object_or_404(Tab, pk=pk)
-    
+
     try:
         comanda.delete()
         messages.success(request, "Comanda excluída com sucesso.")
     except Exception as e:
         messages.error(request, f"Erro ao excluir comanda: {e}")
 
-    return redirect('produto:listar_tabs')
+    return redirect("produto:listar_tabs")
+
 
 @login_required
 def detalhes_tab(request, pk):
@@ -687,7 +703,7 @@ def fechar_tab(request, pk):
             compra=compra,
             produto=item.produto,
             quantidade=item.quantidade,
-            preco_unitario=item.preco_unitario
+            preco_unitario=item.preco_unitario,
         )
         # Atualiza o subtotal da compra
         compra.total += item.subtotal()
@@ -707,6 +723,7 @@ def fechar_tab(request, pk):
     )
     return redirect("produto:pdv")
 
+
 @login_required
 @require_POST
 def atualizar_quantidade_item(request, pk):
@@ -720,9 +737,11 @@ def atualizar_quantidade_item(request, pk):
 
         item.quantidade = nova_quantidade
         item.save()
-        
+
         tab = item.tab
-        tab.subtotal = sum(item.quantidade * item.produto.preco_venda for item in tab.itens.all())
+        tab.subtotal = sum(
+            item.quantidade * item.produto.preco_venda for item in tab.itens.all()
+        )
         tab.save()
 
         messages.success(request, "Quantidade atualizada com sucesso.")
@@ -733,6 +752,7 @@ def atualizar_quantidade_item(request, pk):
 
     return redirect("produto:detalhes_tab", pk=item.tab.pk)
 
+
 @login_required
 @require_POST
 def remover_item_comanda(request, pk):
@@ -742,7 +762,9 @@ def remover_item_comanda(request, pk):
         tab = item.tab
         item.delete()
 
-        tab.subtotal = sum(item.quantidade * item.produto.preco_venda for item in tab.itens.all())
+        tab.subtotal = sum(
+            item.quantidade * item.produto.preco_venda for item in tab.itens.all()
+        )
         tab.save()
 
         messages.success(request, "Item removido com sucesso.")
@@ -750,6 +772,7 @@ def remover_item_comanda(request, pk):
         messages.error(request, f"Erro ao remover item: {e}")
 
     return redirect("produto:detalhes_tab", pk=tab.pk)
+
 
 # @login_required
 # def configurar_cliente_sat():
