@@ -66,7 +66,11 @@
             #dropdownNavbar {
                 z-index: 9999;
             }
-            /* Ajuste conforme necessário */
+            
+            button:disabled {
+                background-color: #6b728; /* Cor cinza */
+                cursor: not-allowed;
+            }
         </style>
     </head>
 
@@ -182,6 +186,34 @@
                     // Associa a função openModalAndSetValue ao clique no botão de cálculo
                     calcButton.addEventListener('click', openModalAndSetValue);
                 });
+                document.addEventListener('DOMContentLoaded', function() {
+                        const fecharVendaBtn = document.getElementById('fecharVendaBtn');
+                        const subtotalElem = document.getElementById('subtotal');
+                        const metodoPagamentoElem = document.getElementById('id_metodo_pagamento'); // Pega o campo de método de pagamento pelo id gerado automaticamente
+                        
+                        // Função para verificar as condições e habilitar/desabilitar o botão
+                        function verificarCondicoes() {
+                            const subtotal = parseFloat(subtotalElem.textContent.replace('R$', '').trim());
+                            const metodoPagamentoSelecionado = metodoPagamentoElem.value;
+                            
+                            // Habilita o botão se houver itens, o subtotal for maior que 0 e um método de pagamento estiver selecionado
+                            if (subtotal > 0 && metodoPagamentoSelecionado) {
+                                fecharVendaBtn.disabled = false;
+                                fecharVendaBtn.classList.remove('bg-gray-500');
+                                fecharVendaBtn.classList.add('bg-amber-500');
+                            } else {
+                                fecharVendaBtn.disabled = true;
+                                fecharVendaBtn.classList.remove('bg-amber-500');
+                                fecharVendaBtn.classList.add('bg-gray-500');
+                            }
+                        }
+                
+                        // Executa a validação ao carregar a página
+                        verificarCondicoes();
+                
+                        // Verifica quando o método de pagamento é alterado
+                        metodoPagamentoElem.addEventListener('change', verificarCondicoes);
+                    });
         </script>
         {% endblock js %}
     </body>

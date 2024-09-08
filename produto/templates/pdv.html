@@ -32,21 +32,21 @@
                         <button type="submit" name="add_item" class="w-full mt-4 py-2 px-6 bg-blue-800 hover:bg-blue-900 text-gray-100 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">ADICIONAR PRODUTO</button>
                     </div>
                 </form>
-
                 <!-- Formulário para Finalizar Compra -->
-                <form method="POST">
+                <form method="POST" id="finalizarCompraForm">
                     {% csrf_token %}
                     <h3 class="text-2xl font-semibold mb-4 text-gray-200">Finalizar Compra</h3>
                     <div class="bg-gray-700 p-6 rounded-lg shadow-md text-white">
                         <div class="flex justify-end items-center mt-4">
                             {{ compra_form.metodo_pagamento }}
-                            <!-- Botão para abrir o modal -->
                             <button id="openCalcModal" type="button" class="bg-amber-500 p-2 rounded" style="display: none;">
                                 <i class="fas fa-calculator"></i>
                             </button>
                         </div>
-                        <h2 class="text-3xl font-bold mt-6 mb-2 text-gray-100">Subtotal: R$ {{ subtotal|floatformat:2 }}</h2>
-                        <button type="submit" name="finalizar_compra" class="w-full mt-6 py-2 px-6 bg-amber-500 hover:bg-amber-600 text-gray-100 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">FECHAR VENDA</button>
+                        <h2 class="text-3xl font-bold mt-6 mb-2 text-gray-100">
+                            Subtotal: R$ <span id="subtotal">{{ subtotal|floatformat:2 }}</span>
+                        </h2>
+                        <button type="submit" id="fecharVendaBtn" class="w-full mt-6 py-2 px-6 bg-amber-500 hover:bg-amber-600 text-gray-100 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" disabled>FECHAR VENDA</button>
                     </div>
                 </form>
 
