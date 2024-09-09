@@ -95,7 +95,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         if not self.object.codigoBarra:
             # Atualiza o código de barras com o ID do produto gerado após o primeiro salvamento
             self.object.codigoBarra = str(self.object.pk)
-            self.object.save(update_fields=['codigoBarra'])
+            self.object.save(update_fields=["codigoBarra"])
         return response
 
 
@@ -699,7 +699,6 @@ def detalhes_tab(request, pk):
     }
     return render(request, "detalhes_tab.html", context)
 
-
 @login_required
 def fechar_tab(request, pk):
     tab = get_object_or_404(Tab, pk=pk)
@@ -721,7 +720,10 @@ def fechar_tab(request, pk):
 
     compra.save()  # Salva a compra com o total atualizado
 
-    # Zera o subtotal da comanda, mas mantém ela aberta
+    # Remove todos os itens da comanda
+    tab.itens.all().delete()
+
+    # Zera o subtotal da comanda
     tab.subtotal = Decimal("0.00")
     tab.save()
 
@@ -730,7 +732,6 @@ def fechar_tab(request, pk):
         f"Produtos da comanda de {tab.nome_cliente} transferidos para o checkout. Comanda ainda aberta.",
     )
     return redirect("produto:pdv")
-
 
 @login_required
 @require_POST

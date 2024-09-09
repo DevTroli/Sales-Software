@@ -22,7 +22,9 @@ class Produto(models.Model):
     )
     estoque = models.IntegerField("Estoque Atual")
     estoque_minimo = models.PositiveIntegerField("Estoque Mínimo", default=0)
-    codigoBarra = models.CharField("Codigo de Barra", max_length=16, blank=True, null=True)
+    codigoBarra = models.CharField(
+        "Codigo de Barra", max_length=16, blank=True, null=True
+    )
     categoria = models.ForeignKey(
         "Categoria", on_delete=models.SET_NULL, null=True, blank=True
     )
