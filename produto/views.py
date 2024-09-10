@@ -678,6 +678,7 @@ def detalhes_tab(request, pk):
                 produto=produto,
                 quantidade=quantidade,
                 preco_unitario=produto.preco_venda,
+                adicionado_por=request.user,  # Adiciona o usuário
             )
 
             tab.subtotal += quantidade * produto.preco_venda
@@ -694,8 +695,8 @@ def detalhes_tab(request, pk):
                     "quantidade": quantidade,
                     "preco_unitario": str(produto.preco_venda),
                 },
-                        )
-            
+            )
+
             request.session["itens"] = itens
 
             messages.success(
@@ -713,6 +714,7 @@ def detalhes_tab(request, pk):
         "item_form": item_form,
     }
     return render(request, "detalhes_tab.html", context)
+
 
 @login_required
 def fechar_tab(request, pk):
@@ -747,6 +749,7 @@ def fechar_tab(request, pk):
         f"Produtos da comanda de {tab.nome_cliente} transferidos para o checkout. Comanda ainda aberta.",
     )
     return redirect("produto:pdv")
+
 
 @login_required
 @require_POST

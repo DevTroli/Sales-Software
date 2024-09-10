@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.contrib.auth.models import User
 from decimal import Decimal
 from django.core.exceptions import ValidationError
 import re
@@ -158,6 +159,7 @@ class TabItem(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
     preco_unitario = models.DecimalField(max_digits=7, decimal_places=2)
+    adicionado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def subtotal(self):
         return self.preco_unitario * self.quantidade

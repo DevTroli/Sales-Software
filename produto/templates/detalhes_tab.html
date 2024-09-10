@@ -45,13 +45,28 @@
     
         <!-- Lista de Itens da Comanda -->
         <div class="bg-gray-800 rounded-lg shadow-xl p-6">
-            <h3 class="text-2xl font-semibold text-gray-200 mb-4">Pedidos por: {{ tab.nome_cliente }}</h3>
+            <div class="flex justify-between items-center text-align mb-4">
+                <h3 class="text-2xl font-semibold text-gray-200">Pedidos por: {{ tab.nome_cliente }}</h3>
+                <!-- Fechar Tab -->
+                <button type="submit" class="p-2.5 text-center">
+                    <a href="{% url 'produto:fechar_tab' tab.pk %}"
+                       class="btn bg-amber-400 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all
+                       {% if tab.subtotal == 0 %} opacity-50 pointer-events-none {% endif %}">
+                       Fechar Comanda
+                    </a>
+                </button> 
+            </div>
             <ul class="bg-gray-700 p-4 rounded-lg space-y-4">
                 {% for item in itens %}
                 <li class="flex items-center justify-between p-4 bg-gray-600 rounded-lg shadow-md">
                     <div>
                         <span class="font-semibold">{{ item.quantidade }}x {{ item.produto.produto }}</span>
                         <span class="text-gray-300">R$ {{ item.subtotal|floatformat:2 }}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400">
+                            {{ item.adicionado_por.username }}
+                        </span>
                     </div>
                     <div class="flex space-x-2">
                         <!-- Atualizar Quantidade -->
@@ -91,15 +106,5 @@
                 {% endfor %}
             </ul>
         </div>
-    
-        <!-- Fechar Tab -->
-        <div class="p-4 mt-4 text-center">
-            <a href="{% url 'produto:fechar_tab' tab.pk %}"
-               class="btn bg-amber-400 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all
-               {% if tab.subtotal == 0 %} opacity-50 pointer-events-none {% endif %}">
-               Fechar Comanda
-            </a>
-        </div>
-
     </div>
 {% endblock %}
