@@ -682,6 +682,21 @@ def detalhes_tab(request, pk):
 
             tab.subtotal += quantidade * produto.preco_venda
             tab.save()
+            # Adiciona o item na sessão
+        if "itens" not in request.session:
+            request.session["itens"] = []
+            itens = request.session["itens"]
+            itens.insert(
+                0,  # Adiciona o item no topo da lista
+                {
+                    "produto_id": produto.id,
+                    "nome": produto.produto,
+                    "quantidade": quantidade,
+                    "preco_unitario": str(produto.preco_venda),
+                },
+                        )
+            
+            request.session["itens"] = itens
 
             messages.success(
                 request,

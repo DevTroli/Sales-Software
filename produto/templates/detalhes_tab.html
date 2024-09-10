@@ -94,9 +94,12 @@
     
         <!-- Fechar Tab -->
         <div class="p-4 mt-4 text-center">
-            <a href="{% url 'produto:fechar_tab' tab.pk %}" class="btn bg-amber-400 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all">
-                Fechar Comanda
+            <a href="{% url 'produto:fechar_tab' tab.pk %}"
+               class="btn bg-amber-400 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all
+               {% if tab.subtotal == 0 %} opacity-50 pointer-events-none {% endif %}">
+               Fechar Comanda
             </a>
         </div>
+
     </div>
 {% endblock %}

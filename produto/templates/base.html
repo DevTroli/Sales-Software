@@ -75,7 +75,51 @@
     </head>
 
     <body>
-        {% block content %}{% endblock content %} {% block js %}
+        <!-- Bloco de exibição de mensagens -->
+        <div class="fixed bottom-5 right-5 space-y-2 w-full max-w-sm z-50">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="flex items-center p-4 rounded-lg shadow-lg text-white django-message
+                                {% if message.tags == 'success' %}
+                                    bg-green-500
+                                {% elif message.tags == 'error' %}
+                                    bg-red-500
+                                {% elif message.tags == 'warning' %}
+                                    bg-yellow-500
+                                {% else %}
+                                    bg-blue-500
+                                {% endif %}
+                                animate-slide-in-right"
+                                style="opacity: 1; transition: opacity 0.5s ease;"
+                            >
+                                <!-- Ícone da mensagem -->
+                                <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    {% if message.tags == 'success' %}
+                                        d="M5 13l4 4L19 7"
+                                    {% elif message.tags == 'error' %}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    {% elif message.tags == 'warning' %}
+                                        d="M13 16h-1v-4h1v4zm0-6h-1V7h1v3z"
+                                    {% else %}
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    {% endif %}
+                                    />
+                                </svg>
+                                <!-- Texto da mensagem -->
+                                <span>{{ message }}</span>
+                                <!-- Botão para fechar a mensagem -->
+                                <button class="ml-auto text-white focus:outline-none" onclick="this.parentElement.style.display='none'">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% block content %}{% endblock content %} 
+                {% block js %}
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const dropdownToggle = document.querySelector('[data-dropdown-toggle="dropdownNavbar"]');
@@ -214,6 +258,40 @@
                         // Verifica quando o método de pagamento é alterado
                         metodoPagamentoElem.addEventListener('change', verificarCondicoes);
                     });
+              
+                document.addEventListener("DOMContentLoaded", function () {
+                    const subtotalElement = document.querySelector("p strong:contains('Subtotal:')");
+                    const fecharTabButton = document.querySelector(".btn");
+                
+                    function verificarSubtotal() {
+                        const subtotal = parseFloat(subtotalElement.textContent.replace('R$', '').trim());
+                        if (subtotal > 0) {
+                            fecharTabButton.classList.remove("opacity-50", "pointer-events-none");
+                        } else {
+                            fecharTabButton.classList.add("opacity-50", "pointer-events-none");
+                        }
+                    }
+                
+                    // Chama a função para verificar o subtotal quando a página carrega
+                    verificarSubtotal();
+                
+                    // Você pode monitorar atualizações na página com um MutationObserver, se necessário,
+                    // ou chamar a função após a adição de itens.
+                });
+
+                // Script para remover automaticamente as mensagens após 3 segundos
+                document.addEventListener("DOMContentLoaded", function () {
+                    const messages = document.querySelectorAll('.django-message'); // Seleciona apenas as mensagens de alerta                    
+                    messages.forEach((message) => {
+                    // Define um temporizador de 5 segundos para cada mensagem
+                    setTimeout(() => {
+                    message.style.opacity = '0';  // Reduz a opacidade para 0
+                    setTimeout(() => {
+                    message.style.display = 'none';  // Remove o alerta após a transição
+                      }, 500); // Aguarda a transição de 0.5 segundos antes de remover o alerta
+                    }, 5000); // 3 segundos antes de iniciar a transição de saída
+                });
+            });
         </script>
         {% endblock js %}
     </body>
