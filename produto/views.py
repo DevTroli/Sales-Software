@@ -683,12 +683,15 @@ def detalhes_tab(request, pk):
 
             tab.subtotal += quantidade * produto.preco_venda
             tab.save()
-            # Adiciona o item na sessão
-        if "itens" not in request.session:
-            request.session["itens"] = []
+
+            if "itens" not in request.session:
+                request.session["itens"] = []
+
             itens = request.session["itens"]
+
+            # Insere o novo item no topo da lista
             itens.insert(
-                0,  # Adiciona o item no topo da lista
+                0,  # Adiciona o item no topo
                 {
                     "produto_id": produto.id,
                     "nome": produto.produto,
@@ -696,7 +699,6 @@ def detalhes_tab(request, pk):
                     "preco_unitario": str(produto.preco_venda),
                 },
             )
-
             request.session["itens"] = itens
 
             messages.success(
@@ -708,9 +710,14 @@ def detalhes_tab(request, pk):
 
         return redirect("produto:detalhes_tab", pk=tab.pk)
 
+    # Ordena os itens da Tab pelo campo de criação (exibindo os mais recentes primeiro)
+    itens_ordenados = tab.itens.order_by(
+        "-id"
+    )  # Ou '-data_criacao' se houver esse campo
+
     context = {
         "tab": tab,
-        "itens": tab.itens.all(),
+        "itens": itens_ordenados,  # Passa a lista de itens ordenada
         "item_form": item_form,
     }
     return render(request, "detalhes_tab.html", context)
@@ -785,10 +792,19 @@ def atualizar_quantidade_item(request, pk):
 def remover_item_comanda(request, pk):
     item = get_object_or_404(TabItem, pk=pk)
 
+    if not request.user.is_superuser:
+        # Exibe a mensagem de erro para usuários que não são superusuários
+        messages.error(
+            request,
+            "Você não pode remover itens da comanda. Apenas ADMs podem realizar esta ação.",
+        )
+        return redirect("produto:detalhes_tab", pk=item.tab.pk)
+
     try:
         tab = item.tab
         item.delete()
 
+        # Recalcula o subtotal da tab após a remoção do item
         tab.subtotal = sum(
             item.quantidade * item.produto.preco_venda for item in tab.itens.all()
         )
