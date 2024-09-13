@@ -9,9 +9,9 @@
             <a href="{% url 'produto:listar_tabs' %}" class="hover:opacity-95 transition-opacity">
                 <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/arrow-left.svg" class="h-8 w-8" alt="Voltar">
             </a>
-            <h2 class="text-3xl font-semibold text-gray-200 mb-2">Detalhes da comanda</h2>
+            <h2 class="md:text-2xl lg:text-3xl text-lg font-semibold lg:font-bold text-gray-200 mb-2.5">Detalhes da comanda</h2>
         </div>
-        <div class="bg-gray-700 p-2.5 rounded-lg shadow-md flex justify-between">
+        <div class="bg-gray-700 p-4 rounded-lg shadow-md lg:flex lg:flex-row md:flex md:flex-row lg:justify-between md:justify-between flex flex-col text-center">
             <p class="text-lg text-gray-300"><strong>Cliente:</strong> {{ tab.nome_cliente }}</p>
             <p class="text-lg text-gray-300"><strong>Subtotal:</strong> R$ {{ tab.subtotal|floatformat:2 }}</p>
             <p class="text-lg text-gray-300"><strong>Telefone:</strong> {{ tab.telefone_cliente }}</p>
@@ -45,12 +45,12 @@
     
         <!-- Lista de Itens da Comanda -->
         <div class="bg-gray-800 rounded-lg shadow-xl p-6">
-            <div class="flex justify-between items-center text-align mb-4">
+            <div class="lg:flex md:flex flex-row justify-between  items-center text-align mb-4">
                 <h3 class="text-2xl font-semibold text-gray-200">Pedidos por: {{ tab.nome_cliente }}</h3>
                 <!-- Fechar Tab -->
-                <button type="submit" class="p-2.5 text-center">
+                <button type="submit" class="p-2.5 text-center lg:mt-0 md:mt-0 mt-4">
                     <a href="{% url 'produto:fechar_tab' tab.pk %}"
-                       class="btn bg-amber-400 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all
+                       class="btn bg-amber-500 text-white p-2 rounded-md shadow-md hover:bg-amber-500 transition-all
                        {% if tab.subtotal == 0 %} opacity-50 pointer-events-none {% endif %}">
                        Fechar Comanda
                     </a>
@@ -58,7 +58,7 @@
             </div>
             <ul class="bg-gray-700 p-4 rounded-lg space-y-4">
                 {% for item in itens %}
-                <li class="flex items-center justify-between p-4 bg-gray-600 rounded-lg shadow-md">
+                <li class="lg:flex md:flex lg:flex-row md:flex-row items-center justify-between flex flex-col p-4 bg-gray-600 rounded-lg shadow-md gap-y-2.5">
                     <div>
                         <span class="font-semibold">{{ item.quantidade }}x {{ item.produto.produto }}</span>
                         <span class="text-gray-300">R$ {{ item.subtotal|floatformat:2 }}</span>
@@ -68,7 +68,7 @@
                             {{ item.adicionado_por.username }}
                         </span>
                     </div>
-                    <div class="flex space-x-2">
+                    <div class="space-x-2 flex">
                         <!-- Atualizar Quantidade -->
                         <form method="POST" action="{% url 'produto:atualizar_quantidade_item' item.id %}">
                             {% csrf_token %}
