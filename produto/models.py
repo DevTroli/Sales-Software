@@ -160,6 +160,7 @@ class TabItem(models.Model):
     quantidade = models.PositiveIntegerField()
     preco_unitario = models.DecimalField(max_digits=7, decimal_places=2)
     adicionado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    data_criacao = models.DateTimeField("Data de Criação", default=timezone.now)
 
     def subtotal(self):
         return self.preco_unitario * self.quantidade

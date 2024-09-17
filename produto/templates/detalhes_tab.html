@@ -11,27 +11,20 @@
             </a>
             <h2 class="md:text-2xl lg:text-3xl text-lg font-semibold lg:font-bold text-gray-200 mb-2.5">Detalhes da comanda</h2>
         </div>
-        <div class="bg-gray-700 p-4 rounded-lg shadow-md lg:flex lg:flex-row md:flex md:flex-row lg:justify-between md:justify-between flex flex-col text-center">
-            <p class="text-lg text-gray-300"><strong>Cliente:</strong> {{ tab.nome_cliente }}</p>
-            <p class="text-lg text-gray-300"><strong>Subtotal:</strong> R$ {{ tab.subtotal|floatformat:2 }}</p>
-            <p class="text-lg text-gray-300"><strong>Telefone:</strong> {{ tab.telefone_cliente }}</p>
-        </div>
-    </div>
-
-<!-- Formulário para Editar Informações da Comanda -->
-    <div class="bg-gray-700 p-4 rounded-lg shadow-md mb-6">
-        <h3 class="text-2xl font-semibold text-gray-200 mb-4">Editar Comanda</h3>
         <form method="POST">
             {% csrf_token %}
-            <div class="mb-4">
-                {{ edit_form.nome_cliente.label_tag }}
-                {{ edit_form.nome_cliente|add_class:"form-input" }}
+            <div class="bg-gray-700 p-4 rounded-lg shadow-md lg:flex lg:flex-row md:flex md:flex-row lg:justify-between md:justify-between flex flex-col text-center items-center">
+                <p class="text-lg text-gray-300">
+                    {{ edit_form.nome_cliente.label_tag }}
+                    {{ edit_form.nome_cliente|add_class:"form-input" }}
+                </p>
+                <p class="text-lg text-whitelg:p-0 md:p-0 p-8 font-semibold"><strong>Subtotal:</strong> R$ {{ tab.subtotal|floatformat:2 }}</p>
+                <p class="text-lg text-gray-300">
+                    {{ edit_form.telefone_cliente.label_tag }}
+                    {{ edit_form.telefone_cliente|add_class:"form-input" }}
+                </p>
             </div>
-            <div class="mb-4">
-                {{ edit_form.telefone_cliente.label_tag }}
-                {{ edit_form.telefone_cliente|add_class:"form-input" }}
-            </div>
-            <button type="submit" class="w-full py-2 px-6 bg-green-800 hover:bg-green-900 text-gray-100 font-semibold rounded-lg shadow-md">
+            <button type="submit" class="w-full p-4 bg-green-800 hover:bg-green-900 text-gray-100 font-semibold rounded-lg shadow-md mt-4">
                 Atualizar Informações
             </button>
         </form>
@@ -82,12 +75,11 @@
                         <span class="font-semibold">{{ item.quantidade }}x {{ item.produto.produto }}</span>
                         <span class="text-gray-300">R$ {{ item.subtotal|floatformat:2 }}</span>
                     </div>
-                    <div>
-                        <span class="text-gray-400">
-                            {{ item.adicionado_por.username }}
-                        </span>
+                    <div class="text-gray-400 text-center">
+                            {{ item.adicionado_por.username }} <br>
+                            {{item.data_criacao}}
                     </div>
-                    <div class="space-x-2 flex">
+                    <div class="space-x-1 flex">
                         <!-- Atualizar Quantidade -->
                         <form method="POST" action="{% url 'produto:atualizar_quantidade_item' item.id %}">
                             {% csrf_token %}
@@ -103,7 +95,7 @@
                         <!-- Remover Produto -->
                         <form method="POST" action="{% url 'produto:remover_item_comanda' item.id %}" class="inline">
                             {% csrf_token %}
-                            <button type="submit" class="p-1.5 bg-transparen text-red-200 font-semibold rounded-lg">
+                            <button type="submit" class="p-1 bg-transparen text-red-200 font-semibold rounded-lg">
                                 <svg fill="#d92626" height="30px" width="30px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 457.503 457.503" xml:space="preserve" stroke="#d92626">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
