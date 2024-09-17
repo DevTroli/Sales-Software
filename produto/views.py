@@ -36,6 +36,7 @@ from produto.forms import (
     ItemCompraForm,
     TabItemForm,
     AbrirComandaForm,
+    EditTabForm,
 )
 
 
@@ -667,58 +668,64 @@ def excluir_comanda(request, pk):
 def detalhes_tab(request, pk):
     tab = get_object_or_404(Tab, pk=pk)
     item_form = TabItemForm(request.POST or None)
+    edit_form = EditTabForm(request.POST or None, instance=tab)
 
-    if request.method == "POST" and item_form.is_valid():
-        produto = item_form.get_produto()
-        quantidade = item_form.cleaned_data["quantidade"]
+    if request.method == "POST":
+        if item_form.is_valid():
+            produto = item_form.get_produto()
+            quantidade = item_form.cleaned_data["quantidade"]
 
-        if produto:
-            TabItem.objects.create(
-                tab=tab,
-                produto=produto,
-                quantidade=quantidade,
-                preco_unitario=produto.preco_venda,
-                adicionado_por=request.user,  # Adiciona o usuário
-            )
+            if produto:
+                TabItem.objects.create(
+                    tab=tab,
+                    produto=produto,
+                    quantidade=quantidade,
+                    preco_unitario=produto.preco_venda,
+                    adicionado_por=request.user,
+                )
 
-            tab.subtotal += quantidade * produto.preco_venda
-            tab.save()
+                tab.subtotal += quantidade * produto.preco_venda
+                tab.save()
 
-            if "itens" not in request.session:
-                request.session["itens"] = []
+                if "itens" not in request.session:
+                    request.session["itens"] = []
 
-            itens = request.session["itens"]
+                itens = request.session["itens"]
 
-            # Insere o novo item no topo da lista
-            itens.insert(
-                0,  # Adiciona o item no topo
-                {
-                    "produto_id": produto.id,
-                    "nome": produto.produto,
-                    "quantidade": quantidade,
-                    "preco_unitario": str(produto.preco_venda),
-                },
-            )
-            request.session["itens"] = itens
+                # Insere o novo item no topo da lista
+                itens.insert(
+                    0,
+                    {
+                        "produto_id": produto.id,
+                        "nome": produto.produto,
+                        "quantidade": quantidade,
+                        "preco_unitario": str(produto.preco_venda),
+                    },
+                )
+                request.session["itens"] = itens
 
-            messages.success(
-                request,
-                f"{quantidade}x {produto.produto} adicionados à tab de {tab.nome_cliente}.",
-            )
-        else:
-            messages.error(request, "Produto não encontrado.")
+                messages.success(
+                    request,
+                    f"{quantidade}x {produto.produto} adicionados à tab de {tab.nome_cliente}.",
+                )
+            else:
+                messages.error(request, "Produto não encontrado.")
 
-        return redirect("produto:detalhes_tab", pk=tab.pk)
+            return redirect("produto:detalhes_tab", pk=tab.pk)
+
+        if edit_form.is_valid():
+            edit_form.save()
+            messages.success(request, "Comanda atualizada com sucesso.")
+            return redirect("produto:detalhes_tab", pk=tab.pk)
 
     # Ordena os itens da Tab pelo campo de criação (exibindo os mais recentes primeiro)
-    itens_ordenados = tab.itens.order_by(
-        "-id"
-    )  # Ou '-data_criacao' se houver esse campo
+    itens_ordenados = tab.itens.order_by("-id")
 
     context = {
         "tab": tab,
-        "itens": itens_ordenados,  # Passa a lista de itens ordenada
+        "itens": itens_ordenados,
         "item_form": item_form,
+        "edit_form": edit_form,
     }
     return render(request, "detalhes_tab.html", context)
 

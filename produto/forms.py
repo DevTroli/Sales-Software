@@ -231,3 +231,23 @@ class TabItemForm(forms.Form):
             return Produto.objects.filter(produto__icontains=nome_produto).first()
 
         return None
+
+
+class EditTabForm(forms.ModelForm):
+    class Meta:
+        model = Tab
+        fields = ["nome_cliente", "telefone_cliente"]
+        widgets = {
+            "nome_cliente": forms.TextInput(
+                attrs={
+                    "class": "form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent",
+                    "placeholder": "Digite o nome do cliente",
+                }
+            ),
+            "telefone_cliente": forms.TextInput(
+                attrs={
+                    "class": "form-control block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm bg-transparent text-gray-300 focus:outline-none focus:ring-2 focus:border-transparent",
+                    "placeholder": "Digite o telefone do cliente",
+                }
+            ),
+        }
