@@ -224,6 +224,12 @@ def upload_file(request):
 @login_required
 def gerar_insights(request):
     try:
+        # Importar datetime no topo do arquivo, se ainda não estiver importado
+        from datetime import datetime
+
+        # Obter a data atual
+        data_atual = datetime.now().strftime("%d-%m-%Y")
+
         # Obter todos os produtos
         df_produtos = pd.DataFrame(list(Produto.objects.all().values()))
 
@@ -250,6 +256,9 @@ def gerar_insights(request):
             df_produtos["estoque"] * df_produtos["preco_custo"]
         )
         produtos_alto_custo_estoque = df_produtos[df_produtos["custo_estoque"] > 1000]
+
+        # Obter todas as categorias e seus produtos
+        categorias = Categoria.objects.all().prefetch_related('produto_set')
 
         # Calcular o valor total das vendas
         valor_total_vendas = (df_produtos["estoque"] * df_produtos["preco_venda"]).sum()
@@ -390,6 +399,31 @@ def gerar_insights(request):
                 writer, sheet_name="Totais Semanais", index=False
             )
 
+            # Nova aba: Produtos por Categoria (com validação)
+            produtos_por_categoria = []
+            for categoria in categorias:
+                produtos = categoria.produto_set.filter(preco_venda__gt=0, estoque__gt=0)
+                for produto in produtos:
+                    produtos_por_categoria.append({
+                        'Categoria': categoria.categoria,
+                        'Produto': produto.produto,
+                        'Preço de Custo': produto.preco_custo,
+                        'Preço de Venda': produto.preco_venda,
+                        'Margem de Venda': produto.margem_vendas,
+                        'Estoque': produto.estoque,
+                        'Estoque Mínimo': produto.estoque_minimo,
+                        'Código de Barras': produto.codigoBarra,
+                        'Nível de Estoque': produto.nivel_estoque
+                    })
+            
+            df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
+            if not df_produtos_por_categoria.empty:
+                df_produtos_por_categoria.to_excel(writer, sheet_name="Produtos por Categoria", index=False)
+            else:
+                # Se não houver produtos que atendam aos critérios, crie uma planilha vazia com uma mensagem
+                pd.DataFrame({'Mensagem': ['Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0']}).to_excel(
+                    writer, sheet_name="Produtos por Categoria", index=False)
+
             # Aplicar formatação
             for sheet_name in writer.sheets:
                 sheet = writer.sheets[sheet_name]
@@ -416,7 +450,7 @@ def gerar_insights(request):
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
         response["Content-Disposition"] = (
-            'attachment; filename="RELATORIO_GONZAGUINHA.xlsx"'
+            f'attachment; filename="RELATORIO-GZH_{data_atual}.xlsx"'
         )
 
         return response
