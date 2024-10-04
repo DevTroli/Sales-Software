@@ -479,6 +479,9 @@ def pdv(request):
                     request.session["itens"] = []
                 itens = request.session["itens"]
 
+                preco_unitario = produto.preco_venda
+                subtotal_item = preco_unitario * quantidade
+
                 itens.insert(
                     0,
                     {
@@ -486,6 +489,7 @@ def pdv(request):
                         "nome": produto.produto,
                         "quantidade": quantidade,
                         "preco_unitario": str(produto.preco_venda),
+                        "subtotal_item": str(subtotal_item),
                     },
                 )
 
