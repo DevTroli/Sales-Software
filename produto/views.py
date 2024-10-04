@@ -693,6 +693,15 @@ def listar_tabs(request):
 def excluir_comanda(request, pk):
     comanda = get_object_or_404(Tab, pk=pk)
 
+    # Verifica se o usuário é superusuário
+    if not request.user.is_superuser:
+        # Exibe a mensagem de erro para usuários que não são superusuários
+        messages.error(
+            request,
+            "Você não pode remover a comanda. Apenas ADMs podem realizar esta ação.",
+        )
+        return redirect("produto:detalhes_tab", pk=comanda.pk)
+
     try:
         comanda.delete()
         messages.success(request, "Comanda excluída com sucesso.")
