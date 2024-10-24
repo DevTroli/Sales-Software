@@ -258,7 +258,7 @@ def gerar_insights(request):
         produtos_alto_custo_estoque = df_produtos[df_produtos["custo_estoque"] > 1000]
 
         # Obter todas as categorias e seus produtos
-        categorias = Categoria.objects.all().prefetch_related('produto_set')
+        categorias = Categoria.objects.all().prefetch_related("produto_set")
 
         # Calcular o valor total das vendas
         valor_total_vendas = (df_produtos["estoque"] * df_produtos["preco_venda"]).sum()
@@ -402,27 +402,38 @@ def gerar_insights(request):
             # Nova aba: Produtos por Categoria (com validação)
             produtos_por_categoria = []
             for categoria in categorias:
-                produtos = categoria.produto_set.filter(preco_venda__gt=0, estoque__gt=0)
+                produtos = categoria.produto_set.filter(
+                    preco_venda__gt=0
+                )
                 for produto in produtos:
-                    produtos_por_categoria.append({
-                        'Categoria': categoria.categoria,
-                        'Produto': produto.produto,
-                        'Preço de Custo': produto.preco_custo,
-                        'Preço de Venda': produto.preco_venda,
-                        'Margem de Venda': produto.margem_vendas,
-                        'Estoque': produto.estoque,
-                        'Estoque Mínimo': produto.estoque_minimo,
-                        'Código de Barras': produto.codigoBarra,
-                        'Nível de Estoque': produto.nivel_estoque
-                    })
-            
+                    produtos_por_categoria.append(
+                        {
+                            "Nível de Estoque": produto.nivel_estoque,
+                            "Produto": produto.produto,
+                            "Preço de Custo": produto.preco_custo,
+                            "Preço de Venda": produto.preco_venda,
+                            "Margem de Venda": produto.margem_vendas,
+                            "Estoque": produto.estoque,
+                            "Estoque Mínimo": produto.estoque_minimo,
+                            "Código de Barras": produto.codigoBarra,
+                            "Categoria": categoria.categoria,
+                        }
+                    )
+
             df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
             if not df_produtos_por_categoria.empty:
-                df_produtos_por_categoria.to_excel(writer, sheet_name="Produtos por Categoria", index=False)
+                df_produtos_por_categoria.to_excel(
+                    writer, sheet_name="Produtos", index=False
+                )
             else:
                 # Se não houver produtos que atendam aos critérios, crie uma planilha vazia com uma mensagem
-                pd.DataFrame({'Mensagem': ['Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0']}).to_excel(
-                    writer, sheet_name="Produtos por Categoria", index=False)
+                pd.DataFrame(
+                    {
+                        "Mensagem": [
+                            "Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0"
+                        ]
+                    }
+                ).to_excel(writer, sheet_name="Produtos", index=False)
 
             # Aplicar formatação
             for sheet_name in writer.sheets:
@@ -457,7 +468,6 @@ def gerar_insights(request):
 
     except Exception as e:
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
-
 
 @login_required
 def pdv(request):
