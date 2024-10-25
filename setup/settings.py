@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # apps tercerizado
     "widget_tweaks",
-    'django_extensions',
+    "django_extensions",
     # my apps
     "core.apps.CoreConfig",
     "produto.apps.ProdutoConfig",

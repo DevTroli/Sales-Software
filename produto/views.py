@@ -422,9 +422,7 @@ def gerar_insights(request):
             # Nova aba: Produtos por Categoria (com validação)
             produtos_por_categoria = []
             for categoria in categorias:
-                produtos = categoria.produto_set.filter(
-                    preco_venda__gt=0
-                )
+                produtos = categoria.produto_set.filter(preco_venda__gt=0)
                 for produto in produtos:
                     produtos_por_categoria.append(
                         {

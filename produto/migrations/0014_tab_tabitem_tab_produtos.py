@@ -4,13 +4,15 @@ from django.db import migrations, models
 import django.db.models.deletion
 from decimal import Decimal
 
+
 def validar_telefone_brasileiro(valor):
     if not valor.isdigit():
-        raise ValidationError('O telefone deve conter apenas números')
+        raise ValidationError("O telefone deve conter apenas números")
     if len(valor) != 11:
-        raise ValidationError('O telefone deve ter 11 dígitos (DDD + número)')
-    if valor[0] not in '1234567899':
-        raise ValidationError('DDD inválido')
+        raise ValidationError("O telefone deve ter 11 dígitos (DDD + número)")
+    if valor[0] not in "1234567899":
+        raise ValidationError("DDD inválido")
+
 
 class Migration(migrations.Migration):
 
