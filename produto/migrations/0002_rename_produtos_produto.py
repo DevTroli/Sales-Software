@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("estoque", "0002_estoqueitens"),
         ("produto", "0001_initial"),
     ]
 

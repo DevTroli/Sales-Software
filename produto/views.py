@@ -5,45 +5,36 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from decimal import Decimal, InvalidOperation
-from django.core.exceptions import ValidationError
-from django.core.exceptions import ObjectDoesNotExist
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
-from django.db.models import Q, F
-from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
+from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.utils import timezone
-from django.db import IntegrityError
 from datetime import timedelta
 
 from openpyxl import load_workbook
 import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
-from openpyxl.utils.dataframe import dataframe_to_rows
 
 # from satcfe import BibliotecaSAT, ClienteSATLocal
 
-from produto.models import Categoria, Produto, Compra, ItemCompra, TabItem, Tab
+from pdv.models import Compra, ItemCompra
+from produto.models import Categoria, Produto
 from produto.forms import (
     ProdutoForm,
     UploadFileForm,
-    CompraForm,
-    ItemCompraForm,
-    TabItemForm,
-    AbrirComandaForm,
-    EditTabForm,
 )
 
 
 @login_required
-@login_required
 def index(request):
-    template_name = "index.html"
+    template_name = "produto/index.html"
 
     query = request.GET.get("q")
     objects = Produto.objects.all()
@@ -73,21 +64,28 @@ def index(request):
 
 
 def product_detail(request, pk):
-    template_name = "product_detail.html"
+    template_name = "produto/product_detail.html"
     obj = get_object_or_404(Produto, pk=pk)
     context = {"object": obj}
     return render(request, template_name, context)
 
 
 @login_required
+def purchase_details(request, pk):
+    compra = get_object_or_404(Compra, pk=pk)
+    context = {"compra": compra, "itens": compra.itens.all()}
+    return render(request, "produto/purchase_details.html", context)
+
+
+@login_required
 def product_add(request):
-    template_name = "product_form.html"
+    template_name = "produto/product_form.html"
     return render(request, template_name)
 
 
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Produto
-    template_name = "product_form.html"
+    template_name = "produto/product_form.html"
     form_class = ProdutoForm
     login_url = "/login"
 
@@ -102,13 +100,35 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
 class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     model = Produto
-    template_name = "product_form.html"
+    template_name = "produto/product_form.html"
     form_class = ProdutoForm
     login_url = "/login"
 
     def get_success_url(self):
         # Redireciona para a página de detalhes do produto após a atualização
         return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
+
+
+@login_required
+def detalhes_pagamentos(request):
+    # Obter o momento atual
+    now = timezone.now()
+
+    # Calcular o início das últimas 24 horas
+    start_of_day = now - timedelta(days=1)
+
+    # Filtrar as compras das últimas 24 horas
+    compras = Compra.objects.filter(data__range=[start_of_day, now]).prefetch_related(
+        "itens__produto"
+    )
+
+    # Paginação, mostra 10 compras por página
+    paginator = Paginator(compras, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
+    return render(request, "produto/detalhes_pagamentos.html", context)
 
 
 def import_xlsx(file_path):
@@ -218,7 +238,7 @@ def upload_file(request):
                 )
     else:
         form = UploadFileForm()
-    return render(request, "upload.html", {"form": form})
+    return render(request, "produto/upload.html", {"form": form})
 
 
 @login_required
@@ -258,7 +278,7 @@ def gerar_insights(request):
         produtos_alto_custo_estoque = df_produtos[df_produtos["custo_estoque"] > 1000]
 
         # Obter todas as categorias e seus produtos
-        categorias = Categoria.objects.all().prefetch_related('produto_set')
+        categorias = Categoria.objects.all().prefetch_related("produto_set")
 
         # Calcular o valor total das vendas
         valor_total_vendas = (df_produtos["estoque"] * df_produtos["preco_venda"]).sum()
@@ -402,27 +422,38 @@ def gerar_insights(request):
             # Nova aba: Produtos por Categoria (com validação)
             produtos_por_categoria = []
             for categoria in categorias:
-                produtos = categoria.produto_set.filter(preco_venda__gt=0, estoque__gt=0)
+                produtos = categoria.produto_set.filter(
+                    preco_venda__gt=0
+                )
                 for produto in produtos:
-                    produtos_por_categoria.append({
-                        'Categoria': categoria.categoria,
-                        'Produto': produto.produto,
-                        'Preço de Custo': produto.preco_custo,
-                        'Preço de Venda': produto.preco_venda,
-                        'Margem de Venda': produto.margem_vendas,
-                        'Estoque': produto.estoque,
-                        'Estoque Mínimo': produto.estoque_minimo,
-                        'Código de Barras': produto.codigoBarra,
-                        'Nível de Estoque': produto.nivel_estoque
-                    })
-            
+                    produtos_por_categoria.append(
+                        {
+                            "Nível de Estoque": produto.nivel_estoque,
+                            "Produto": produto.produto,
+                            "Preço de Custo": produto.preco_custo,
+                            "Preço de Venda": produto.preco_venda,
+                            "Margem de Venda": produto.margem_vendas,
+                            "Estoque": produto.estoque,
+                            "Estoque Mínimo": produto.estoque_minimo,
+                            "Código de Barras": produto.codigoBarra,
+                            "Categoria": categoria.categoria,
+                        }
+                    )
+
             df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
             if not df_produtos_por_categoria.empty:
-                df_produtos_por_categoria.to_excel(writer, sheet_name="Produtos por Categoria", index=False)
+                df_produtos_por_categoria.to_excel(
+                    writer, sheet_name="Produtos", index=False
+                )
             else:
                 # Se não houver produtos que atendam aos critérios, crie uma planilha vazia com uma mensagem
-                pd.DataFrame({'Mensagem': ['Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0']}).to_excel(
-                    writer, sheet_name="Produtos por Categoria", index=False)
+                pd.DataFrame(
+                    {
+                        "Mensagem": [
+                            "Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0"
+                        ]
+                    }
+                ).to_excel(writer, sheet_name="Produtos por Categoria", index=False)
 
             # Aplicar formatação
             for sheet_name in writer.sheets:
@@ -457,418 +488,6 @@ def gerar_insights(request):
 
     except Exception as e:
         return HttpResponse(f"Erro ao gerar insights: {str(e)}", status=500)
-
-
-@login_required
-def pdv(request):
-    if "nova_venda" not in request.session or request.session["nova_venda"]:
-        request.session["itens"] = []
-        request.session["subtotal"] = "0"
-        request.session["nova_venda"] = False
-
-    if request.method == "POST":
-        item_form = ItemCompraForm(request.POST)
-        compra_form = CompraForm(request.POST)
-
-        if item_form.is_valid() and "add_item" in request.POST:
-            produto = item_form.get_produto()
-            quantidade = item_form.cleaned_data["quantidade"]
-
-            if produto:
-                if "itens" not in request.session:
-                    request.session["itens"] = []
-                itens = request.session["itens"]
-
-                preco_unitario = produto.preco_venda
-                subtotal_item = preco_unitario * quantidade
-
-                itens.insert(
-                    0,
-                    {
-                        "produto_id": produto.id,
-                        "nome": produto.produto,
-                        "quantidade": quantidade,
-                        "preco_unitario": str(produto.preco_venda),
-                        "subtotal_item": str(subtotal_item),
-                    },
-                )
-
-                request.session["itens"] = itens
-
-                subtotal = sum(
-                    Decimal(item["preco_unitario"]) * item["quantidade"]
-                    for item in itens
-                )
-                request.session["subtotal"] = str(subtotal)
-
-                messages.success(
-                    request, f"Produto {produto.produto} adicionado com sucesso."
-                )
-            else:
-                messages.error(request, "Produto não encontrado.")
-
-            return redirect("produto:pdv")
-
-        elif compra_form.is_valid() and "finalizar_compra" in request.POST:
-            metodo_pagamento = compra_form.cleaned_data["metodo_pagamento"]
-            itens = request.session.get("itens", [])
-            subtotal = request.session.get("subtotal", "0")
-
-            compra = Compra.objects.create(
-                metodo_pagamento=metodo_pagamento, total=subtotal
-            )
-
-            for item in itens:
-                produto = Produto.objects.get(pk=item["produto_id"])
-                if produto.estoque >= item["quantidade"]:
-                    ItemCompra.objects.create(
-                        compra=compra,
-                        produto=produto,
-                        quantidade=item["quantidade"],
-                        preco_unitario=item["preco_unitario"],
-                    )
-
-                    produto.estoque -= item["quantidade"]
-                    produto.save()
-                else:
-                    messages.error(
-                        request,
-                        f"Estoque insuficiente para o produto {produto.produto}.",
-                    )
-                    return redirect("produto:pdv")
-
-            request.session["itens"] = []
-            request.session["subtotal"] = "0"
-            request.session["nova_venda"] = True
-
-            messages.success(request, "Compra finalizada com sucesso.")
-            return redirect("produto:purchase_details", pk=compra.pk)
-
-    else:
-        item_form = ItemCompraForm()
-        compra_form = CompraForm()
-
-    itens = request.session.get("itens", [])
-    subtotal = Decimal(request.session.get("subtotal", "0.00"))
-
-    context = {
-        "item_form": item_form,
-        "compra_form": compra_form,
-        "itens": itens,
-        "subtotal": subtotal,
-    }
-    return render(request, "pdv.html", context)
-
-
-@login_required
-def purchase_details(request, pk):
-    compra = get_object_or_404(Compra, pk=pk)
-    context = {"compra": compra, "itens": compra.itens.all()}
-    return render(request, "purchase_details.html", context)
-
-
-@login_required
-@require_POST
-def remove_item(request):
-    produto_id = request.POST.get("produto_id")
-
-    # Remover o item da sessão
-    if "itens" in request.session:
-        itens = request.session["itens"]
-        request.session["itens"] = [
-            item for item in itens if item["produto_id"] != int(produto_id)
-        ]
-
-        # Atualizar subtotal
-        subtotal = sum(
-            Decimal(item["preco_unitario"]) * item["quantidade"]
-            for item in request.session["itens"]
-        )
-        request.session["subtotal"] = str(subtotal)
-
-    return redirect("produto:pdv")
-
-
-@login_required
-@require_POST
-def clear_checkout(request):
-    # Limpa todos os itens e o subtotal da sessão
-    request.session.pop("itens", None)
-    request.session.pop("subtotal", None)
-
-    messages.success(request, "Todos os itens foram removidos do checkout.")
-    return redirect("produto:pdv")
-
-
-@login_required
-def detalhes_pagamentos(request):
-    # Obter o momento atual
-    now = timezone.now()
-
-    # Calcular o início das últimas 24 horas
-    start_of_day = now - timedelta(days=1)
-
-    # Filtrar as compras das últimas 24 horas
-    compras = Compra.objects.filter(data__range=[start_of_day, now]).prefetch_related(
-        "itens__produto"
-    )
-
-    # Paginação, mostra 10 compras por página
-    paginator = Paginator(compras, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {"page_obj": page_obj}
-    return render(request, "detalhes_pagamentos.html", context)
-
-
-@login_required
-def abrir_comanda(request):
-    form = AbrirComandaForm(request.POST or None)
-
-    if request.method == "POST" and form.is_valid():
-        nome_cliente = form.cleaned_data.get("nome_cliente")
-        telefone_cliente = form.cleaned_data.get("telefone_cliente")
-
-        tab_existente = None
-
-        # Verifica se existe uma comanda aberta para o telefone ou nome do cliente
-        if nome_cliente:
-            tab_existente = Tab.objects.filter(
-                nome_cliente=nome_cliente, aberta=True
-            ).first()
-
-        if not tab_existente and telefone_cliente:
-            tab_existente = Tab.objects.filter(
-                telefone_cliente=telefone_cliente, aberta=True
-            ).first()
-
-        if tab_existente:
-            messages.warning(
-                request,
-                f"Já existe uma comanda aberta para o cliente {tab_existente.nome_cliente}.",
-            )
-            return redirect("produto:detalhes_tab", pk=tab_existente.pk)
-
-        # Criação de nova comanda
-        try:
-            tab_nova = Tab.objects.create(
-                telefone_cliente=telefone_cliente,
-                nome_cliente=nome_cliente,
-                aberta=True,
-            )
-            messages.success(
-                request, f"Nova comanda aberta para {tab_nova.nome_cliente}."
-            )
-            return redirect("produto:detalhes_tab", pk=tab_nova.pk)
-        except IntegrityError:
-            messages.error(
-                request,
-                "Erro ao tentar abrir a comanda. Por favor, verifique os dados e tente novamente.",
-            )
-
-    context = {"form": form}
-    return render(request, "abrir_comanda.html", context)
-
-
-@login_required
-def listar_tabs(request):
-    query = request.GET.get("q", "")
-    if query:
-        tabs = (
-            Tab.objects.filter(
-                Q(nome_cliente__icontains=query) | Q(telefone_cliente__icontains=query)
-            )
-            .filter(aberta=True)
-            .order_by("-data_criacao")
-        )
-    else:
-        tabs = Tab.objects.filter(aberta=True).order_by("-data_criacao")
-
-    context = {"tabs": tabs, "query": query}
-    return render(request, "listar_tabs.html", context)
-
-
-@require_POST
-def excluir_comanda(request, pk):
-    comanda = get_object_or_404(Tab, pk=pk)
-
-    # Verifica se o usuário é superusuário
-    if not request.user.is_superuser:
-        # Exibe a mensagem de erro para usuários que não são superusuários
-        messages.error(
-            request,
-            "Você não pode remover a comanda. Apenas ADMs podem realizar esta ação.",
-        )
-        return redirect("produto:detalhes_tab", pk=comanda.pk)
-
-    try:
-        comanda.delete()
-        messages.success(request, "Comanda excluída com sucesso.")
-    except Exception as e:
-        messages.error(request, f"Erro ao excluir comanda: {e}")
-
-    return redirect("produto:listar_tabs")
-
-
-@login_required
-def detalhes_tab(request, pk):
-    tab = get_object_or_404(Tab, pk=pk)
-    item_form = TabItemForm(request.POST or None)
-    edit_form = EditTabForm(request.POST or None, instance=tab)
-
-    if request.method == "POST":
-        if item_form.is_valid():
-            produto = item_form.get_produto()
-            quantidade = item_form.cleaned_data["quantidade"]
-
-            if produto:
-                TabItem.objects.create(
-                    tab=tab,
-                    produto=produto,
-                    quantidade=quantidade,
-                    preco_unitario=produto.preco_venda,
-                    adicionado_por=request.user,
-                )
-
-                tab.subtotal += quantidade * produto.preco_venda
-                tab.save()
-
-                if "itens" not in request.session:
-                    request.session["itens"] = []
-
-                itens = request.session["itens"]
-
-                # Insere o novo item no topo da lista
-                itens.insert(
-                    0,
-                    {
-                        "produto_id": produto.id,
-                        "nome": produto.produto,
-                        "quantidade": quantidade,
-                        "preco_unitario": str(produto.preco_venda),
-                    },
-                )
-                request.session["itens"] = itens
-
-                messages.success(
-                    request,
-                    f"{quantidade}x {produto.produto} adicionados à tab de {tab.nome_cliente}.",
-                )
-            else:
-                messages.error(request, "Produto não encontrado.")
-
-            return redirect("produto:detalhes_tab", pk=tab.pk)
-
-        if edit_form.is_valid():
-            edit_form.save()
-            messages.success(request, "Comanda atualizada com sucesso.")
-            return redirect("produto:detalhes_tab", pk=tab.pk)
-
-    # Ordena os itens da Tab pelo campo de criação (exibindo os mais recentes primeiro)
-    itens_ordenados = tab.itens.order_by("-id")
-
-    context = {
-        "tab": tab,
-        "itens": itens_ordenados,
-        "item_form": item_form,
-        "edit_form": edit_form,
-    }
-    return render(request, "detalhes_tab.html", context)
-
-
-@login_required
-def fechar_tab(request, pk):
-    tab = get_object_or_404(Tab, pk=pk)
-    compra = Compra.objects.create(metodo_pagamento="DINHEIRO")  # Inicializa uma compra
-
-    # Transferindo os itens da comanda para o checkout (PDV)
-    for item in tab.itens.all():
-        ItemCompra.objects.create(
-            compra=compra,
-            produto=item.produto,
-            quantidade=item.quantidade,
-            preco_unitario=item.preco_unitario,
-        )
-        # Atualiza o subtotal da compra
-        compra.total += item.subtotal()
-        # Opcional: ajustar o estoque do produto aqui, se necessário
-        item.produto.estoque -= item.quantidade
-        item.produto.save()
-
-    compra.save()  # Salva a compra com o total atualizado
-
-    # Remove todos os itens da comanda
-    tab.itens.all().delete()
-
-    # Zera o subtotal da comanda
-    tab.subtotal = Decimal("0.00")
-    tab.save()
-
-    messages.success(
-        request,
-        f"Produtos da comanda de {tab.nome_cliente} transferidos para o checkout. Comanda ainda aberta.",
-    )
-    return redirect("produto:pdv")
-
-
-@login_required
-@require_POST
-def atualizar_quantidade_item(request, pk):
-    item = get_object_or_404(TabItem, pk=pk)
-    nova_quantidade = request.POST.get("nova_quantidade")
-
-    try:
-        nova_quantidade = int(nova_quantidade)
-        if nova_quantidade < 1:
-            raise ValueError("Quantidade deve ser maior que zero.")
-
-        item.quantidade = nova_quantidade
-        item.save()
-
-        tab = item.tab
-        tab.subtotal = sum(
-            item.quantidade * item.produto.preco_venda for item in tab.itens.all()
-        )
-        tab.save()
-
-        messages.success(request, "Quantidade atualizada com sucesso.")
-    except ValueError as e:
-        messages.error(request, str(e))
-    except Exception as e:
-        messages.error(request, f"Erro ao atualizar quantidade: {e}")
-
-    return redirect("produto:detalhes_tab", pk=item.tab.pk)
-
-
-@login_required
-@require_POST
-def remover_item_comanda(request, pk):
-    item = get_object_or_404(TabItem, pk=pk)
-
-    if not request.user.is_superuser:
-        # Exibe a mensagem de erro para usuários que não são superusuários
-        messages.error(
-            request,
-            "Você não pode remover itens da comanda. Apenas ADMs podem realizar esta ação.",
-        )
-        return redirect("produto:detalhes_tab", pk=item.tab.pk)
-
-    try:
-        tab = item.tab
-        item.delete()
-
-        # Recalcula o subtotal da tab após a remoção do item
-        tab.subtotal = sum(
-            item.quantidade * item.produto.preco_venda for item in tab.itens.all()
-        )
-        tab.save()
-
-        messages.success(request, "Item removido com sucesso.")
-    except Exception as e:
-        messages.error(request, f"Erro ao remover item: {e}")
-
-    return redirect("produto:detalhes_tab", pk=tab.pk)
 
 
 # @login_required
