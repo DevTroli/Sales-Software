@@ -424,21 +424,25 @@ def gerar_insights(request):
             for categoria in categorias:
                 produtos = categoria.produto_set.filter(preco_venda__gt=0)
                 for produto in produtos:
-                    produtos_por_categoria.append({
-                        'Categoria': categoria.categoria,
-                        'Produto': produto.produto,
-                        'Preço de Custo': produto.preco_custo,
-                        'Preço de Venda': produto.preco_venda,
-                        'Margem de Venda': produto.margem_vendas,
-                        'Estoque': produto.estoque,
-                        'Estoque Mínimo': produto.estoque_minimo,
-                        'Código de Barras': produto.codigoBarra,
-                        'Nível de Estoque': produto.nivel_estoque
-                    })
-            
+                    produtos_por_categoria.append(
+                        {
+                            "Categoria": categoria.categoria,
+                            "Produto": produto.produto,
+                            "Preço de Custo": produto.preco_custo,
+                            "Preço de Venda": produto.preco_venda,
+                            "Margem de Venda": produto.margem_vendas,
+                            "Estoque": produto.estoque,
+                            "Estoque Mínimo": produto.estoque_minimo,
+                            "Código de Barras": produto.codigoBarra,
+                            "Nível de Estoque": produto.nivel_estoque,
+                        }
+                    )
+
             df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
             if not df_produtos_por_categoria.empty:
-                df_produtos_por_categoria.to_excel(writer, sheet_name="Produtos por Categoria", index=False)
+                df_produtos_por_categoria.to_excel(
+                    writer, sheet_name="Produtos por Categoria", index=False
+                )
             else:
                 # Se não houver produtos que atendam aos critérios, crie uma planilha vazia com uma mensagem
                 pd.DataFrame(

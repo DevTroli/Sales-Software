@@ -27,9 +27,7 @@ def pdv(request):
             quantidade = item_form.cleaned_data["quantidade"]
 
             if produto:
-                if "itens" not in request.session:
-                    request.session["itens"] = []
-                itens = request.session["itens"]
+                itens = request.session.get("itens", [])
 
                 preco_unitario = produto.preco_venda
                 subtotal_item = preco_unitario * quantidade
@@ -40,7 +38,7 @@ def pdv(request):
                         "produto_id": produto.id,
                         "nome": produto.produto,
                         "quantidade": quantidade,
-                        "preco_unitario": str(produto.preco_venda),
+                        "preco_unitario": str(preco_unitario),
                         "subtotal_item": str(subtotal_item),
                     },
                 )
@@ -89,6 +87,7 @@ def pdv(request):
                     )
                     return redirect("pdv:pdv")
 
+            # Limpa os dados da sessão para nova venda
             request.session["itens"] = []
             request.session["subtotal"] = "0"
             request.session["nova_venda"] = True
