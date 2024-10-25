@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # apps tercerizado
     "widget_tweaks",
+    "django_extensions",
     # my apps
     "core.apps.CoreConfig",
     "produto.apps.ProdutoConfig",
-    "estoque.apps.EstoqueConfig",
+    "pdv.apps.PdvConfig",
+    "comandas.apps.ComandasConfig",
 ]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
@@ -133,8 +135,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+# Diretório onde os arquivos estáticos serão coletados (usado em produção)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# URL para servir os arquivos estáticos
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Diretórios adicionais para os arquivos estáticos (durante o desenvolvimento)
+STATICFILES_DIRS = [
+    os.path.join(
+        BASE_DIR, "static"
+    ),  # Pasta onde os arquivos estáticos ficam durante o desenvolvimento
+]
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "core:index"
