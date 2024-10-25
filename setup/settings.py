@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # apps tercerizado
     "widget_tweaks",
     "django_extensions",
+    "whitenoise.runserver_nostatic",
     # my apps
     "core.apps.CoreConfig",
     "produto.apps.ProdutoConfig",
@@ -57,6 +58,7 @@ AUTHENTICATION_BACKENDS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -148,10 +150,15 @@ STATICFILES_DIRS = [
     ),  # Pasta onde os arquivos estáticos ficam durante o desenvolvimento
 ]
 
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
 
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "core:index"
