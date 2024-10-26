@@ -109,26 +109,6 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
         return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
 
 
-@login_required
-def detalhes_pagamentos(request):
-    # Obter o momento atual
-    now = timezone.now()
-
-    # Calcular o início das últimas 24 horas
-    start_of_day = now - timedelta(days=1)
-
-    # Filtrar as compras das últimas 24 horas
-    compras = Compra.objects.filter(data__range=[start_of_day, now]).prefetch_related(
-        "itens__produto"
-    )
-
-    # Paginação, mostra 10 compras por página
-    paginator = Paginator(compras, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {"page_obj": page_obj}
-    return render(request, "produto/detalhes_pagamentos.html", context)
 
 
 def import_xlsx(file_path):
