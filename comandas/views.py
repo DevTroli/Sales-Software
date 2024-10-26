@@ -153,7 +153,7 @@ def detalhes_tab(request, pk):
         if edit_form.is_valid():
             edit_form.save()
             messages.success(request, "Comanda atualizada com sucesso.")
-            return redirect("produto:detalhes_tab", pk=tab.pk)
+            return redirect("comandas:detalhes_tab", pk=tab.pk)
 
     # Ordena os itens da Tab pelo campo de criação (exibindo os mais recentes primeiro)
     itens_ordenados = tab.itens.order_by("-id")
@@ -170,36 +170,26 @@ def detalhes_tab(request, pk):
 @login_required
 def fechar_tab(request, pk):
     tab = get_object_or_404(Tab, pk=pk)
-    compra = Compra.objects.create(metodo_pagamento="DINHEIRO")  # Inicializa uma compra
 
-    # Transferindo os itens da comanda para o checkout (PDV)
+    # Atualiza o estoque e remove itens da comanda
     for item in tab.itens.all():
-        ItemCompra.objects.create(
-            compra=compra,
-            produto=item.produto,
-            quantidade=item.quantidade,
-            preco_unitario=item.preco_unitario,
-        )
-        # Atualiza o subtotal da compra
-        compra.total += item.subtotal()
-        # Opcional: ajustar o estoque do produto aqui, se necessário
+        # Ajusta o estoque do produto conforme a quantidade na comanda
         item.produto.estoque -= item.quantidade
         item.produto.save()
-
-    compra.save()  # Salva a compra com o total atualizado
 
     # Remove todos os itens da comanda
     tab.itens.all().delete()
 
     # Zera o subtotal da comanda
     tab.subtotal = Decimal("0.00")
+    tab.aberta = True
     tab.save()
 
     messages.success(
         request,
-        f"Produtos da comanda de {tab.nome_cliente} transferidos para o checkout. Comanda ainda aberta.",
+        f"Comanda de {tab.nome_cliente} fechada com sucesso. Estoque ajustado e itens removidos.",
     )
-    return redirect("pdv:pdv")
+    return redirect("comandas:listar_tabs")
 
 
 @login_required
