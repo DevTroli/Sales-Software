@@ -1,19 +1,13 @@
 from django import forms
-from django.core.validators import RegexValidator
 from produto.models import Produto
 from decimal import Decimal
 
 
 class ProdutoForm(forms.ModelForm):
-    # Validador para código de barras
-    codigo_barras_regex = RegexValidator(
-        regex=r"^\d{7,16}$", message="O código de barras deve ter entre 7 e 16 dígitos."
-    )
-
     # Override dos campos para adicionar validações
     codigoBarra = forms.CharField(
         label="Código de Barras",
-        validators=[codigo_barras_regex],
+        required=False,
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",

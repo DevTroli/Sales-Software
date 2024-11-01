@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from comandas.models import Tab
+from comandas.models import Tab, Comment
 from produto.models import Produto
 
 
@@ -218,3 +218,18 @@ class EditTabForm(forms.ModelForm):
         if telefone:
             telefone = "".join(filter(str.isdigit, telefone))
         return telefone
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+        widgets = {
+            "content": forms.Textarea(
+                attrs={
+                    "class": "w-fit p-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500",
+                    "rows": "2",
+                    "placeholder": "Digite seu comentário...",
+                }
+            ),
+        }

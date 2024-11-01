@@ -7,9 +7,13 @@ from django.db.models import Q
 from django.views.decorators.http import require_POST
 
 
-from comandas.forms import AbrirComandaForm, EditTabForm, TabItemForm
-from comandas.models import Tab, TabItem
-from pdv.models import Compra, ItemCompra
+from comandas.forms import (
+    AbrirComandaForm,
+    EditTabForm,
+    TabItemForm,
+    CommentForm,
+)
+from comandas.models import Tab, TabItem, Comment
 
 
 @login_required
@@ -106,8 +110,26 @@ def detalhes_tab(request, pk):
     tab = get_object_or_404(Tab, pk=pk)
     item_form = TabItemForm(request.POST or None)
     edit_form = EditTabForm(request.POST or None, instance=tab)
+    comment_form = CommentForm(
+        request.POST or None
+    )  # Inicializa o formulário de comentários
 
     if request.method == "POST":
+        # Processamento do comentário
+        if "content" in request.POST and comment_form.is_valid():
+            if tab.comments.count() < 1:  # Limita a um comentários por comanda
+                new_comment = comment_form.save(commit=False)
+                new_comment.tab = tab
+                new_comment.author = request.user
+                new_comment.save()
+                messages.success(request, "Comentário adicionado com sucesso.")
+            else:
+                messages.error(
+                    request, "Limite de um comentários por comanda atingido."
+                )
+            return redirect("comandas:detalhes_tab", pk=tab.pk)
+
+        # Processamento da adição de itens à comanda
         if item_form.is_valid():
             produto = item_form.get_produto()
             quantidade = item_form.cleaned_data["quantidade"]
@@ -150,21 +172,64 @@ def detalhes_tab(request, pk):
 
             return redirect("comandas:detalhes_tab", pk=tab.pk)
 
+        # Processamento da atualização da comanda
         if edit_form.is_valid():
             edit_form.save()
             messages.success(request, "Comanda atualizada com sucesso.")
             return redirect("comandas:detalhes_tab", pk=tab.pk)
 
-    # Ordena os itens da Tab pelo campo de criação (exibindo os mais recentes primeiro)
+    # Ordena os itens e comentários da Tab
     itens_ordenados = tab.itens.order_by("-id")
+    comentarios_ordenados = tab.comments.order_by(
+        "-created_at"
+    )  # Comentários mais recentes primeiro
 
     context = {
         "tab": tab,
         "itens": itens_ordenados,
         "item_form": item_form,
         "edit_form": edit_form,
+        "comment_form": comment_form,  # Formulário de comentários
+        "comentarios": comentarios_ordenados,  # Lista de comentários
     }
     return render(request, "comandas/detalhes_tab.html", context)
+
+
+@login_required
+@require_POST
+def excluir_comentario(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    # Verifica se o autor do comentário é o usuário atual ou se é um superusuário
+    if request.user == comment.author or request.user.is_superuser:
+        comment.delete()
+        messages.success(request, "Comentário excluído com sucesso.")
+    else:
+        messages.error(request, "Você não tem permissão para excluir este comentário.")
+
+    return redirect("comandas:detalhes_tab", pk=comment.tab.pk)
+
+
+@login_required
+@require_POST
+def atualizar_comentario(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if request.user == comment.author or request.user.is_superuser:
+        novo_conteudo = request.POST.get("content")
+
+        if novo_conteudo:
+            comment.content = novo_conteudo
+            comment.save()
+            messages.success(request, "Comentário atualizado com sucesso.")
+        else:
+            messages.error(request, "O conteúdo do comentário não pode ser vazio.")
+    else:
+        messages.error(
+            request, "Você não tem permissão para atualizar este comentário."
+        )
+
+    return redirect("comandas:detalhes_tab", pk=comment.tab.pk)
 
 
 @login_required
