@@ -109,8 +109,6 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
         return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
 
 
-
-
 def import_xlsx(file_path):
     """
     Importa planilhas xlsx.

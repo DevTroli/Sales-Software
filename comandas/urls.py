@@ -19,4 +19,9 @@ urlpatterns = [
         v.remover_item_comanda,
         name="remover_item_comanda",
     ),
+    path(
+        "comentario/excluir/<int:pk>/",
+        v.excluir_comentario,
+        name="excluir_comentario",
+    ),
 ]

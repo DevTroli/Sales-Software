@@ -31,7 +31,8 @@ class Tab(models.Model):
     )
     aberta = models.BooleanField("Tab Aberta", default=True)
     data_criacao = models.DateTimeField(
-        "Data de Criação", auto_now_add=True  # Define automaticamente a data ao criar
+        "Data de Criação",
+        auto_now_add=True,  # Define automaticamente a data ao criar
     )
 
     def __str__(self):
@@ -63,7 +64,8 @@ class TabItem(models.Model):
     preco_unitario = models.DecimalField(max_digits=7, decimal_places=2)
     adicionado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     data_criacao = models.DateTimeField(
-        "Data de Criação", auto_now_add=True  # Define automaticamente a data ao criar
+        "Data de Criação",
+        auto_now_add=True,  # Define automaticamente a data ao criar
     )
 
     def subtotal(self):
@@ -71,3 +73,17 @@ class TabItem(models.Model):
 
     def __str__(self):
         return f"{self.quantidade}x {self.produto.produto} - {self.tab.nome_cliente}"
+
+
+class Comment(models.Model):
+    tab = models.ForeignKey("Tab", related_name="comments", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    content = models.CharField(
+        "Content",
+        max_length=48,
+        unique=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comentário por {self.author} em {self.created_at}"
