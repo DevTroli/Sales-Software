@@ -1,84 +1,219 @@
-# Stock Control
+# 🚀 Sales Software: Gonzaguinha Conveniências 
 
-![GitHub repo size](https://img.shields.io/github/repo-size/DevTroli/StockControl)
-![GitHub stars](https://img.shields.io/github/stars/DevTroli/StockControl)
-![GitHub forks](https://img.shields.io/github/forks/DevTroli/StockControl?style=social)
+[![Status do Projeto][status-shield]][status-url]
+[![Versão][version-shield]][version-url]
+[![Licença][license-shield]][license-url]
 
-### Elevate Your Inventory Management with Python Efficiency
-Streamline operations, optimize ordering, and gain actionable insights with our user-friendly Python-based inventory control software.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/refs/heads/main/logo_final.png" alt="Logo do Projeto" width="200">
+</p>
 
+## 📖 About
 
+[Breve descrição inspiradora do seu projeto em 2-3 parágrafos. Explique o problema que ele resolve e por que é especial.]
 
-# Tech Stack
+### 🌟 Motivation
 
-* Linux Environment
-* Python 3.10 
-* Django 5
-* HTML & Tailwind
-* Jquery
+[Por que você criou este projeto? Qual o propósito dele?]
 
-# Prerequisites
-Before you start, ensure you have met the following requirements:
-* You have installed the latest version of Python and Django
-* You have installed the dependencies from the requirements.txt file
-* You have installed the latest version of Tailwind from your oficial site 
+### 🎯 Goals
 
+- Goals 1
+- Golas 2
+- Goals 3
 
+## ✨ Destaques
 
-## Feautures
+- 🔥 [Destaque Principal 1]
+- ⚡ [Destaque Principal 2]
+- 🌈 [Destaque Principal 3]
+- 🔐 [Destaque Principal 4]
+- 📱 [Destaque Principal 5]
 
-This project makes it easy to:
-* Bootstrap your open-source project properly
-* Make sure everyone gets what you're trying to achieve with your project_name
-* Follow simple instructions for a perfect README.md
+## 🛠️ Construído Com
 
-## Installing <project_name>
+### 🎨 Frontend
+* [[Framework/Lib]](link) - Descrição
+* [[Framework/Lib]](link) - Descrição
 
-To install <project_name>, follow these steps:
+### ⚙️ Backend
+* [[Framework/Lib]](link) - Descrição
+* [[Framework/Lib]](link) - Descrição
 
-Linux and macOS:
+### 🗄️ Database
+* [[Database]](link) - Descrição
+
+### 🔧 Ferramentas
+* [[Ferramenta]](link) - Descrição
+
+## 🎯 Requisitos
+
+```text
+[Requisito 1] - vX.X.X+
+[Requisito 2] - vX.X.X+
+[Requisito 3] - vX.X.X+
 ```
-<install_command>
+
+## ⚙️ Instalação
+
+<details>
+<summary>📋 Passo a Passo</summary>
+
+1. Clone o repositório
+```bash
+git clone https://github.com/DevTroli/Sales-Software.git
 ```
 
-Windows:
-```
-<install_command>
-```
-## Using <project_name>
-
-To use <project_name>, follow these steps:
-
-```
-<usage_example>
+2. Entre no diretório
+```bash
+cd Sales-Software
 ```
 
-Add run commands and examples you think users will find useful. Provide an options reference for bonus points!
+3. Instale as dependências
+```bash
+python -m venv .venv --clear
+source .venv/bin/activate
+pip -r install requirements.txt
+```
 
-### Contributing to Inventory control
-<!--- If your README is long or you have some specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
-To contribute to Inventory control , follow these steps:
+4. Configure as variáveis de ambiente
+```bash
+python contrib/envGen.py
+# Don't forget to add your access to database on .env
+```
 
-1. Fork this repository.
-2. Create a branch: `git checkout -b <branch_name>`.
-3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin <project_name>/<location>`
-5. Create the pull request.
+5. Inicie o projeto
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+</details>
 
-Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+## 📚 Documentação
 
-### Contributors
+<details>
+<summary>📖 Guia Completo</summary>
 
-Thanks to the following people who have contributed to this project:
+### 🏗️ Estrutura do Projeto
+```
+[projeto]/
+├── src/            # Código fonte
+│   ├── components/ # Componentes
+│   ├── pages/      # Páginas
+│   └── utils/      # Utilitários
+├── docs/           # Documentação
+├── tests/          # Testes
+└── README.md       # Este arquivo
+```
 
-* [@DevTroli](https://github.com/DevTroli/) 📖
+### ⚙️ Configuração
+[Explique as principais configurações do projeto]
 
-You might want to consider using something like the [All Contributors](https://github.com/all-contributors/all-contributors) specification and its [emoji key](https://allcontributors.org/docs/en/emoji-key).
+### 🔐 Variáveis de Ambiente
+```env
+# Configurações Gerais
+APP_NAME=[nome-app]
+APP_ENV=development
 
-### Contact
+# Configurações Específicas
+[VARIAVEL_1]=[valor]
+[VARIAVEL_2]=[valor]
+```
+</details>
 
-If you want to contact me you can reach me at brawlixo123@gmail.com.
+## 📱 Uso
 
-### License
+<details>
+<summary>🔍 Exemplos de Uso</summary>
 
-This project uses the following license: [MIT LINCENSE](https://github.com/DevTroli/ControleEstoque/blob/main/LICENSE).
+### 💻 Exemplo Básico
+```[linguagem]
+// Exemplo de código básico
+```
+
+### 🚀 Funcionalidades Avançadas
+```[linguagem]
+// Exemplo de código avançado
+```
+</details>
+
+## 🔍 Exemplos
+
+<details>
+<summary>📸 Screenshots</summary>
+
+### 🖥️ Desktop
+![Desktop Screenshot](url_da_imagem)
+
+### 📱 Mobile
+![Mobile Screenshot](url_da_imagem)
+</details>
+
+## 📊 Roadmap
+
+- [x] MVP
+- [x] Documentação Básica
+- [ ] Testes Automatizados
+- [ ] Integração Contínua
+- [ ] Feature X
+- [ ] Feature Y
+
+## 🤝 Como Contribuir
+
+<details>
+<summary>👩‍💻 Guia de Contribuição</summary>
+
+1. Faça um Fork ou de um clone do projeto
+2. Crie sua Feature Branch
+```bash
+git checkout -b feature/MinhaFeature
+```
+3. Commit suas mudanças
+```bash
+git commit -m 'Add: MinhaFeature'
+```
+4. Push para a Branch
+```bash
+git push origin feature/MinhaFeature
+```
+5. Abra um Pull Request
+
+### 📝 Convenções de Commit
+- `Add:` Nova funcionalidade
+- `Update:` Atualização de funcionalidade
+- `Fix:` Correção de bug
+- `Doc:` Documentação
+- `Style:` Formatação
+- `Refactor:` Refatoração de código
+- `Test:` Testes
+</details>
+
+## ✍️ Autores
+
+* **[Troli]** - *Trabalho Inicial*
+
+Veja também a lista de [contribuidores](https://github.com/DevTroli/Sales-Software/contributors) que participaram deste projeto.
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 📬 Contato
+
+[Troli] - [@DevTroli]() - pablotroli@outlook.com
+
+
+---
+
+<p align="center">
+  <sub>⭐ Feito com ❤️ por <strong>@DevTroli</strong> ⭐</sub>
+</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[status-shield]: https://img.shields.io/badge/status-ativo-success.svg
+[status-url]: #
+[version-shield]: https://img.shields.io/badge/version-1.0.0-blue.svg
+[version-url]: #
+[license-shield]: https://img.shields.io/badge/license-MIT-green.svg
+[license-url]: #
