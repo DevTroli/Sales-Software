@@ -1,5 +1,6 @@
 # 🚀 Sales Software: Gonzaguinha Conveniências 
 
+![GitHub repo size](https://img.shields.io/github/repo-size/DevTroli/Sales-Software)
 [![Status do Projeto][status-shield]][status-url]
 [![Versão][version-shield]][version-url]
 [![Licença][license-shield]][license-url]
@@ -22,67 +23,65 @@
 - Golas 2
 - Goals 3
 
-## ✨ Destaques
+Here's the translation to English:
 
-- 🔥 [Destaque Principal 1]
-- ⚡ [Destaque Principal 2]
-- 🌈 [Destaque Principal 3]
-- 🔐 [Destaque Principal 4]
-- 📱 [Destaque Principal 5]
+## ✨ Highlights
+- 🔥 [Main Highlight 1]
+- ⚡ [Main Highlight 2]
+- 🌈 [Main Highlight 3]
+- 🔐 [Main Highlight 4]
+- 📱 [Main Highlight 5]
 
-## 🛠️ Construído Com
-
+## 🛠️ Built With
 ### 🎨 Frontend
-* [[Framework/Lib]](link) - Descrição
-* [[Framework/Lib]](link) - Descrição
+* [[Framework/Lib]](link) - Description
+* [[Framework/Lib]](link) - Description
 
 ### ⚙️ Backend
-* [[Framework/Lib]](link) - Descrição
-* [[Framework/Lib]](link) - Descrição
+* [[Framework/Lib]](link) - Description
+* [[Framework/Lib]](link) - Description
 
 ### 🗄️ Database
-* [[Database]](link) - Descrição
+* [[Database]](link) - Description
 
-### 🔧 Ferramentas
-* [[Ferramenta]](link) - Descrição
+### 🔧 Tools
+* [[Tool]](link) - Description
 
-## 🎯 Requisitos
-
+## 🎯 Requirements
 ```text
-[Requisito 1] - vX.X.X+
-[Requisito 2] - vX.X.X+
-[Requisito 3] - vX.X.X+
+[Requirement 1] - vX.X.X+
+[Requirement 2] - vX.X.X+
+[Requirement 3] - vX.X.X+
 ```
 
-## ⚙️ Instalação
-
+## ⚙️ Installation
 <details>
-<summary>📋 Passo a Passo</summary>
+<summary>📋 Step by Step</summary>
 
-1. Clone o repositório
+1. Clone the repository
 ```bash
 git clone https://github.com/DevTroli/Sales-Software.git
 ```
 
-2. Entre no diretório
+2. Enter the directory
 ```bash
 cd Sales-Software
 ```
 
-3. Instale as dependências
+3. Install dependencies
 ```bash
 python -m venv .venv --clear
 source .venv/bin/activate
 pip -r install requirements.txt
 ```
 
-4. Configure as variáveis de ambiente
+4. Configure environment variables
 ```bash
 python contrib/envGen.py
-# Don't forget to add your access to database on .env
+# Don't forget to add your database access to .env
 ```
 
-5. Inicie o projeto
+5. Start the project
 ```bash
 python manage.py makemigrations
 python manage.py migrate
@@ -90,124 +89,170 @@ python manage.py runserver
 ```
 </details>
 
-## 📚 Documentação
-
+## 📚 Documentation
 <details>
-<summary>📖 Guia Completo</summary>
+<summary>📖 Complete Guide</summary>
 
-### 🏗️ Estrutura do Projeto
+### 🏗️ Project Structure
 ```
-[projeto]/
-├── src/            # Código fonte
-│   ├── components/ # Componentes
-│   ├── pages/      # Páginas
-│   └── utils/      # Utilitários
-├── docs/           # Documentação
-├── tests/          # Testes
-└── README.md       # Este arquivo
+sales_software/                    
+├── manage.py                     # Django's command-line utility for administrative tasks
+├── requirements.txt              # List of Python dependencies for the project
+├── .env                          # Environment variables configuration
+├── .gitignore                    # Specifies which files Git should ignore
+├── LICENSE                       # Project license details
+├── railway.json                  # Railway.app deployment configuration
+├── write_xlsx.py                 # Utility script for Excel file operations
+│
+├── setup/                       # Project configuration directory
+│   ├── __init__.py              
+│   ├── asgi.py                  # ASGI configuration for async web servers
+│   ├── settings.py              # Main Django settings
+│   ├── staging.py               # Staging environment specific settings
+│   ├── urls.py                  # Main URL configuration
+│   └── wsgi.py                  # WSGI configuration for web servers
+│
+├── comandas/                   # Orders/Tabs management application
+│   ├── migrations/             # Database migrations for orders
+│   ├── __init__.py             
+│   ├── admin.py                
+│   ├── apps.py                 
+│   ├── models.py               # Data models for orders/tabs
+│   ├── urls.py                 # URL patterns for orders/tabs
+│   └── views.py                # View logic for orders/tabs
+│
+├── core/                      # Core functionality application
+│   ├── migrations/            # Database migrations for core features
+│   ├── __init__.py            
+│   ├── admin.py               
+│   ├── apps.py                
+│   ├── models.py              # Core data models
+│   ├── urls.py                # URL patterns for core features
+│   └── views.py               # Core view logic
+│
+├── pdv/                      # Point of Sale (POS) application
+│   ├── migrations/           # Database migrations for POS
+│   ├── __init__.py           
+│   ├── admin.py              
+│   ├── apps.py               
+│   ├── models.py             # POS data models
+│   ├── urls.py               # URL patterns for POS
+│   └── views.py              # POS view logic
+│
+├── produto/                  # Product management application
+│   ├── migrations/           
+│   ├── __init__.py           
+│   ├── admin.py             
+│   ├── apps.py               
+│   ├── models.py             # Product data models
+│   ├── urls.py               # URL patterns for products
+│   └── views.py              # Product view logic
+│
+├── contrib/                  # Additional utilities and scripts
+│   └── envGen.py             # Script to generate .env file with secure defaults
+│
+├── docs/                     # Project documentation files
+│
+├── static/                   # Static files (CSS, JavaScript, admin and etc...)
+│   ├── css/                  # Stylesheets
+│   ├── js/                   # JavaScript files
+│   └── admin/                # Admin interface static files
+│
+├── staticfiles/              # Collected static files for production
+│
+├── templates/                 # HTML templates
+│   ├── base.html              # Base template for inheritance
+│   ├── includes/              # Reusable template parts
+│   ├── registration/          # User authentication templates
+│   ├── core/                  # Core feature templates
+│   ├── produto/               # Product management templates
+│   ├── pdv/                   # Point of Sale templates
+│   └── comandas/              # Orders/Tabs templates
+│
+└── backups/                    # Database backup files
+    ├── backup_file.dump       # PostgreSQL dump file
+    └── backup_file.sql        # SQL backup file
 ```
 
-### ⚙️ Configuração
-[Explique as principais configurações do projeto]
-
-### 🔐 Variáveis de Ambiente
-```env
-# Configurações Gerais
-APP_NAME=[nome-app]
-APP_ENV=development
-
-# Configurações Específicas
-[VARIAVEL_1]=[valor]
-[VARIAVEL_2]=[valor]
-```
 </details>
 
-## 📱 Uso
-
+## 📱 Usage
 <details>
-<summary>🔍 Exemplos de Uso</summary>
+<summary>🔍 Usage Examples</summary>
 
-### 💻 Exemplo Básico
-```[linguagem]
-// Exemplo de código básico
+### 💻 Basic Example
+```[language]
+// Basic code example
 ```
 
-### 🚀 Funcionalidades Avançadas
-```[linguagem]
-// Exemplo de código avançado
-```
 </details>
 
-## 🔍 Exemplos
-
+## 🔍 Examples
 <details>
 <summary>📸 Screenshots</summary>
 
 ### 🖥️ Desktop
-![Desktop Screenshot](url_da_imagem)
+![Desktop Screenshot](image_url)
 
 ### 📱 Mobile
-![Mobile Screenshot](url_da_imagem)
+![Mobile Screenshot](image_url)
 </details>
 
 ## 📊 Roadmap
-
 - [x] MVP
-- [x] Documentação Básica
-- [ ] Testes Automatizados
-- [ ] Integração Contínua
+- [x] Basic Documentation
+- [ ] Automated Tests
+- [ ] Continuous Integration
 - [ ] Feature X
 - [ ] Feature Y
 
-## 🤝 Como Contribuir
-
+## 🤝 How to Contribute
 <details>
-<summary>👩‍💻 Guia de Contribuição</summary>
+<summary>👩‍💻 Contribution Guide</summary>
 
-1. Faça um Fork ou de um clone do projeto
-2. Crie sua Feature Branch
+1. Fork or clone the project
+2. Create your Feature Branch
 ```bash
-git checkout -b feature/MinhaFeature
+git checkout -b feature/MyFeature
 ```
-3. Commit suas mudanças
-```bash
-git commit -m 'Add: MinhaFeature'
-```
-4. Push para a Branch
-```bash
-git push origin feature/MinhaFeature
-```
-5. Abra um Pull Request
 
-### 📝 Convenções de Commit
-- `Add:` Nova funcionalidade
-- `Update:` Atualização de funcionalidade
-- `Fix:` Correção de bug
-- `Doc:` Documentação
-- `Style:` Formatação
-- `Refactor:` Refatoração de código
-- `Test:` Testes
+3. Commit your changes
+```bash
+git commit -m 'Add: MyFeature'
+```
+
+4. Push to the Branch
+```bash
+git push origin feature/MyFeature
+```
+
+5. Open a Pull Request
+
+### 📝 Commit Conventions
+- `Add:` New functionality
+- `Update:` Functionality update
+- `Fix:` Bug fix
+- `Doc:` Documentation
+- `Style:` Formatting
+- `Refactor:` Code refactoring
+- `Test:` Tests
 </details>
 
-## ✍️ Autores
+## ✍️ Authors
+* **[Troli]** - *Initial Work*
 
-* **[Troli]** - *Trabalho Inicial*
+See also the list of [contributors](https://github.com/DevTroli/Sales-Software/contributors) who participated in this project.
 
-Veja também a lista de [contribuidores](https://github.com/DevTroli/Sales-Software/contributors) que participaram deste projeto.
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## 📬 Contato
-
+## 📬 Contact
 [Troli] - [@DevTroli]() - pablotroli@outlook.com
-
 
 ---
 
 <p align="center">
-  <sub>⭐ Feito com ❤️ por <strong>@DevTroli</strong> ⭐</sub>
+  <sub>⭐ Made with ❤️ by <strong>@DevTroli</strong> ⭐</sub>
 </p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
