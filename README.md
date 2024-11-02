@@ -1,57 +1,82 @@
-# 🚀 Sales Software: Gonzaguinha Conveniências 
+# 🚀 Sales Software
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/DevTroli/Sales-Software)
 [![Status do Projeto][status-shield]][status-url]
 [![Versão][version-shield]][version-url]
 [![Licença][license-shield]][license-url]
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/refs/heads/main/logo_final.png" alt="Logo do Projeto" width="200">
-</p>
-
 ## 📖 About
+Sales Software is a modern business solution that transforms sales and inventory management into an efficient, intuitive experience. Developed to meet the specific needs of the retail and food service markets, our system automates critical processes, reduces operational errors, and provides valuable insights for decision-making.
 
-[Breve descrição inspiradora do seu projeto em 2-3 parágrafos. Explique o problema que ele resolve e por que é especial.]
+Combining a robust POS (Point of Sale) system with advanced inventory management, it enables businesses of any size to modernize their operations without complexity. Our solution eliminates time-consuming manual processes, allowing your team to focus on what truly matters: providing excellent customer service.
 
 ### 🌟 Motivation
+This project was born from observing the challenges faced by small and medium-sized businesses in managing their daily operations. Many companies still rely on manual processes or use disconnected tools, leading to inefficiencies and errors.
 
-[Por que você criou este projeto? Qual o propósito dele?]
+Our mission is to democratize access to management technology by providing an integrated solution that is both powerful and easy to use. We believe every business deserves access to tools that drive growth.
 
 ### 🎯 Goals
-
-- Goals 1
-- Golas 2
-- Goals 3
-
-Here's the translation to English:
+- Simplify operational management for retail and food service companies
+- Reduce errors and time spent on manual processes
+- Provide real-time insights for decision-making
+- Enhance customer experience through faster service
+- Facilitate inventory control and management
+- Offer an accessible and scalable solution
 
 ## ✨ Highlights
-- 🔥 [Main Highlight 1]
-- ⚡ [Main Highlight 2]
-- 🌈 [Main Highlight 3]
-- 🔐 [Main Highlight 4]
-- 📱 [Main Highlight 5]
+- 🔥 Advanced Reports: Automatic generation of inventory and sales reports in Excel for detailed business analysis
+
+- 💳 Complete POS: Intuitive point of sale system supporting multiple payment methods
+
+- 🎯 Order Management: Efficient order and ticket management with real-time status tracking
+
+- 📦 Inventory Control: Automated inventory management with low-level alerts and restocking suggestions
+
+- 🌐 Custom Hot Site: Responsive, customizable web interface for an improved user experience
+
+-  🔐 Access Control: Flexible authentication system with custom access levels per employee or store
+
+- 📱 Responsive Design: Adaptable interface that works seamlessly on any device, from desktop to smartphone
+
+- 🔄 Full Integration: All features integrated into a single platform, eliminating the need for multiple systems
 
 ## 🛠️ Built With
+
 ### 🎨 Frontend
-* [[Framework/Lib]](link) - Description
-* [[Framework/Lib]](link) - Description
+* [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework for rapidly building custom designs
+* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Client-side scripting for dynamic web features
+* [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) - Standard markup language for web pages
 
 ### ⚙️ Backend
-* [[Framework/Lib]](link) - Description
-* [[Framework/Lib]](link) - Description
+* [Django 5.0.6](https://www.djangoproject.com/) - High-level Python web framework
+* [Python](https://www.python.org/) - Programming language for backend logic
+* [Gunicorn 22.0.0](https://gunicorn.org/) - Python WSGI HTTP Server for UNIX
+* [WhiteNoise 6.7.0](http://whitenoise.evans.io/en/stable/) - Static file serving for Python web apps
 
 ### 🗄️ Database
-* [[Database]](link) - Description
+* [PostgreSQL](https://www.postgresql.org/) - Advanced open source relational database
+* [psycopg2-binary 2.9.9](https://pypi.org/project/psycopg2-binary/) - PostgreSQL adapter for Python
 
-### 🔧 Tools
-* [[Tool]](link) - Description
+### 📊 Data Processing
+* [NumPy 2.0.1](https://numpy.org/) - Library for numerical computing in Python
+* [Pandas 2.2.2](https://pandas.pydata.org/) - Data manipulation and analysis library
+* [python-dateutil 2.9.0](https://pypi.org/project/python-dateutil/) - Extensions to the standard Python datetime module
+
+### 🔧 Development Tools
+* [django-extensions 3.2.3](https://django-extensions.readthedocs.io/) - Collection of custom extensions for Django
+* [django-widget-tweaks 1.5.0](https://pypi.org/project/django-widget-tweaks/) - Tweak form field rendering in templates
+* [black 24.4.2](https://black.readthedocs.io/) - Python code formatter
+* [python-decouple 3.8](https://pypi.org/project/python-decouple/) - Separates settings from code
+
+### 📋 Additional Libraries
+* [openpyxl 3.1.5](https://openpyxl.readthedocs.io/) - Library for reading/writing Excel 2010 xlsx/xlsm files
+* [cryptography 43.0.0](https://cryptography.io/) - Library for secure communication and data protection
 
 ## 🎯 Requirements
 ```text
-[Requirement 1] - vX.X.X+
-[Requirement 2] - vX.X.X+
-[Requirement 3] - vX.X.X+
+Python >= 3.8
+PostgreSQL >= 12.0
+Node.js >= 14.0 (for TailwindCSS)
 ```
 
 ## ⚙️ Installation
@@ -176,27 +201,6 @@ sales_software/
 
 </details>
 
-## 📱 Usage
-<details>
-<summary>🔍 Usage Examples</summary>
-
-### 💻 Basic Example
-```[language]
-// Basic code example
-```
-
-</details>
-
-## 🔍 Examples
-<details>
-<summary>📸 Screenshots</summary>
-
-### 🖥️ Desktop
-![Desktop Screenshot](image_url)
-
-### 📱 Mobile
-![Mobile Screenshot](image_url)
-</details>
 
 ## 📊 Roadmap
 - [x] MVP
