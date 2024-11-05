@@ -305,9 +305,16 @@ def gerar_insights(request):
         )
         df_totais_semanais.columns = ["Semana", "Total Preço Unitário"]
 
-        # Criar um buffer para o arquivo Excel
+        # Substituir ponto por vírgula nas colunas numéricas especificadas
+        for col in ["preco_custo", "preco_venda", "margem_vendas"]:
+            df_produtos[col] = df_produtos[col].apply(
+                lambda x: str(x).replace(".", ",")
+            )
+
         buffer = BytesIO()
         with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+            # Exportar DataFrame `df_produtos` para Excel
+            df_produtos.to_excel(writer, sheet_name="Produtos", index=False)
 
             def style_worksheet(worksheet):
                 # Estilo para cabeçalhos
@@ -316,15 +323,12 @@ def gerar_insights(request):
                     start_color="4F81BD", end_color="4F81BD", fill_type="solid"
                 )
 
-                # Definir largura das colunas
                 column_widths = [
                     max(len(str(cell.value)) for cell in col)
                     for col in worksheet.columns
                 ]
                 for i, width in enumerate(column_widths):
-                    worksheet.column_dimensions[chr(65 + i)].width = (
-                        width + 6
-                    )  # Adiciona padding extra
+                    worksheet.column_dimensions[chr(65 + i)].width = width + 6
 
                 for cell in worksheet[1]:  # Cabeçalhos
                     cell.font = header_font
@@ -350,13 +354,52 @@ def gerar_insights(request):
                 for row in worksheet.iter_rows(min_row=2):
                     for cell in row:
                         cell.border = border_style
-                        if cell.row % 2 == 0:
-                            cell.fill = fill_even
-                        else:
-                            cell.fill = fill_odd
+                        cell.fill = fill_even if cell.row % 2 == 0 else fill_odd
                         cell.alignment = Alignment(
                             horizontal="center", vertical="center", wrap_text=True
                         )
+
+            # Aplicar estilos na aba "Produtos"
+            style_worksheet(writer.sheets["Produtos"])
+
+            # Nova aba: Produtos por Categoria (com validação)
+            produtos_por_categoria = []
+            for categoria in categorias:
+                produtos = categoria.produto_set.filter(preco_venda__gt=0)
+                for produto in produtos:
+                    produtos_por_categoria.append(
+                        {
+                            "Categoria": categoria.categoria,
+                            "Produto": produto.produto,
+                            "Preço de Custo": produto.preco_custo,
+                            "Preço de Venda": produto.preco_venda,
+                            "Margem de Venda": produto.margem_vendas,
+                            "Estoque": produto.estoque,
+                            "Estoque Mínimo": produto.estoque_minimo,
+                            "Código de Barras": produto.codigoBarra,
+                            "Nível de Estoque": produto.nivel_estoque,
+                        }
+                    )
+
+            df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
+            if not df_produtos_por_categoria.empty:
+                # Substituição de '.' por ',' nas colunas numéricas
+                for col in ["Preço de Custo", "Preço de Venda", "Margem de Venda"]:
+                    df_produtos_por_categoria[col] = df_produtos_por_categoria[
+                        col
+                    ].apply(lambda x: str(x).replace(".", ","))
+
+                df_produtos_por_categoria.to_excel(
+                    writer, sheet_name="Produtos por Categoria", index=False
+                )
+            else:
+                pd.DataFrame(
+                    {
+                        "Mensagem": [
+                            "Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0"
+                        ]
+                    }
+                ).to_excel(writer, sheet_name="Produtos por Categoria", index=False)
 
             # Adicionar abas com os dados
             produtos_abaixo_estoque_minimo.to_excel(
@@ -397,40 +440,6 @@ def gerar_insights(request):
                 writer, sheet_name="Totais Semanais", index=False
             )
 
-            # Nova aba: Produtos por Categoria (com validação)
-            produtos_por_categoria = []
-            for categoria in categorias:
-                produtos = categoria.produto_set.filter(preco_venda__gt=0)
-                for produto in produtos:
-                    produtos_por_categoria.append(
-                        {
-                            "Categoria": categoria.categoria,
-                            "Produto": produto.produto,
-                            "Preço de Custo": produto.preco_custo,
-                            "Preço de Venda": produto.preco_venda,
-                            "Margem de Venda": produto.margem_vendas,
-                            "Estoque": produto.estoque,
-                            "Estoque Mínimo": produto.estoque_minimo,
-                            "Código de Barras": produto.codigoBarra,
-                            "Nível de Estoque": produto.nivel_estoque,
-                        }
-                    )
-
-            df_produtos_por_categoria = pd.DataFrame(produtos_por_categoria)
-            if not df_produtos_por_categoria.empty:
-                df_produtos_por_categoria.to_excel(
-                    writer, sheet_name="Produtos por Categoria", index=False
-                )
-            else:
-                # Se não houver produtos que atendam aos critérios, crie uma planilha vazia com uma mensagem
-                pd.DataFrame(
-                    {
-                        "Mensagem": [
-                            "Nenhum produto atende aos critérios de preço de venda > 0 e estoque > 0"
-                        ]
-                    }
-                ).to_excel(writer, sheet_name="Produtos por Categoria", index=False)
-
             # Aplicar formatação
             for sheet_name in writer.sheets:
                 sheet = writer.sheets[sheet_name]
@@ -438,15 +447,14 @@ def gerar_insights(request):
 
                 # Adicionar rodapé com totais (se necessário)
                 if sheet_name == "Detalhes Pagamentos":
-                    # Adicionar uma linha de rodapé
                     last_row = sheet.max_row + 1
                     sheet[f"A{last_row}"] = "Total por Semana"
                     for col in range(2, sheet.max_column + 1):
-                        sheet.cell(row=last_row, column=col).value = (
-                            "=SUM({}:{})".format(
-                                sheet.cell(row=2, column=col).coordinate,
-                                sheet.cell(row=sheet.max_row, column=col).coordinate,
-                            )
+                        sheet.cell(
+                            row=last_row, column=col
+                        ).value = "=SUM({}:{})".format(
+                            sheet.cell(row=2, column=col).coordinate,
+                            sheet.cell(row=sheet.max_row, column=col).coordinate,
                         )
 
         buffer.seek(0)
