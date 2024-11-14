@@ -450,11 +450,11 @@ def gerar_insights(request):
                     last_row = sheet.max_row + 1
                     sheet[f"A{last_row}"] = "Total por Semana"
                     for col in range(2, sheet.max_column + 1):
-                        sheet.cell(
-                            row=last_row, column=col
-                        ).value = "=SUM({}:{})".format(
-                            sheet.cell(row=2, column=col).coordinate,
-                            sheet.cell(row=sheet.max_row, column=col).coordinate,
+                        sheet.cell(row=last_row, column=col).value = (
+                            "=SUM({}:{})".format(
+                                sheet.cell(row=2, column=col).coordinate,
+                                sheet.cell(row=sheet.max_row, column=col).coordinate,
+                            )
                         )
 
         buffer.seek(0)
