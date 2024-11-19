@@ -1,0 +1,5337 @@
+[
+{
+  "model": "comandas.tab",
+  "pk": 1,
+  "fields": {
+    "nome_cliente": "TRINDADE",
+    "telefone_cliente": "13*******",
+    "subtotal": "49.90",
+    "aberta": true,
+    "data_criacao": "2024-10-25T14:46:26.556Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 2,
+  "fields": {
+    "nome_cliente": "LUCIANA",
+    "telefone_cliente": "13996245873",
+    "subtotal": "6.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T14:49:03.950Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 3,
+  "fields": {
+    "nome_cliente": "NADY",
+    "telefone_cliente": "13********",
+    "subtotal": "30.60",
+    "aberta": true,
+    "data_criacao": "2024-10-25T14:55:22.362Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 4,
+  "fields": {
+    "nome_cliente": "WAGNER",
+    "telefone_cliente": "13996744369",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:01:16.672Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 5,
+  "fields": {
+    "nome_cliente": "ANDRÉ PRÉDIO",
+    "telefone_cliente": "13997664312",
+    "subtotal": "60.50",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:19:20.812Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 6,
+  "fields": {
+    "nome_cliente": "MARCO ANTONIO GIORGE",
+    "telefone_cliente": "1399149394",
+    "subtotal": "0.00",
+    "aberta": false,
+    "data_criacao": "2024-10-25T15:22:01.505Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 7,
+  "fields": {
+    "nome_cliente": "RAFAEL",
+    "telefone_cliente": "13987653734",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:26:51.149Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 8,
+  "fields": {
+    "nome_cliente": "LUIS O.",
+    "telefone_cliente": "13991768655",
+    "subtotal": "54.30",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:28:26.819Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 10,
+  "fields": {
+    "nome_cliente": "JULIANA",
+    "telefone_cliente": "13*****",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:30:10.733Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 11,
+  "fields": {
+    "nome_cliente": "ODETE",
+    "telefone_cliente": "11997002274",
+    "subtotal": "16.30",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:30:51.709Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 12,
+  "fields": {
+    "nome_cliente": "GABRIEL",
+    "telefone_cliente": "11963081966",
+    "subtotal": "192.50",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:40:27.940Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 15,
+  "fields": {
+    "nome_cliente": "DAVI",
+    "telefone_cliente": "13******",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:52:48.273Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 16,
+  "fields": {
+    "nome_cliente": "PAULO CEZAR",
+    "telefone_cliente": "11*******",
+    "subtotal": "27.30",
+    "aberta": true,
+    "data_criacao": "2024-10-25T15:53:05.217Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 17,
+  "fields": {
+    "nome_cliente": "JOÃO HENRIQUE",
+    "telefone_cliente": "13991237618",
+    "subtotal": "861.85",
+    "aberta": true,
+    "data_criacao": "2024-10-25T16:02:02.960Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 19,
+  "fields": {
+    "nome_cliente": "ALESSANDRO",
+    "telefone_cliente": "12345678901",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T16:44:38.181Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 23,
+  "fields": {
+    "nome_cliente": "MATIAS",
+    "telefone_cliente": "136698745",
+    "subtotal": "478.30",
+    "aberta": true,
+    "data_criacao": "2024-10-25T19:18:15.393Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 24,
+  "fields": {
+    "nome_cliente": "YASMIN",
+    "telefone_cliente": "13991443106",
+    "subtotal": "108.25",
+    "aberta": true,
+    "data_criacao": "2024-10-25T19:19:17.319Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 26,
+  "fields": {
+    "nome_cliente": "KERLLINES",
+    "telefone_cliente": "13996779823",
+    "subtotal": "271.99",
+    "aberta": true,
+    "data_criacao": "2024-10-25T20:04:43.356Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 27,
+  "fields": {
+    "nome_cliente": "GERALDO",
+    "telefone_cliente": "1399587156",
+    "subtotal": "587.15",
+    "aberta": true,
+    "data_criacao": "2024-10-25T20:08:21.971Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 31,
+  "fields": {
+    "nome_cliente": "DOUGLAS",
+    "telefone_cliente": "13991245477",
+    "subtotal": "53.50",
+    "aberta": true,
+    "data_criacao": "2024-10-25T22:23:49.736Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 32,
+  "fields": {
+    "nome_cliente": "PRETO",
+    "telefone_cliente": "13996558214",
+    "subtotal": "52.50",
+    "aberta": true,
+    "data_criacao": "2024-10-25T22:45:06.806Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 34,
+  "fields": {
+    "nome_cliente": "CAIO",
+    "telefone_cliente": "11973787456",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-25T23:54:55.327Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 36,
+  "fields": {
+    "nome_cliente": "MAZINHO",
+    "telefone_cliente": "1366545842",
+    "subtotal": "107.10",
+    "aberta": true,
+    "data_criacao": "2024-10-26T03:26:03.756Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 40,
+  "fields": {
+    "nome_cliente": "MARCO ANTONIO DYORGE",
+    "telefone_cliente": "13991493945",
+    "subtotal": "7.80",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:08:05.450Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 42,
+  "fields": {
+    "nome_cliente": "VALTER",
+    "telefone_cliente": "1399788076",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:10:49.056Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 43,
+  "fields": {
+    "nome_cliente": "KERLLANER",
+    "telefone_cliente": "13991908213",
+    "subtotal": "113.75",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:13:11.309Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 46,
+  "fields": {
+    "nome_cliente": "SERGIO",
+    "telefone_cliente": "13997548966",
+    "subtotal": "3.90",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:16:51.512Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 47,
+  "fields": {
+    "nome_cliente": "MATHEUS",
+    "telefone_cliente": "1399248757",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:17:34.633Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 48,
+  "fields": {
+    "nome_cliente": "RODRIGO",
+    "telefone_cliente": "**********",
+    "subtotal": "4.50",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:19:03.580Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 49,
+  "fields": {
+    "nome_cliente": "SEBASTIAN",
+    "telefone_cliente": "***********",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-26T11:19:37.181Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 50,
+  "fields": {
+    "nome_cliente": "ERIKA PRAIA",
+    "telefone_cliente": "13981061713",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-26T13:13:02.194Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 54,
+  "fields": {
+    "nome_cliente": "CRIS BARRACA",
+    "telefone_cliente": "00000000000",
+    "subtotal": "15.50",
+    "aberta": true,
+    "data_criacao": "2024-10-26T19:20:51.247Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 71,
+  "fields": {
+    "nome_cliente": "AMANDA",
+    "telefone_cliente": "0000005",
+    "subtotal": "82.60",
+    "aberta": true,
+    "data_criacao": "2024-10-27T17:10:28.816Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 87,
+  "fields": {
+    "nome_cliente": "LUH",
+    "telefone_cliente": "12344566789",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-28T21:45:57.808Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 88,
+  "fields": {
+    "nome_cliente": "LILI",
+    "telefone_cliente": "",
+    "subtotal": "57.00",
+    "aberta": true,
+    "data_criacao": "2024-10-28T22:11:56.972Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 89,
+  "fields": {
+    "nome_cliente": "Alvaro",
+    "telefone_cliente": "0000",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-28T22:22:51.711Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 90,
+  "fields": {
+    "nome_cliente": "Marco",
+    "telefone_cliente": "1234",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-28T22:31:52.632Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 91,
+  "fields": {
+    "nome_cliente": "Amaral",
+    "telefone_cliente": "ooi",
+    "subtotal": "53.00",
+    "aberta": true,
+    "data_criacao": "2024-10-28T22:48:29.815Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 96,
+  "fields": {
+    "nome_cliente": "ROGERIO",
+    "telefone_cliente": "11111",
+    "subtotal": "7.80",
+    "aberta": true,
+    "data_criacao": "2024-10-29T02:09:00.661Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 97,
+  "fields": {
+    "nome_cliente": "ANDRE\\PREDIO",
+    "telefone_cliente": "13098765431",
+    "subtotal": "34.00",
+    "aberta": true,
+    "data_criacao": "2024-10-29T20:50:58.622Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 98,
+  "fields": {
+    "nome_cliente": "ALOISIO",
+    "telefone_cliente": "0007",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-29T22:03:09.201Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 99,
+  "fields": {
+    "nome_cliente": "ALEX",
+    "telefone_cliente": "0074",
+    "subtotal": "3.00",
+    "aberta": true,
+    "data_criacao": "2024-10-29T23:04:39.446Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 101,
+  "fields": {
+    "nome_cliente": "ROBSON",
+    "telefone_cliente": "0025",
+    "subtotal": "3.90",
+    "aberta": true,
+    "data_criacao": "2024-10-29T23:24:15.489Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 102,
+  "fields": {
+    "nome_cliente": "ERIKA",
+    "telefone_cliente": "13991254788",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-30T15:23:51.589Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 104,
+  "fields": {
+    "nome_cliente": "VAGNER PREDIO",
+    "telefone_cliente": "13456686946",
+    "subtotal": "12.00",
+    "aberta": true,
+    "data_criacao": "2024-10-30T21:54:26.524Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 111,
+  "fields": {
+    "nome_cliente": "MARCIO",
+    "telefone_cliente": "1366552241",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-10-31T22:20:23.594Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 126,
+  "fields": {
+    "nome_cliente": "JOJO",
+    "telefone_cliente": "13992548785",
+    "subtotal": "129.75",
+    "aberta": true,
+    "data_criacao": "2024-11-01T14:20:11.383Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 127,
+  "fields": {
+    "nome_cliente": "CASAL\\FLORA",
+    "telefone_cliente": "13992548712",
+    "subtotal": "42.60",
+    "aberta": true,
+    "data_criacao": "2024-11-01T15:54:27.609Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 128,
+  "fields": {
+    "nome_cliente": "KARLA",
+    "telefone_cliente": "1233333330",
+    "subtotal": "28.00",
+    "aberta": true,
+    "data_criacao": "2024-11-01T22:25:46.725Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 138,
+  "fields": {
+    "nome_cliente": "BRENDO",
+    "telefone_cliente": "1111111111",
+    "subtotal": "16.65",
+    "aberta": true,
+    "data_criacao": "2024-11-02T01:04:59.822Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 139,
+  "fields": {
+    "nome_cliente": "MUDY",
+    "telefone_cliente": "1399845678",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T02:52:57.171Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 140,
+  "fields": {
+    "nome_cliente": "ROBERTO",
+    "telefone_cliente": "13974811632",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T14:11:41.921Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 142,
+  "fields": {
+    "nome_cliente": "CESAR",
+    "telefone_cliente": "13991554632",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T17:57:09.385Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 143,
+  "fields": {
+    "nome_cliente": "KAIO",
+    "telefone_cliente": "1399870058",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T18:30:57.976Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 145,
+  "fields": {
+    "nome_cliente": "LUIZ",
+    "telefone_cliente": "13669988774",
+    "subtotal": "31.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T21:13:18.759Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 146,
+  "fields": {
+    "nome_cliente": "RICARDO",
+    "telefone_cliente": "13995782221",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-02T22:09:06.336Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 148,
+  "fields": {
+    "nome_cliente": "BANDANA",
+    "telefone_cliente": "11111111111",
+    "subtotal": "3.90",
+    "aberta": true,
+    "data_criacao": "2024-11-02T23:24:16.160Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 150,
+  "fields": {
+    "nome_cliente": "EVANDRO",
+    "telefone_cliente": "0124500000",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T00:31:38.053Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 151,
+  "fields": {
+    "nome_cliente": "JULIO",
+    "telefone_cliente": "11988356829",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T15:10:05.420Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 154,
+  "fields": {
+    "nome_cliente": "DUNGA",
+    "telefone_cliente": "13907646748",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T16:12:14.972Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 155,
+  "fields": {
+    "nome_cliente": "MARCELO",
+    "telefone_cliente": "13991447965",
+    "subtotal": "52.70",
+    "aberta": true,
+    "data_criacao": "2024-11-03T16:28:26.263Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 156,
+  "fields": {
+    "nome_cliente": "FABIANA",
+    "telefone_cliente": "13978545465",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T16:40:27.240Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 157,
+  "fields": {
+    "nome_cliente": "MARCELO PRED.FRENTE",
+    "telefone_cliente": "13996067095",
+    "subtotal": "124.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T17:02:55.506Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 158,
+  "fields": {
+    "nome_cliente": "ALEMAO",
+    "telefone_cliente": "13925487582",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-03T19:04:00.284Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 159,
+  "fields": {
+    "nome_cliente": "FABIOLA",
+    "telefone_cliente": "13997330633",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-04T22:54:10.184Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 161,
+  "fields": {
+    "nome_cliente": "WELTON",
+    "telefone_cliente": "13999999900",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-04T23:08:07.388Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 162,
+  "fields": {
+    "nome_cliente": "REGIS",
+    "telefone_cliente": "13000000000",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-04T23:09:41.483Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 163,
+  "fields": {
+    "nome_cliente": "BRUNO",
+    "telefone_cliente": "1300000000",
+    "subtotal": "13.90",
+    "aberta": true,
+    "data_criacao": "2024-11-04T23:10:55.767Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 166,
+  "fields": {
+    "nome_cliente": "JENIFER",
+    "telefone_cliente": "13000002222",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-05T23:16:11.840Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 167,
+  "fields": {
+    "nome_cliente": "ROGERIO.",
+    "telefone_cliente": "13111111111",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-06T02:41:13.119Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 168,
+  "fields": {
+    "nome_cliente": "MAX",
+    "telefone_cliente": "13000005555",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-06T02:51:48.313Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 169,
+  "fields": {
+    "nome_cliente": "INDIO",
+    "telefone_cliente": "13000000099",
+    "subtotal": "16.80",
+    "aberta": true,
+    "data_criacao": "2024-11-06T04:40:39.299Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 170,
+  "fields": {
+    "nome_cliente": "FILHO JOJO",
+    "telefone_cliente": "13981242568",
+    "subtotal": "130.50",
+    "aberta": true,
+    "data_criacao": "2024-11-06T13:26:42.844Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 171,
+  "fields": {
+    "nome_cliente": "CORINTHIANO",
+    "telefone_cliente": "13991901884",
+    "subtotal": "157.90",
+    "aberta": true,
+    "data_criacao": "2024-11-06T21:15:05.943Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 173,
+  "fields": {
+    "nome_cliente": "DANILO",
+    "telefone_cliente": "00000011111",
+    "subtotal": "15.60",
+    "aberta": true,
+    "data_criacao": "2024-11-07T03:39:56.905Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 174,
+  "fields": {
+    "nome_cliente": "ANDREIA",
+    "telefone_cliente": "11997002273",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-07T22:12:28.560Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 175,
+  "fields": {
+    "nome_cliente": "GORDO",
+    "telefone_cliente": "12345678999",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-08T03:45:02.819Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 177,
+  "fields": {
+    "nome_cliente": "LU",
+    "telefone_cliente": "11997002275",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-08T20:53:33.190Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 180,
+  "fields": {
+    "nome_cliente": "FLAVIO",
+    "telefone_cliente": "13995478169",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-09T19:48:01.830Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 181,
+  "fields": {
+    "nome_cliente": "REBECA",
+    "telefone_cliente": "12588888888",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-10T00:36:04.190Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 182,
+  "fields": {
+    "nome_cliente": "LUCIA COROA",
+    "telefone_cliente": "13996548712",
+    "subtotal": "65.40",
+    "aberta": true,
+    "data_criacao": "2024-11-10T14:58:05.982Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 183,
+  "fields": {
+    "nome_cliente": "RODINEY",
+    "telefone_cliente": "13986544545",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-10T15:28:35.309Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 186,
+  "fields": {
+    "nome_cliente": "PAULO",
+    "telefone_cliente": "13991445763",
+    "subtotal": "4.90",
+    "aberta": true,
+    "data_criacao": "2024-11-10T22:49:28.972Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 189,
+  "fields": {
+    "nome_cliente": "BENALDO",
+    "telefone_cliente": "55555555555",
+    "subtotal": "9.00",
+    "aberta": true,
+    "data_criacao": "2024-11-11T22:11:38.260Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 190,
+  "fields": {
+    "nome_cliente": "FELIPE",
+    "telefone_cliente": "13987454651",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-12T15:52:23.408Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 195,
+  "fields": {
+    "nome_cliente": "JAMIL",
+    "telefone_cliente": "13000000020",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-13T00:13:40.833Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 196,
+  "fields": {
+    "nome_cliente": "BRANCO",
+    "telefone_cliente": "13997313780",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-13T01:50:17.325Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 197,
+  "fields": {
+    "nome_cliente": "JERFERSON",
+    "telefone_cliente": "13812458785",
+    "subtotal": "9.00",
+    "aberta": true,
+    "data_criacao": "2024-11-13T17:41:08.431Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 198,
+  "fields": {
+    "nome_cliente": "BOLONHA",
+    "telefone_cliente": "13991360119",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-13T20:30:20.216Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 199,
+  "fields": {
+    "nome_cliente": "LEANDRO",
+    "telefone_cliente": "13981071501",
+    "subtotal": "6.50",
+    "aberta": true,
+    "data_criacao": "2024-11-13T20:35:46.474Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 203,
+  "fields": {
+    "nome_cliente": "VICTOR",
+    "telefone_cliente": "85994475769",
+    "subtotal": "28.90",
+    "aberta": true,
+    "data_criacao": "2024-11-13T23:02:12.590Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 204,
+  "fields": {
+    "nome_cliente": "JOSE",
+    "telefone_cliente": "13991577931",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-14T17:55:07.433Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 205,
+  "fields": {
+    "nome_cliente": "PABLO",
+    "telefone_cliente": "13998745125",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-14T20:05:55.814Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 207,
+  "fields": {
+    "nome_cliente": "ELIAS",
+    "telefone_cliente": "1988286768",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-14T21:37:47.315Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 208,
+  "fields": {
+    "nome_cliente": "CARLOS",
+    "telefone_cliente": "13996342521",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-14T21:49:23.463Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 209,
+  "fields": {
+    "nome_cliente": "DELISON",
+    "telefone_cliente": "11972593983",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-14T21:50:23.567Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 211,
+  "fields": {
+    "nome_cliente": "TOBIAS",
+    "telefone_cliente": "13996541287",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T00:10:47.368Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 212,
+  "fields": {
+    "nome_cliente": "LEO",
+    "telefone_cliente": "12323333333",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T04:18:27.233Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 214,
+  "fields": {
+    "nome_cliente": "LEONARDO LILI",
+    "telefone_cliente": "25252522222",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T04:26:08.895Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 215,
+  "fields": {
+    "nome_cliente": "CASAL LOIRA",
+    "telefone_cliente": "0000000000",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T04:31:38.715Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 217,
+  "fields": {
+    "nome_cliente": "RENATO",
+    "telefone_cliente": "1399857635",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T17:52:26.372Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 218,
+  "fields": {
+    "nome_cliente": "MUDI",
+    "telefone_cliente": "13996547821",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T18:06:43.616Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 220,
+  "fields": {
+    "nome_cliente": "TIAGO",
+    "telefone_cliente": "13985554525",
+    "subtotal": "16.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T18:57:59.988Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 221,
+  "fields": {
+    "nome_cliente": "CASAL 10 (DOUGLAS)",
+    "telefone_cliente": "32313131231",
+    "subtotal": "27.60",
+    "aberta": true,
+    "data_criacao": "2024-11-15T22:15:59.397Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 222,
+  "fields": {
+    "nome_cliente": "GASCAN",
+    "telefone_cliente": "12312131321",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-15T22:53:53.695Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 224,
+  "fields": {
+    "nome_cliente": "VELTON",
+    "telefone_cliente": "13996223548",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-16T16:54:33.787Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 225,
+  "fields": {
+    "nome_cliente": "NEI",
+    "telefone_cliente": "13974160416",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-16T17:52:46.751Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 226,
+  "fields": {
+    "nome_cliente": "RAPHAEL",
+    "telefone_cliente": "13996587894",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-16T21:08:57.404Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 228,
+  "fields": {
+    "nome_cliente": "MARCINHO",
+    "telefone_cliente": "12312312412",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-17T01:11:17.447Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 229,
+  "fields": {
+    "nome_cliente": "LUISSS",
+    "telefone_cliente": "12312313123",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-17T01:25:09.265Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 233,
+  "fields": {
+    "nome_cliente": "ANDRE",
+    "telefone_cliente": "85994475762",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-17T22:31:21.377Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 234,
+  "fields": {
+    "nome_cliente": "RICARDO SANTA",
+    "telefone_cliente": "00000755555",
+    "subtotal": "6.50",
+    "aberta": true,
+    "data_criacao": "2024-11-18T00:21:10.356Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 235,
+  "fields": {
+    "nome_cliente": "GRINGO",
+    "telefone_cliente": "13787845645",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-18T16:37:29.559Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 236,
+  "fields": {
+    "nome_cliente": "LUIS CEGO",
+    "telefone_cliente": "13996581122",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-18T23:52:35.718Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 237,
+  "fields": {
+    "nome_cliente": "LUCAS",
+    "telefone_cliente": "13987450084",
+    "subtotal": "16.80",
+    "aberta": true,
+    "data_criacao": "2024-11-19T00:40:46.463Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 238,
+  "fields": {
+    "nome_cliente": "AMAURI",
+    "telefone_cliente": "22232255555",
+    "subtotal": "0.00",
+    "aberta": true,
+    "data_criacao": "2024-11-19T02:14:00.039Z"
+  }
+},
+{
+  "model": "comandas.tab",
+  "pk": 240,
+  "fields": {
+    "nome_cliente": "CASALL",
+    "telefone_cliente": "12312312313",
+    "subtotal": "55.00",
+    "aberta": true,
+    "data_criacao": "2024-11-19T21:02:03.223Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 12,
+  "fields": {
+    "tab": 5,
+    "produto": 250,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T15:19:40.681Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 13,
+  "fields": {
+    "tab": 5,
+    "produto": 315,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T15:20:05.842Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 14,
+  "fields": {
+    "tab": 5,
+    "produto": 1,
+    "quantidade": 4,
+    "preco_unitario": "8.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T15:20:25.401Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 89,
+  "fields": {
+    "tab": 31,
+    "produto": 318,
+    "quantidade": 5,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T22:25:47.787Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 90,
+  "fields": {
+    "tab": 31,
+    "produto": 1535,
+    "quantidade": 1,
+    "preco_unitario": "25.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T22:34:35.211Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 99,
+  "fields": {
+    "tab": 31,
+    "produto": 64,
+    "quantidade": 1,
+    "preco_unitario": "11.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-25T23:13:04.587Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 338,
+  "fields": {
+    "tab": 43,
+    "produto": 32,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-28T15:14:19.377Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 356,
+  "fields": {
+    "tab": 43,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-10-28T22:04:05.728Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 357,
+  "fields": {
+    "tab": 43,
+    "produto": 1335,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-10-28T22:09:52.037Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 371,
+  "fields": {
+    "tab": 91,
+    "produto": 307,
+    "quantidade": 4,
+    "preco_unitario": "6.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-28T22:49:04.331Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 372,
+  "fields": {
+    "tab": 91,
+    "produto": 300,
+    "quantidade": 3,
+    "preco_unitario": "9.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-28T22:49:29.842Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 387,
+  "fields": {
+    "tab": 43,
+    "produto": 1440,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-29T19:06:18.825Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 405,
+  "fields": {
+    "tab": 43,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-29T23:24:42.426Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 406,
+  "fields": {
+    "tab": 43,
+    "produto": 92,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-10-29T23:24:50.993Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 441,
+  "fields": {
+    "tab": 104,
+    "produto": 310,
+    "quantidade": 3,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-10-30T21:54:35.723Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 491,
+  "fields": {
+    "tab": 43,
+    "produto": 1550,
+    "quantidade": 1,
+    "preco_unitario": "16.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-10-31T18:04:12.995Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 513,
+  "fields": {
+    "tab": 16,
+    "produto": 309,
+    "quantidade": 7,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-10-31T22:24:34.812Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 562,
+  "fields": {
+    "tab": 126,
+    "produto": 1370,
+    "quantidade": 4,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-01T14:20:19.203Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 566,
+  "fields": {
+    "tab": 5,
+    "produto": 597,
+    "quantidade": 2,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-01T15:53:07.835Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 567,
+  "fields": {
+    "tab": 5,
+    "produto": 49,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-01T15:53:30.440Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 569,
+  "fields": {
+    "tab": 43,
+    "produto": 1376,
+    "quantidade": 1,
+    "preco_unitario": "8.50",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-01T16:00:01.970Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 577,
+  "fields": {
+    "tab": 126,
+    "produto": 310,
+    "quantidade": 11,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-01T17:38:46.125Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 579,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-01T19:09:30.961Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 585,
+  "fields": {
+    "tab": 8,
+    "produto": 319,
+    "quantidade": 12,
+    "preco_unitario": "3.90",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-01T22:24:55.866Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 586,
+  "fields": {
+    "tab": 128,
+    "produto": 1205,
+    "quantidade": 6,
+    "preco_unitario": "3.50",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-01T22:26:01.550Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 587,
+  "fields": {
+    "tab": 128,
+    "produto": 1112,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-01T22:34:28.925Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 621,
+  "fields": {
+    "tab": 71,
+    "produto": 1,
+    "quantidade": 3,
+    "preco_unitario": "8.50",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-02T08:01:27.322Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 622,
+  "fields": {
+    "tab": 71,
+    "produto": 307,
+    "quantidade": 3,
+    "preco_unitario": "6.50",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-02T13:23:03.660Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 623,
+  "fields": {
+    "tab": 71,
+    "produto": 1497,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-02T13:23:19.916Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 627,
+  "fields": {
+    "tab": 126,
+    "produto": 1216,
+    "quantidade": 2,
+    "preco_unitario": "7.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-02T16:02:16.162Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 680,
+  "fields": {
+    "tab": 23,
+    "produto": 309,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-03T08:15:23.000Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 700,
+  "fields": {
+    "tab": 126,
+    "produto": 458,
+    "quantidade": 1,
+    "preco_unitario": "11.25",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-03T16:31:16.272Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 762,
+  "fields": {
+    "tab": 126,
+    "produto": 1367,
+    "quantidade": 3,
+    "preco_unitario": "4.50",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-04T19:08:08.821Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 763,
+  "fields": {
+    "tab": 126,
+    "produto": 458,
+    "quantidade": 1,
+    "preco_unitario": "11.25",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-04T19:08:23.875Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 776,
+  "fields": {
+    "tab": 163,
+    "produto": 309,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-04T23:11:02.768Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 777,
+  "fields": {
+    "tab": 163,
+    "produto": 1402,
+    "quantidade": 1,
+    "preco_unitario": "10.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-04T23:11:10.610Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 792,
+  "fields": {
+    "tab": 17,
+    "produto": 246,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:29:44.898Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 793,
+  "fields": {
+    "tab": 17,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:30:03.854Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 795,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 3,
+    "preco_unitario": "2.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:30:17.348Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 796,
+  "fields": {
+    "tab": 17,
+    "produto": 91,
+    "quantidade": 4,
+    "preco_unitario": "4.50",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:30:58.195Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 797,
+  "fields": {
+    "tab": 17,
+    "produto": 1217,
+    "quantidade": 3,
+    "preco_unitario": "2.50",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:31:32.587Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 798,
+  "fields": {
+    "tab": 17,
+    "produto": 1118,
+    "quantidade": 2,
+    "preco_unitario": "5.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T06:31:41.946Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 803,
+  "fields": {
+    "tab": 104,
+    "produto": 310,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 7,
+    "data_criacao": "2024-11-05T13:21:15.004Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 804,
+  "fields": {
+    "tab": 17,
+    "produto": 673,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T13:46:57.943Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 805,
+  "fields": {
+    "tab": 17,
+    "produto": 1441,
+    "quantidade": 2,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T13:47:22.865Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 806,
+  "fields": {
+    "tab": 17,
+    "produto": 1369,
+    "quantidade": 7,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T13:47:31.393Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 808,
+  "fields": {
+    "tab": 17,
+    "produto": 402,
+    "quantidade": 1,
+    "preco_unitario": "14.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T14:03:07.266Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 809,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 21,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T14:03:55.770Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 810,
+  "fields": {
+    "tab": 17,
+    "produto": 1390,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T14:17:32.398Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 811,
+  "fields": {
+    "tab": 126,
+    "produto": 1496,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T15:42:08.463Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 814,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 6,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T18:54:21.647Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 815,
+  "fields": {
+    "tab": 23,
+    "produto": 472,
+    "quantidade": 5,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-05T19:30:42.153Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 853,
+  "fields": {
+    "tab": 26,
+    "produto": 1441,
+    "quantidade": 3,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T12:24:06.219Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 854,
+  "fields": {
+    "tab": 26,
+    "produto": 1567,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T12:29:20.669Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 859,
+  "fields": {
+    "tab": 126,
+    "produto": 458,
+    "quantidade": 1,
+    "preco_unitario": "11.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T13:42:25.904Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 861,
+  "fields": {
+    "tab": 17,
+    "produto": 624,
+    "quantidade": 2,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T15:30:44.482Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 862,
+  "fields": {
+    "tab": 17,
+    "produto": 1369,
+    "quantidade": 3,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T15:31:02.780Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 863,
+  "fields": {
+    "tab": 17,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T15:31:38.605Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 868,
+  "fields": {
+    "tab": 12,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 6,
+    "data_criacao": "2024-11-06T16:30:25.536Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 869,
+  "fields": {
+    "tab": 26,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T18:09:55.766Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 871,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 13,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T19:29:50.830Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 872,
+  "fields": {
+    "tab": 171,
+    "produto": 10,
+    "quantidade": 2,
+    "preco_unitario": "13.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:20:52.713Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 873,
+  "fields": {
+    "tab": 171,
+    "produto": 359,
+    "quantidade": 1,
+    "preco_unitario": "45.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:22:13.514Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 874,
+  "fields": {
+    "tab": 171,
+    "produto": 394,
+    "quantidade": 6,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:22:19.402Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 875,
+  "fields": {
+    "tab": 171,
+    "produto": 1253,
+    "quantidade": 2,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:22:35.330Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 876,
+  "fields": {
+    "tab": 171,
+    "produto": 903,
+    "quantidade": 2,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:22:59.217Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 877,
+  "fields": {
+    "tab": 171,
+    "produto": 1093,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T21:23:11.801Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 881,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 51,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T22:33:24.345Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 887,
+  "fields": {
+    "tab": 43,
+    "produto": 1571,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-06T23:07:19.854Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 893,
+  "fields": {
+    "tab": 12,
+    "produto": 1369,
+    "quantidade": 4,
+    "preco_unitario": "6.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-07T03:01:02.703Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 903,
+  "fields": {
+    "tab": 43,
+    "produto": 1576,
+    "quantidade": 9,
+    "preco_unitario": "0.25",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-07T16:23:33.850Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 909,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 8,
+    "preco_unitario": "3.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-07T19:12:38.733Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 915,
+  "fields": {
+    "tab": 26,
+    "produto": 911,
+    "quantidade": 3,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-07T19:52:59.698Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 922,
+  "fields": {
+    "tab": 12,
+    "produto": 49,
+    "quantidade": 4,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-07T22:23:18.717Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 923,
+  "fields": {
+    "tab": 43,
+    "produto": 107,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-07T22:25:05.682Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 958,
+  "fields": {
+    "tab": 17,
+    "produto": 1118,
+    "quantidade": 2,
+    "preco_unitario": "5.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T14:40:56.035Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 959,
+  "fields": {
+    "tab": 17,
+    "produto": 1496,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T15:36:03.207Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 960,
+  "fields": {
+    "tab": 17,
+    "produto": 1518,
+    "quantidade": 4,
+    "preco_unitario": "7.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T15:52:42.587Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 961,
+  "fields": {
+    "tab": 17,
+    "produto": 321,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T15:52:55.246Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 964,
+  "fields": {
+    "tab": 12,
+    "produto": 1542,
+    "quantidade": 4,
+    "preco_unitario": "10.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-08T16:32:24.218Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 965,
+  "fields": {
+    "tab": 12,
+    "produto": 1330,
+    "quantidade": 2,
+    "preco_unitario": "2.50",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-08T16:32:54.877Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 974,
+  "fields": {
+    "tab": 26,
+    "produto": 1087,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T19:39:57.570Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 975,
+  "fields": {
+    "tab": 26,
+    "produto": 610,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T19:57:52.540Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 976,
+  "fields": {
+    "tab": 26,
+    "produto": 1524,
+    "quantidade": 1,
+    "preco_unitario": "4.99",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T19:57:57.907Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 977,
+  "fields": {
+    "tab": 26,
+    "produto": 911,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T19:58:02.923Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 987,
+  "fields": {
+    "tab": 43,
+    "produto": 151,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-08T21:48:25.717Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1000,
+  "fields": {
+    "tab": 12,
+    "produto": 1369,
+    "quantidade": 4,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-08T22:44:19.523Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1005,
+  "fields": {
+    "tab": 43,
+    "produto": 1369,
+    "quantidade": 2,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T00:34:55.997Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1006,
+  "fields": {
+    "tab": 43,
+    "produto": 1336,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T00:43:20.564Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1007,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 6,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T00:47:02.352Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1009,
+  "fields": {
+    "tab": 170,
+    "produto": 310,
+    "quantidade": 25,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T01:17:34.664Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1013,
+  "fields": {
+    "tab": 27,
+    "produto": 1216,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T02:05:19.769Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1023,
+  "fields": {
+    "tab": 17,
+    "produto": 1441,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 8,
+    "data_criacao": "2024-11-09T04:25:26.770Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1026,
+  "fields": {
+    "tab": 170,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T06:50:09.149Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1027,
+  "fields": {
+    "tab": 12,
+    "produto": 250,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T06:58:54.210Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1029,
+  "fields": {
+    "tab": 17,
+    "produto": 543,
+    "quantidade": 1,
+    "preco_unitario": "16.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T07:01:00.667Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1030,
+  "fields": {
+    "tab": 12,
+    "produto": 656,
+    "quantidade": 3,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T07:19:03.530Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1031,
+  "fields": {
+    "tab": 1,
+    "produto": 309,
+    "quantidade": 3,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T07:57:12.915Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1032,
+  "fields": {
+    "tab": 27,
+    "produto": 451,
+    "quantidade": 2,
+    "preco_unitario": "9.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T13:50:38.001Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1041,
+  "fields": {
+    "tab": 17,
+    "produto": 1120,
+    "quantidade": 2,
+    "preco_unitario": "35.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T17:08:32.257Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1042,
+  "fields": {
+    "tab": 17,
+    "produto": 107,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T17:08:41.409Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1043,
+  "fields": {
+    "tab": 17,
+    "produto": 1209,
+    "quantidade": 2,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T17:08:55.526Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1044,
+  "fields": {
+    "tab": 17,
+    "produto": 321,
+    "quantidade": 3,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T17:09:23.826Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1045,
+  "fields": {
+    "tab": 26,
+    "produto": 625,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T19:01:37.896Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1046,
+  "fields": {
+    "tab": 26,
+    "produto": 1195,
+    "quantidade": 1,
+    "preco_unitario": "13.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T19:01:44.248Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1047,
+  "fields": {
+    "tab": 12,
+    "produto": 656,
+    "quantidade": 2,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T19:06:22.631Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1053,
+  "fields": {
+    "tab": 27,
+    "produto": 1565,
+    "quantidade": 1,
+    "preco_unitario": "35.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T19:55:10.580Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1056,
+  "fields": {
+    "tab": 26,
+    "produto": 1309,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-09T20:11:05.163Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1058,
+  "fields": {
+    "tab": 43,
+    "produto": 1110,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-09T20:14:43.350Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1070,
+  "fields": {
+    "tab": 12,
+    "produto": 1317,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-09T21:38:21.427Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1082,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 3,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-09T23:39:42.339Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1092,
+  "fields": {
+    "tab": 27,
+    "produto": 1312,
+    "quantidade": 1,
+    "preco_unitario": "12.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T06:27:23.892Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1093,
+  "fields": {
+    "tab": 27,
+    "produto": 1531,
+    "quantidade": 1,
+    "preco_unitario": "8.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T06:29:47.834Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1099,
+  "fields": {
+    "tab": 182,
+    "produto": 1344,
+    "quantidade": 2,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T14:58:12.229Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1100,
+  "fields": {
+    "tab": 182,
+    "produto": 250,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T14:58:19.034Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1120,
+  "fields": {
+    "tab": 145,
+    "produto": 348,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T18:37:20.727Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1121,
+  "fields": {
+    "tab": 145,
+    "produto": 319,
+    "quantidade": 3,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T18:37:29.204Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1123,
+  "fields": {
+    "tab": 26,
+    "produto": 1304,
+    "quantidade": 1,
+    "preco_unitario": "9.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T18:50:53.789Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1124,
+  "fields": {
+    "tab": 145,
+    "produto": 125,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T18:56:59.195Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1125,
+  "fields": {
+    "tab": 145,
+    "produto": 319,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T18:57:07.502Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1126,
+  "fields": {
+    "tab": 8,
+    "produto": 1543,
+    "quantidade": 1,
+    "preco_unitario": "7.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T19:26:36.598Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1127,
+  "fields": {
+    "tab": 26,
+    "produto": 282,
+    "quantidade": 1,
+    "preco_unitario": "12.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T20:45:21.199Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1128,
+  "fields": {
+    "tab": 17,
+    "produto": 1064,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-10T20:46:21.251Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1129,
+  "fields": {
+    "tab": 26,
+    "produto": 393,
+    "quantidade": 4,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T20:48:54.022Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1132,
+  "fields": {
+    "tab": 26,
+    "produto": 976,
+    "quantidade": 1,
+    "preco_unitario": "29.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T20:54:53.750Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1137,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:44:14.911Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1138,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:44:27.680Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1139,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 9,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:44:39.962Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1144,
+  "fields": {
+    "tab": 186,
+    "produto": 312,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:49:37.990Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1145,
+  "fields": {
+    "tab": 186,
+    "produto": 1069,
+    "quantidade": 1,
+    "preco_unitario": "1.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:51:01.253Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1147,
+  "fields": {
+    "tab": 170,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-10T22:53:35.285Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1154,
+  "fields": {
+    "tab": 27,
+    "produto": 702,
+    "quantidade": 3,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T01:30:44.271Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1155,
+  "fields": {
+    "tab": 27,
+    "produto": 126,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T01:31:20.206Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1162,
+  "fields": {
+    "tab": 27,
+    "produto": 487,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T02:54:19.252Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1167,
+  "fields": {
+    "tab": 170,
+    "produto": 1411,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T14:08:14.761Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1168,
+  "fields": {
+    "tab": 170,
+    "produto": 1285,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T14:08:20.182Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1169,
+  "fields": {
+    "tab": 170,
+    "produto": 1186,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T14:08:53.964Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1173,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T14:56:29.219Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1174,
+  "fields": {
+    "tab": 27,
+    "produto": 1217,
+    "quantidade": 1,
+    "preco_unitario": "2.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T14:56:39.253Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1175,
+  "fields": {
+    "tab": 43,
+    "produto": 1576,
+    "quantidade": 4,
+    "preco_unitario": "0.25",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-11T14:58:23.528Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1189,
+  "fields": {
+    "tab": 17,
+    "produto": 1426,
+    "quantidade": 2,
+    "preco_unitario": "12.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-11T20:31:39.040Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1192,
+  "fields": {
+    "tab": 17,
+    "produto": 1345,
+    "quantidade": 1,
+    "preco_unitario": "10.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-11T20:32:36.978Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1195,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 3,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T21:48:37.585Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1196,
+  "fields": {
+    "tab": 27,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-11T21:48:49.545Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1199,
+  "fields": {
+    "tab": 189,
+    "produto": 702,
+    "quantidade": 2,
+    "preco_unitario": "4.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-11T22:11:45.491Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1202,
+  "fields": {
+    "tab": 17,
+    "produto": 1275,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-12T00:18:56.634Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1203,
+  "fields": {
+    "tab": 170,
+    "produto": 1216,
+    "quantidade": 3,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T00:30:00.792Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1206,
+  "fields": {
+    "tab": 173,
+    "produto": 319,
+    "quantidade": 4,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T01:06:31.702Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1213,
+  "fields": {
+    "tab": 17,
+    "produto": 1518,
+    "quantidade": 2,
+    "preco_unitario": "7.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T15:21:55.581Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1215,
+  "fields": {
+    "tab": 17,
+    "produto": 860,
+    "quantidade": 1,
+    "preco_unitario": "12.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T15:25:51.127Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1216,
+  "fields": {
+    "tab": 17,
+    "produto": 19,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T15:26:43.726Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1219,
+  "fields": {
+    "tab": 17,
+    "produto": 589,
+    "quantidade": 3,
+    "preco_unitario": "8.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T15:32:28.862Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1220,
+  "fields": {
+    "tab": 17,
+    "produto": 1209,
+    "quantidade": 4,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T15:33:55.841Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1227,
+  "fields": {
+    "tab": 12,
+    "produto": 1370,
+    "quantidade": 2,
+    "preco_unitario": "8.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-12T17:16:46.752Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1232,
+  "fields": {
+    "tab": 17,
+    "produto": 589,
+    "quantidade": 3,
+    "preco_unitario": "8.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T17:34:58.093Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1233,
+  "fields": {
+    "tab": 17,
+    "produto": 1209,
+    "quantidade": 3,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T17:35:25.239Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1238,
+  "fields": {
+    "tab": 23,
+    "produto": 702,
+    "quantidade": 6,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T18:39:50.523Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1239,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T18:44:12.533Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1246,
+  "fields": {
+    "tab": 17,
+    "produto": 1217,
+    "quantidade": 2,
+    "preco_unitario": "2.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T19:50:06.153Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1247,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 5,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T19:55:19.558Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1248,
+  "fields": {
+    "tab": 27,
+    "produto": 451,
+    "quantidade": 1,
+    "preco_unitario": "9.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T19:55:36.322Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1249,
+  "fields": {
+    "tab": 170,
+    "produto": 1497,
+    "quantidade": 3,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-12T20:28:37.776Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1255,
+  "fields": {
+    "tab": 1,
+    "produto": 1429,
+    "quantidade": 8,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T00:12:32.155Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1260,
+  "fields": {
+    "tab": 71,
+    "produto": 589,
+    "quantidade": 4,
+    "preco_unitario": "8.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-13T01:29:55.248Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1261,
+  "fields": {
+    "tab": 17,
+    "produto": 1275,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-13T01:35:24.551Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1264,
+  "fields": {
+    "tab": 17,
+    "produto": 63,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-13T03:03:24.662Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1266,
+  "fields": {
+    "tab": 97,
+    "produto": 1,
+    "quantidade": 4,
+    "preco_unitario": "8.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T16:20:48.705Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1271,
+  "fields": {
+    "tab": 12,
+    "produto": 656,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T18:24:22.406Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1272,
+  "fields": {
+    "tab": 23,
+    "produto": 1111,
+    "quantidade": 12,
+    "preco_unitario": "0.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T19:19:57.743Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1273,
+  "fields": {
+    "tab": 23,
+    "produto": 472,
+    "quantidade": 3,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T19:27:04.672Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1274,
+  "fields": {
+    "tab": 23,
+    "produto": 1122,
+    "quantidade": 3,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T19:28:46.502Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1275,
+  "fields": {
+    "tab": 23,
+    "produto": 315,
+    "quantidade": 5,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-13T19:29:07.239Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1282,
+  "fields": {
+    "tab": 17,
+    "produto": 1553,
+    "quantidade": 2,
+    "preco_unitario": "15.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-13T20:46:03.649Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1285,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 7,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-13T21:05:35.578Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1307,
+  "fields": {
+    "tab": 155,
+    "produto": 312,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T00:46:49.989Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1308,
+  "fields": {
+    "tab": 17,
+    "produto": 1103,
+    "quantidade": 1,
+    "preco_unitario": "3.25",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T00:47:58.875Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1314,
+  "fields": {
+    "tab": 27,
+    "produto": 1208,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T01:25:46.927Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1322,
+  "fields": {
+    "tab": 46,
+    "produto": 1429,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T02:26:37.196Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1324,
+  "fields": {
+    "tab": 17,
+    "produto": 1316,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T02:53:38.855Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1326,
+  "fields": {
+    "tab": 17,
+    "produto": 1369,
+    "quantidade": 4,
+    "preco_unitario": "6.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T02:53:59.490Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1327,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 2,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T03:09:08.607Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1328,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T03:10:57.202Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1329,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T03:40:05.488Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1330,
+  "fields": {
+    "tab": 27,
+    "produto": 1216,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T03:45:34.206Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1332,
+  "fields": {
+    "tab": 199,
+    "produto": 702,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T04:13:02.663Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1333,
+  "fields": {
+    "tab": 199,
+    "produto": 1497,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T04:13:10.842Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1342,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 4,
+    "preco_unitario": "3.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T16:59:46.227Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1343,
+  "fields": {
+    "tab": 43,
+    "produto": 1576,
+    "quantidade": 4,
+    "preco_unitario": "0.25",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T17:44:22.443Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1344,
+  "fields": {
+    "tab": 43,
+    "produto": 121,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-14T17:44:37.640Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1347,
+  "fields": {
+    "tab": 23,
+    "produto": 315,
+    "quantidade": 5,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T19:25:06.820Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1348,
+  "fields": {
+    "tab": 23,
+    "produto": 1338,
+    "quantidade": 1,
+    "preco_unitario": "9.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T19:25:17.236Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1352,
+  "fields": {
+    "tab": 23,
+    "produto": 100,
+    "quantidade": 4,
+    "preco_unitario": "2.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T19:30:29.414Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1353,
+  "fields": {
+    "tab": 23,
+    "produto": 1429,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T19:34:47.582Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1372,
+  "fields": {
+    "tab": 27,
+    "produto": 460,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T23:55:48.910Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1373,
+  "fields": {
+    "tab": 27,
+    "produto": 1369,
+    "quantidade": 2,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T23:57:55.132Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1374,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-14T23:58:04.196Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1391,
+  "fields": {
+    "tab": 3,
+    "produto": 310,
+    "quantidade": 5,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T02:10:18.319Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1392,
+  "fields": {
+    "tab": 3,
+    "produto": 312,
+    "quantidade": 4,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T02:10:22.080Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1395,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 5,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T04:10:34.490Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1396,
+  "fields": {
+    "tab": 23,
+    "produto": 1216,
+    "quantidade": 2,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T04:10:48.444Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1397,
+  "fields": {
+    "tab": 23,
+    "produto": 19,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T04:11:24.012Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1407,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 8,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T07:25:03.836Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1409,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 3,
+    "preco_unitario": "3.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T13:00:44.342Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1412,
+  "fields": {
+    "tab": 182,
+    "produto": 964,
+    "quantidade": 1,
+    "preco_unitario": "10.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T13:30:45.445Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1413,
+  "fields": {
+    "tab": 17,
+    "produto": 306,
+    "quantidade": 2,
+    "preco_unitario": "4.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T15:35:31.190Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1418,
+  "fields": {
+    "tab": 157,
+    "produto": 319,
+    "quantidade": 22,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T16:33:40.390Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1424,
+  "fields": {
+    "tab": 171,
+    "produto": 1,
+    "quantidade": 3,
+    "preco_unitario": "8.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T17:11:31.705Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1425,
+  "fields": {
+    "tab": 171,
+    "produto": 312,
+    "quantidade": 4,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T17:11:41.222Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1426,
+  "fields": {
+    "tab": 155,
+    "produto": 319,
+    "quantidade": 10,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T17:33:43.901Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1427,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 7,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T17:44:10.333Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1442,
+  "fields": {
+    "tab": 220,
+    "produto": 315,
+    "quantidade": 4,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T18:58:11.347Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1452,
+  "fields": {
+    "tab": 26,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T19:58:54.330Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1453,
+  "fields": {
+    "tab": 26,
+    "produto": 218,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T19:59:00.566Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1454,
+  "fields": {
+    "tab": 26,
+    "produto": 225,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T19:59:12.216Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1455,
+  "fields": {
+    "tab": 26,
+    "produto": 306,
+    "quantidade": 1,
+    "preco_unitario": "4.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T19:59:58.326Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1457,
+  "fields": {
+    "tab": 157,
+    "produto": 310,
+    "quantidade": 2,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T20:19:34.793Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1458,
+  "fields": {
+    "tab": 17,
+    "produto": 1397,
+    "quantidade": 1,
+    "preco_unitario": "10.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T20:31:36.406Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1459,
+  "fields": {
+    "tab": 17,
+    "produto": 1111,
+    "quantidade": 2,
+    "preco_unitario": "0.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T20:34:17.602Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1460,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 11,
+    "preco_unitario": "2.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T20:34:39.200Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1462,
+  "fields": {
+    "tab": 17,
+    "produto": 487,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T21:45:15.300Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1463,
+  "fields": {
+    "tab": 43,
+    "produto": 487,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T21:45:29.973Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1464,
+  "fields": {
+    "tab": 23,
+    "produto": 1597,
+    "quantidade": 1,
+    "preco_unitario": "43.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T22:15:07.559Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1465,
+  "fields": {
+    "tab": 23,
+    "produto": 636,
+    "quantidade": 2,
+    "preco_unitario": "36.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T22:15:44.721Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1472,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 4,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T22:20:50.363Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1473,
+  "fields": {
+    "tab": 148,
+    "produto": 1429,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T22:21:41.773Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1476,
+  "fields": {
+    "tab": 48,
+    "produto": 316,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-15T22:59:29.582Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1477,
+  "fields": {
+    "tab": 155,
+    "produto": 164,
+    "quantidade": 2,
+    "preco_unitario": "1.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T23:27:26.651Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1479,
+  "fields": {
+    "tab": 155,
+    "produto": 1429,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-15T23:50:21.076Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1481,
+  "fields": {
+    "tab": 27,
+    "produto": 300,
+    "quantidade": 1,
+    "preco_unitario": "9.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T01:14:51.697Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1490,
+  "fields": {
+    "tab": 17,
+    "produto": 435,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T04:01:08.958Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1495,
+  "fields": {
+    "tab": 17,
+    "produto": 624,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T05:34:52.215Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1498,
+  "fields": {
+    "tab": 27,
+    "produto": 460,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T14:51:40.394Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1501,
+  "fields": {
+    "tab": 23,
+    "produto": 309,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-16T15:25:23.275Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1503,
+  "fields": {
+    "tab": 43,
+    "produto": 151,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-16T16:11:22.255Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1526,
+  "fields": {
+    "tab": 26,
+    "produto": 282,
+    "quantidade": 1,
+    "preco_unitario": "12.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:08:58.341Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1527,
+  "fields": {
+    "tab": 26,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:09:02.838Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1528,
+  "fields": {
+    "tab": 26,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:09:05.244Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1530,
+  "fields": {
+    "tab": 26,
+    "produto": 393,
+    "quantidade": 12,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:10:12.613Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1531,
+  "fields": {
+    "tab": 26,
+    "produto": 1408,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:10:23.895Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1532,
+  "fields": {
+    "tab": 26,
+    "produto": 1502,
+    "quantidade": 1,
+    "preco_unitario": "30.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:12:37.348Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1533,
+  "fields": {
+    "tab": 26,
+    "produto": 33,
+    "quantidade": 1,
+    "preco_unitario": "8.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T22:16:12.225Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1534,
+  "fields": {
+    "tab": 101,
+    "produto": 309,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-16T22:18:29.589Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1536,
+  "fields": {
+    "tab": 26,
+    "produto": 13,
+    "quantidade": 1,
+    "preco_unitario": "13.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T23:07:23.823Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1537,
+  "fields": {
+    "tab": 26,
+    "produto": 228,
+    "quantidade": 1,
+    "preco_unitario": "0.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T23:07:30.535Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1539,
+  "fields": {
+    "tab": 99,
+    "produto": 310,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-16T23:32:35.992Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1540,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 7,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-16T23:40:41.670Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1542,
+  "fields": {
+    "tab": 36,
+    "produto": 312,
+    "quantidade": 6,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T00:42:00.982Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1543,
+  "fields": {
+    "tab": 17,
+    "produto": 1497,
+    "quantidade": 12,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T00:42:38.245Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1545,
+  "fields": {
+    "tab": 17,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T00:43:47.284Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1554,
+  "fields": {
+    "tab": 221,
+    "produto": 319,
+    "quantidade": 4,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-17T01:32:28.339Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1555,
+  "fields": {
+    "tab": 221,
+    "produto": 64,
+    "quantidade": 1,
+    "preco_unitario": "12.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-17T01:32:36.866Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1560,
+  "fields": {
+    "tab": 88,
+    "produto": 311,
+    "quantidade": 9,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T02:00:50.674Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1566,
+  "fields": {
+    "tab": 36,
+    "produto": 324,
+    "quantidade": 2,
+    "preco_unitario": "12.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T02:58:26.669Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1567,
+  "fields": {
+    "tab": 36,
+    "produto": 369,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T02:59:22.763Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1570,
+  "fields": {
+    "tab": 36,
+    "produto": 1454,
+    "quantidade": 1,
+    "preco_unitario": "20.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T03:32:21.279Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1574,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 10,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T04:15:54.175Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1575,
+  "fields": {
+    "tab": 138,
+    "produto": 702,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T04:20:45.313Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1577,
+  "fields": {
+    "tab": 27,
+    "produto": 1362,
+    "quantidade": 1,
+    "preco_unitario": "8.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T04:23:58.244Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1578,
+  "fields": {
+    "tab": 138,
+    "produto": 317,
+    "quantidade": 1,
+    "preco_unitario": "3.75",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T04:33:53.612Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1579,
+  "fields": {
+    "tab": 138,
+    "produto": 1429,
+    "quantidade": 1,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T04:34:24.552Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1585,
+  "fields": {
+    "tab": 23,
+    "produto": 1216,
+    "quantidade": 2,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T05:49:13.597Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1586,
+  "fields": {
+    "tab": 23,
+    "produto": 49,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T05:49:39.359Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1589,
+  "fields": {
+    "tab": 88,
+    "produto": 1497,
+    "quantidade": 13,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T07:08:02.808Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1590,
+  "fields": {
+    "tab": 169,
+    "produto": 306,
+    "quantidade": 2,
+    "preco_unitario": "4.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T08:04:12.742Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1591,
+  "fields": {
+    "tab": 169,
+    "produto": 163,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T08:26:25.473Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1596,
+  "fields": {
+    "tab": 27,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-17T13:59:40.148Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1600,
+  "fields": {
+    "tab": 182,
+    "produto": 250,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T15:55:12.320Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1606,
+  "fields": {
+    "tab": 32,
+    "produto": 315,
+    "quantidade": 5,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T16:46:29.331Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1607,
+  "fields": {
+    "tab": 32,
+    "produto": 164,
+    "quantidade": 5,
+    "preco_unitario": "1.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T16:46:46.314Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1620,
+  "fields": {
+    "tab": 43,
+    "produto": 92,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-17T20:33:22.962Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1622,
+  "fields": {
+    "tab": 43,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-17T20:33:43.562Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1623,
+  "fields": {
+    "tab": 157,
+    "produto": 319,
+    "quantidade": 8,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T20:52:04.782Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1625,
+  "fields": {
+    "tab": 2,
+    "produto": 1497,
+    "quantidade": 3,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T20:53:19.665Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1626,
+  "fields": {
+    "tab": 127,
+    "produto": 1429,
+    "quantidade": 8,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T21:48:36.932Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1628,
+  "fields": {
+    "tab": 127,
+    "produto": 306,
+    "quantidade": 1,
+    "preco_unitario": "4.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T21:49:32.790Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1636,
+  "fields": {
+    "tab": 127,
+    "produto": 307,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T22:35:50.700Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1637,
+  "fields": {
+    "tab": 157,
+    "produto": 164,
+    "quantidade": 1,
+    "preco_unitario": "1.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T22:58:40.194Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1639,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 3,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-17T23:14:40.949Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1641,
+  "fields": {
+    "tab": 27,
+    "produto": 452,
+    "quantidade": 1,
+    "preco_unitario": "10.25",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:19:56.421Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1642,
+  "fields": {
+    "tab": 234,
+    "produto": 307,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:21:23.972Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1644,
+  "fields": {
+    "tab": 11,
+    "produto": 307,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:30:14.480Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1647,
+  "fields": {
+    "tab": 32,
+    "produto": 1278,
+    "quantidade": 2,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:49:31.378Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1648,
+  "fields": {
+    "tab": 32,
+    "produto": 1370,
+    "quantidade": 1,
+    "preco_unitario": "8.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:50:02.377Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1649,
+  "fields": {
+    "tab": 32,
+    "produto": 212,
+    "quantidade": 1,
+    "preco_unitario": "7.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:50:11.956Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1650,
+  "fields": {
+    "tab": 32,
+    "produto": 1390,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T00:50:40.810Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1653,
+  "fields": {
+    "tab": 27,
+    "produto": 1429,
+    "quantidade": 8,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T01:36:42.497Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1662,
+  "fields": {
+    "tab": 1,
+    "produto": 1216,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T04:06:55.775Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1663,
+  "fields": {
+    "tab": 23,
+    "produto": 310,
+    "quantidade": 11,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T04:08:38.633Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1664,
+  "fields": {
+    "tab": 88,
+    "produto": 1390,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T04:20:48.586Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1665,
+  "fields": {
+    "tab": 23,
+    "produto": 1185,
+    "quantidade": 5,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T05:47:25.389Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1666,
+  "fields": {
+    "tab": 23,
+    "produto": 921,
+    "quantidade": 2,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T05:47:48.284Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1667,
+  "fields": {
+    "tab": 17,
+    "produto": 1118,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T06:04:46.086Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1672,
+  "fields": {
+    "tab": 182,
+    "produto": 855,
+    "quantidade": 1,
+    "preco_unitario": "9.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T15:54:33.474Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1673,
+  "fields": {
+    "tab": 182,
+    "produto": 1345,
+    "quantidade": 1,
+    "preco_unitario": "10.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T15:54:39.298Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1674,
+  "fields": {
+    "tab": 182,
+    "produto": 1283,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T15:55:19.558Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1679,
+  "fields": {
+    "tab": 203,
+    "produto": 300,
+    "quantidade": 2,
+    "preco_unitario": "9.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-18T18:10:42.288Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1680,
+  "fields": {
+    "tab": 203,
+    "produto": 1612,
+    "quantidade": 1,
+    "preco_unitario": "10.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-18T18:12:04.489Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1686,
+  "fields": {
+    "tab": 54,
+    "produto": 1216,
+    "quantidade": 1,
+    "preco_unitario": "7.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T20:09:33.448Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1687,
+  "fields": {
+    "tab": 54,
+    "produto": 1366,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T20:09:53.486Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1688,
+  "fields": {
+    "tab": 54,
+    "produto": 1390,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T20:11:33.520Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1689,
+  "fields": {
+    "tab": 27,
+    "produto": 453,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T20:31:54.329Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1690,
+  "fields": {
+    "tab": 27,
+    "produto": 1369,
+    "quantidade": 2,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T21:45:03.994Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1693,
+  "fields": {
+    "tab": 24,
+    "produto": 1369,
+    "quantidade": 1,
+    "preco_unitario": "6.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T23:04:57.487Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1696,
+  "fields": {
+    "tab": 24,
+    "produto": 317,
+    "quantidade": 1,
+    "preco_unitario": "3.75",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-18T23:43:14.040Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1704,
+  "fields": {
+    "tab": 237,
+    "produto": 589,
+    "quantidade": 1,
+    "preco_unitario": "8.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T00:41:08.145Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1705,
+  "fields": {
+    "tab": 237,
+    "produto": 302,
+    "quantidade": 1,
+    "preco_unitario": "7.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T00:41:19.922Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1706,
+  "fields": {
+    "tab": 24,
+    "produto": 317,
+    "quantidade": 1,
+    "preco_unitario": "3.75",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T00:57:29.612Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1707,
+  "fields": {
+    "tab": 24,
+    "produto": 317,
+    "quantidade": 9,
+    "preco_unitario": "3.75",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T00:57:34.854Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1708,
+  "fields": {
+    "tab": 36,
+    "produto": 312,
+    "quantidade": 8,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T01:15:12.958Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1709,
+  "fields": {
+    "tab": 11,
+    "produto": 306,
+    "quantidade": 2,
+    "preco_unitario": "4.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T01:20:55.540Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1713,
+  "fields": {
+    "tab": 96,
+    "produto": 1429,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T02:48:36.927Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1714,
+  "fields": {
+    "tab": 24,
+    "produto": 234,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T03:06:01.212Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1718,
+  "fields": {
+    "tab": 138,
+    "produto": 702,
+    "quantidade": 1,
+    "preco_unitario": "4.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T03:43:03.477Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1719,
+  "fields": {
+    "tab": 24,
+    "produto": 1497,
+    "quantidade": 1,
+    "preco_unitario": "2.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T04:33:19.685Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1720,
+  "fields": {
+    "tab": 24,
+    "produto": 1495,
+    "quantidade": 1,
+    "preco_unitario": "8.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T04:37:17.772Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1722,
+  "fields": {
+    "tab": 27,
+    "produto": 1402,
+    "quantidade": 2,
+    "preco_unitario": "10.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T04:44:54.486Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1729,
+  "fields": {
+    "tab": 197,
+    "produto": 1095,
+    "quantidade": 1,
+    "preco_unitario": "9.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T16:30:04.437Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1730,
+  "fields": {
+    "tab": 24,
+    "produto": 317,
+    "quantidade": 12,
+    "preco_unitario": "3.75",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T18:35:53.844Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1731,
+  "fields": {
+    "tab": 27,
+    "produto": 323,
+    "quantidade": 1,
+    "preco_unitario": "3.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T18:37:55.103Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1732,
+  "fields": {
+    "tab": 27,
+    "produto": 1315,
+    "quantidade": 1,
+    "preco_unitario": "6.50",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T18:38:12.222Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1733,
+  "fields": {
+    "tab": 27,
+    "produto": 465,
+    "quantidade": 1,
+    "preco_unitario": "14.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T18:39:00.708Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1734,
+  "fields": {
+    "tab": 27,
+    "produto": 309,
+    "quantidade": 12,
+    "preco_unitario": "3.90",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T18:39:17.979Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1735,
+  "fields": {
+    "tab": 12,
+    "produto": 436,
+    "quantidade": 1,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T19:18:40.972Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1736,
+  "fields": {
+    "tab": 17,
+    "produto": 105,
+    "quantidade": 1,
+    "preco_unitario": "3.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T20:14:25.354Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1737,
+  "fields": {
+    "tab": 12,
+    "produto": 1317,
+    "quantidade": 2,
+    "preco_unitario": "4.00",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T20:46:00.966Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1738,
+  "fields": {
+    "tab": 12,
+    "produto": 1267,
+    "quantidade": 1,
+    "preco_unitario": "5.50",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T20:49:06.338Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1739,
+  "fields": {
+    "tab": 40,
+    "produto": 312,
+    "quantidade": 2,
+    "preco_unitario": "3.90",
+    "adicionado_por": 3,
+    "data_criacao": "2024-11-19T20:57:12.519Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1740,
+  "fields": {
+    "tab": 240,
+    "produto": 1535,
+    "quantidade": 2,
+    "preco_unitario": "25.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T21:02:45.788Z"
+  }
+},
+{
+  "model": "comandas.tabitem",
+  "pk": 1741,
+  "fields": {
+    "tab": 240,
+    "produto": 1163,
+    "quantidade": 1,
+    "preco_unitario": "5.00",
+    "adicionado_por": 1,
+    "data_criacao": "2024-11-19T21:03:27.194Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 11,
+  "fields": {
+    "tab": 43,
+    "author": 8,
+    "content": "Cobrar + um mini eski-bon a preço de custo",
+    "created_at": "2024-11-06T20:07:58.498Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 13,
+  "fields": {
+    "tab": 27,
+    "author": 3,
+    "content": "180,55 pendente",
+    "created_at": "2024-11-09T00:11:23.395Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 14,
+  "fields": {
+    "tab": 170,
+    "author": 3,
+    "content": "70,00 pendente",
+    "created_at": "2024-11-09T00:13:23.387Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 16,
+  "fields": {
+    "tab": 8,
+    "author": 1,
+    "content": "ELE PEGOU UMA DOSE CAMPARI",
+    "created_at": "2024-11-10T20:02:04.426Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 22,
+  "fields": {
+    "tab": 54,
+    "author": 3,
+    "content": "2\\gelo 5 kilo",
+    "created_at": "2024-11-15T15:38:46.368Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 23,
+  "fields": {
+    "tab": 154,
+    "author": 1,
+    "content": "ALMOÇO MARMITA",
+    "created_at": "2024-11-15T17:56:44.446Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 24,
+  "fields": {
+    "tab": 26,
+    "author": 3,
+    "content": "17,60 UBER CHAVE E 1 ROLA PAPEL GRANDE",
+    "created_at": "2024-11-15T20:00:26.712Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 26,
+  "fields": {
+    "tab": 205,
+    "author": 3,
+    "content": "50,00 pablo pagou",
+    "created_at": "2024-11-18T22:36:32.242Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 27,
+  "fields": {
+    "tab": 224,
+    "author": 3,
+    "content": "5,00",
+    "created_at": "2024-11-19T00:26:06.258Z"
+  }
+},
+{
+  "model": "comandas.comment",
+  "pk": 28,
+  "fields": {
+    "tab": 140,
+    "author": 3,
+    "content": "51,00 seu luiz",
+    "created_at": "2024-11-19T02:47:15.888Z"
+  }
+}
+]
