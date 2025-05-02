@@ -1,10 +1,5 @@
 """
 WSGI config for setup project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
 """
 
 import os
@@ -13,5 +8,9 @@ from whitenoise import WhiteNoise
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'setup.staging')
 
-application = get_wsgi_application()
-application = WhiteNoise(application)
+# Vercel precisa do handler nomeado como 'app'
+django_application = get_wsgi_application()
+application = WhiteNoise(django_application)
+
+# Explicita o handler para o Vercel
+app = application
