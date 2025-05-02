@@ -11,7 +11,7 @@ chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
 CONFIG_STRING = """
 DEBUG=True
 SECRET_KEY=%s
-ALLOWED_HOSTS=127.0.0.1, .localhost
+ALLOWED_HOSTS=127.0.0.1, localhost
 #Databases (Add your access to database )
 DB_ENGINE=
 DB_NAME=
