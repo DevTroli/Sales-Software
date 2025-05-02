@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Install project dependencies
-pip install -r requirements.txt
+# Garante que estamos usando a versão correta
+/usr/local/bin/python3.11 -m pip install --upgrade pip
+/usr/local/bin/python3.11 -m pip install -r requirements.txt
 
-# Make migrations and migrate
-python manage.py makemigrations
-python manage.py migrate
-
-# Collect static files
-python manage.py collectstatic --noinput
+# Comandos Django
+/usr/local/bin/python3.11 manage.py makemigrations
+/usr/local/bin/python3.11 manage.py migrate
+/usr/local/bin/python3.11 manage.py collectstatic --noinput
