@@ -1,0 +1,32 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        postgresql-client \
+        build-essential \
+        libpq-dev \
+        git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt /app/
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+# Cria diretórios estáticos e define permissões ANTES de trocar para appuser
+RUN mkdir -p /app/staticfiles \
+    && chown -R 1000:1000 /app
+
+# Copia o código (agora com permissões corretas)
+COPY --chown=1000:1000 . /app/
+
+# Cria e define o usuário não-root
+RUN useradd -u 1000 -m appuser
+USER appuser
+
+EXPOSE 8000
