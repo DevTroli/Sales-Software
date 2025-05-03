@@ -48,5 +48,5 @@ Twisted==24.11.0
 txaio==23.1.1
 typing_extensions==4.12.2
 uritemplate==4.1.1
+django-widget-tweaks
 zope.interface==7.2
-widget_tweaks==1.5.0
