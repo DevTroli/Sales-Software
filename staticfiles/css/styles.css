@@ -1,0 +1,45 @@
+* {
+    font-family: "Inknut Antiqua", serif;
+    resize: none;
+}
+
+body {
+    background-color: #111827;
+    color: white;
+}
+
+.ok {
+    color: #84cc16;
+}
+
+.no {
+    color: #dc2626;
+}
+
+.show {
+    display: block !important; /* Torna o dropdown visível */
+}
+
+/* Certifique-se de que os dropdowns estão ocultos por padrão */
+.dropdown-menu {
+    display: none; /* Mantém o dropdown oculto inicialmente */
+}
+
+/* Estilo personalizado para o dropdown */
+.dropdown-menu {
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+/* Assegura que o dropdown fique acima de outros elementos */
+#dropdownNavbar {
+    z-index: 9999;
+}
+
+button:disabled {
+    background-color: #6b7280;
+    cursor: not-allowed;
+}
