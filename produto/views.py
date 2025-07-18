@@ -1,6 +1,10 @@
 from datetime import timedelta
 from io import BytesIO
 import os
+import re
+from django.http import JsonResponse
+from django.db import transaction
+from django.db.models import F
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -35,7 +39,6 @@ from produto.forms import (
 @login_required
 def index(request):
     template_name = "produto/index.html"
-
     query = request.GET.get("q")
     objects = Produto.objects.all()
 
@@ -51,15 +54,18 @@ def index(request):
             )
         objects = objects.filter(q_objects)
 
-    # Ordenação explícita antes da paginação
-    objects = objects.order_by("produto")  # Substitua 'produto' pelo campo que desejar
-
-    # Paginação
-    paginator = Paginator(objects, 50)  # Mostra 40 produtos por página
+    objects = objects.order_by("produto")
+    paginator = Paginator(objects, 50)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {"page_obj": page_obj}
+    # Adicionado para popular o <select> no modal de edição em massa
+    todas_as_categorias = Categoria.objects.all()
+
+    context = {
+        "page_obj": page_obj,
+        "todas_as_categorias": todas_as_categorias, # Passando para o template
+    }
     return render(request, template_name, context)
 
 
@@ -108,6 +114,71 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
         # Redireciona para a página de detalhes do produto após a atualização
         return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
 
+@login_required
+@require_POST
+def bulk_edit_products(request):
+    product_ids = request.POST.getlist('product_ids')
+    if not product_ids:
+        return JsonResponse({'status': 'error', 'message': 'Nenhum produto selecionado.'}, status=400)
+
+    # Campos que podem ser alterados
+    categoria_id = request.POST.get('categoria')
+    estoque_minimo_str = request.POST.get('estoque_minimo')
+    preco_venda_str = request.POST.get('preco_venda')
+    preco_custo_str = request.POST.get('preco_custo')
+
+    # Dicionário para atualizações diretas
+    fields_to_update = {}
+    
+    try:
+        with transaction.atomic():
+            products_to_update = Produto.objects.filter(id__in=product_ids)
+
+            # --- Processa campos simples ---
+            if categoria_id:
+                # O valor "null" será usado para definir a categoria como Nula
+                if categoria_id == "null":
+                    fields_to_update['categoria'] = None
+                else:
+                    fields_to_update['categoria'] = Categoria.objects.get(pk=categoria_id)
+
+            if estoque_minimo_str:
+                fields_to_update['estoque_minimo'] = int(estoque_minimo_str)
+
+            # Aplica as atualizações simples
+            if fields_to_update:
+                products_to_update.update(**fields_to_update)
+
+            # --- Processa preços (lógica mais complexa) ---
+            def process_price_update(price_str, field_name):
+                if not price_str: return
+                
+                # Ex: +10% ou -15.5%
+                if '%' in price_str:
+                    value = Decimal(price_str.replace('%', '').strip()) / 100
+                    products_to_update.update(**{field_name: F(field_name) * (1 + value)})
+                # Ex: +2.50 ou -3.00
+                elif price_str.startswith('+') or price_str.startswith('-'):
+                    value = Decimal(price_str)
+                    products_to_update.update(**{field_name: F(field_name) + value})
+                # Ex: 59.99
+                else:
+                    value = Decimal(price_str)
+                    products_to_update.update(**{field_name: value})
+
+            process_price_update(preco_custo_str, 'preco_custo')
+            process_price_update(preco_venda_str, 'preco_venda')
+        
+        # Opcional: Adicionar um log aqui
+        messages.success(request, f'{len(product_ids)} produtos foram atualizados com sucesso!')
+        return JsonResponse({'status': 'success'})
+
+    except Categoria.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Categoria inválida.'}, status=400)
+    except (ValueError, InvalidOperation, TypeError):
+        return JsonResponse({'status': 'error', 'message': 'Valor numérico inválido fornecido para preço ou estoque.'}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'Ocorreu um erro inesperado: {str(e)}'}, status=500)
 
 def import_xlsx(file_path):
     """

@@ -11,5 +11,5 @@ urlpatterns = [
     path("insights/", v.gerar_insights, name="gerar_insights"),
     path("upload/", v.upload_file, name="upload"),
     path("import/", v.import_data, name="import_data"),
-    # path('emitir_nota_fiscal/', v.emitir_nota_fiscal, name='emitir_nota_fiscal'),
+    path('bulk-edit/', v.bulk_edit_products, name='bulk_edit_products'),
 ]
