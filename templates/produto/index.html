@@ -3,251 +3,220 @@
 {% block content %}
 {% include "includes/nav.html" %}
 
-<form id="bulk-edit-form" class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
-    {% csrf_token %}
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
+    <form id="bulk-edit-form">
+        {% csrf_token %}
 
-    <header class="mb-4 flex justify-between items-center flex-wrap gap-4">
-        <div>
-            <h2 class="text-2xl font-bold">Lista de Produtos</h2>
+        <header class="mb-4 flex justify-between items-center flex-wrap gap-4">
+            <div><h2 class="text-2xl font-bold">Lista de Produtos</h2></div>
+            <div class="flex items-center gap-2">
+                <button type="button" id="bulk-edit-btn" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                    <i class="fas fa-edit mr-2"></i>
+                    Editar (<span id="selected-count">0</span>)
+                </button>
+                <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i><span>Adicionar</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="mb-4">
+            <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Buscar por nome, código de barra, categoria..." class="px-4 py-2 w-full border bg-gray-700 text-white rounded-md">
         </div>
-        <div class="flex items-center gap-2">
-            <button
-                type="button"
-                id="bulk-edit-btn"
-                class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                disabled>
-                <i class="fas fa-edit mr-2"></i>
-                Editar (<span id="selected-count">0</span>)
-            </button>
-            <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-                <i class="fa fa-plus mr-2" aria-hidden="true"></i>
-                <span>Adicionar</span>
-            </a>
-        </div>
-    </header>
-
-    <div class="mb-4">
-        <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Buscar por nome, código de barra, categoria..." class="px-4 py-2 w-full border bg-gray-700 text-white rounded-md">
-    </div>
-
+    </form>
+    
     {% if page_obj.object_list %}
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm text-left rtl:text-right text-gray-400 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="p-4">
-                        <input type="checkbox" id="select-all-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </th>
-                    <th scope="col" class="text-center px-2 py-3 border-r border-gray-600">Nível Estoque</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Produto</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Custo</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Venda</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
-                    <th scope="col" class="px-2.5 py-3">Código de Barra</th>
-                    <th scope="col" class="px-2.5 py-3">Categoria</th>
+                    <th scope="col" class="p-4"><input type="checkbox" id="select-all-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"></th>
+                    <th scope="col" class="text-center px-2 py-3">Nível Estoque</th>
+                    <th scope="col" class="px-2.5 py-3">Produto</th>
+                    <th scope="col" class="px-2.5 py-3">Preço Custo</th>
+                    <th scope="col" class="px-2.5 py-3">Preço Venda</th>
+                    <th scope="col" class="px-2.5 py-3">Estoque</th>
                 </tr>
             </thead>
             <tbody>
                 {% for object in page_obj %}
-                <tr class="odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-blue-900/50 dark:hover:bg-gray-600/70 border-b dark:border-gray-700">
-                    <td class="w-4 p-4">
-                        <input type="checkbox" name="product_ids" value="{{ object.id }}" class="product-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </td>
-                    <td class="px-2 py-4 text-center">
-                        {% if object.nivel_estoque %}
-                        <i class="fa fa-check-circle ok"></i>
-                        {% else %}
-                        <i class="fa fa-minus-circle no"></i>
-                        {% endif %}
-                    </td>
-                    <td class="p-4">
-                        <a href="{{ object.get_absolute_url }}" class="text-blue-400 hover:underline">{{ object.produto }}</a>
-                    </td>
+                <tr class="odd:dark:bg-gray-900 even:dark:bg-gray-800 hover:bg-blue-900/50 border-b dark:border-gray-700">
+                    <td class="w-4 p-4"><input type="checkbox" name="product_ids" value="{{ object.id }}" class="product-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"></td>
+                    <td class="px-2 py-4 text-center">{% if object.nivel_estoque %}<i class="fa fa-check-circle ok"></i>{% else %}<i class="fa fa-minus-circle no"></i>{% endif %}</td>
+                    <td class="p-4"><a href="{{ object.get_absolute_url }}" class="text-blue-400 hover:underline">{{ object.produto }}</a></td>
                     <td class="p-4">R$ <span>{{ object.preco_custo }}</span></td>
                     <td class="p-4">R$ <span>{{ object.preco_venda }}</span></td>
-                    <td class="p-4"><span>{{ object.margem_vendas|floatformat:2 }} %</span></td>
                     <td class="p-4">{{ object.estoque }}</td>
-                    <td class="p-4">{{ object.codigoBarra }}</td>
-                    <td class="p-4">{{ object.categoria|default:"Sem Categoria" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
     {% include "includes/pagination.html" %}
-
     {% else %}
-        <p class="text-center py-8">Nenhum produto encontrado com o termo "{{ request.GET.q|default:'' }}".</p>
+    <p class="text-center py-8">Nenhum produto encontrado.</p>
     {% endif %}
-</form> <div id="bulk-edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
-    <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl text-white transform transition-all" id="modal-content">
+</div>
+
+<div id="bulk-edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-start justify-center pt-16 overflow-y-auto">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-4xl text-white transform transition-all">
         <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
-            <h3 class="text-xl font-bold">Edição em Massa de Produtos</h3>
-            <button id="close-modal-btn" class="text-gray-400 hover:text-white">&times;</button>
+            <h3 class="text-xl font-bold">Edição Individual em Massa</h3>
+            <button id="close-modal-btn" class="text-gray-400 hover:text-white text-3xl">&times;</button>
         </div>
         
-        <p class="mb-4">As alterações serão aplicadas a todos os <strong id="modal-selected-count">0</strong> produtos selecionados. Deixe um campo em branco para não alterar o valor correspondente.</p>
-        
-        <form id="modal-form">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="bulk-categoria" class="block mb-2 text-sm font-medium">Categoria</label>
-                    <select name="categoria" id="bulk-categoria" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option value="">-- Manter Atual --</option>
-                        {% for cat in todas_as_categorias %}
-                            <option value="{{ cat.id }}">{{ cat.categoria }}</option>
-                        {% endfor %}
-                        <option value="null">-- Remover Categoria --</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="bulk-estoque-minimo" class="block mb-2 text-sm font-medium">Estoque Mínimo</label>
-                    <input type="number" name="estoque_minimo" id="bulk-estoque-minimo" placeholder="Ex: 10" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-                <div>
-                    <label for="bulk-preco-custo" class="block mb-2 text-sm font-medium">Preço de Custo</label>
-                    <input type="text" name="preco_custo" id="bulk-preco-custo" placeholder="Ex: 25.90, +10%, -2.50" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-                <div>
-                    <label for="bulk-preco-venda" class="block mb-2 text-sm font-medium">Preço de Venda</label>
-                    <input type="text" name="preco_venda" id="bulk-preco-venda" placeholder="Ex: 49.90, +15%, +5.00" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
+        <div id="modal-content-body">
+            <div id="modal-loader" class="text-center p-8">
+                <p>Carregando produtos...</p>
             </div>
-        </form>
+            <div id="bulk-edit-table-container" class="hidden"></div>
+        </div>
 
-        <div class="mt-6 flex justify-end gap-3">
+        <div class="mt-6 flex justify-end gap-3 border-t border-gray-700 pt-4">
             <button type="button" id="cancel-modal-btn" class="py-2 px-4 bg-gray-600 hover:bg-gray-500 rounded-md font-bold transition-colors">Cancelar</button>
-            <button type="button" id="save-bulk-changes-btn" class="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md font-bold transition-colors">
-                Salvar Alterações
-            </button>
+            <button type="button" id="save-bulk-changes-btn" class="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md font-bold transition-colors">Salvar Alterações</button>
         </div>
     </div>
 </div>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // --- ELEMENTOS DO DOM ---
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
-    const productCheckboxes = document.querySelectorAll('.product-checkbox');
     const bulkEditBtn = document.getElementById('bulk-edit-btn');
     const selectedCountSpan = document.getElementById('selected-count');
-    const bulkEditForm = document.getElementById('bulk-edit-form');
-    
-    // Elementos do Modal
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
     const bulkEditModal = document.getElementById('bulk-edit-modal');
-    const modalForm = document.getElementById('modal-form');
-    const modalSelectedCount = document.getElementById('modal-selected-count');
+    const modalLoader = document.getElementById('modal-loader');
+    const editTableContainer = document.getElementById('bulk-edit-table-container');
     const closeModalBtn = document.getElementById('close-modal-btn');
     const cancelModalBtn = document.getElementById('cancel-modal-btn');
     const saveChangesBtn = document.getElementById('save-bulk-changes-btn');
 
-    // --- FUNÇÕES ---
+    // --- LÓGICA DE SELEÇÃO (sem alterações) ---
     function updateSelectionState() {
         const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
         const count = selectedCheckboxes.length;
-
         selectedCountSpan.textContent = count;
         bulkEditBtn.disabled = count === 0;
-
-        if (count === 0) {
-            selectAllCheckbox.checked = false;
-            selectAllCheckbox.indeterminate = false;
-        } else if (count === productCheckboxes.length) {
-            selectAllCheckbox.checked = true;
-            selectAllCheckbox.indeterminate = false;
-        } else {
-            selectAllCheckbox.indeterminate = true;
-        }
+        selectAllCheckbox.checked = count > 0 && count === document.querySelectorAll('.product-checkbox').length;
+        selectAllCheckbox.indeterminate = count > 0 && count < document.querySelectorAll('.product-checkbox').length;
     }
 
-    function openModal() {
-        const selectedCount = document.querySelectorAll('.product-checkbox:checked').length;
-        if (selectedCount > 0) {
-            modalSelectedCount.textContent = selectedCount;
-            bulkEditModal.classList.remove('hidden');
-        }
-    }
-
+    document.querySelectorAll('.product-checkbox').forEach(cb => cb.addEventListener('change', updateSelectionState));
+    selectAllCheckbox.addEventListener('change', () => {
+        document.querySelectorAll('.product-checkbox').forEach(cb => { cb.checked = selectAllCheckbox.checked; });
+        updateSelectionState();
+    });
+    
+    // --- LÓGICA DO MODAL (Refatorada) ---
     function closeModal() {
         bulkEditModal.classList.add('hidden');
-        modalForm.reset(); // Limpa o formulário do modal ao fechar
+        editTableContainer.innerHTML = ''; // Limpa o conteúdo ao fechar
+    }
+    
+    async function openModal() {
+        const selectedIds = Array.from(document.querySelectorAll('.product-checkbox:checked')).map(cb => cb.value);
+        if (selectedIds.length === 0) return;
+
+        bulkEditModal.classList.remove('hidden');
+        modalLoader.classList.remove('hidden');
+        editTableContainer.classList.add('hidden');
+
+        try {
+            // 1. Busca os dados dos produtos selecionados no backend
+            const response = await fetch(`{% url 'produto:get_products_data' %}?ids=${selectedIds.join(',')}`);
+            if (!response.ok) throw new Error('Falha ao buscar dados dos produtos.');
+            const products = await response.json();
+
+            // 2. Constrói a tabela de edição dinamicamente
+            buildEditTable(products);
+
+            modalLoader.classList.add('hidden');
+            editTableContainer.classList.remove('hidden');
+        } catch (error) {
+            console.error(error);
+            editTableContainer.innerHTML = `<p class="text-red-500 text-center">${error.message}</p>`;
+            modalLoader.classList.add('hidden');
+            editTableContainer.classList.remove('hidden');
+        }
     }
 
-    function handleBulkSave() {
-        const mainFormData = new FormData(bulkEditForm); // Pega product_ids e csrf token
-        const modalFormData = new FormData(modalForm);   // Pega os campos de edição
-        
-        // Combina os dados dos dois formulários
-        for (let [key, value] of modalFormData.entries()) {
-            if (value) { // Só adiciona se o campo tiver valor
-                mainFormData.append(key, value);
-            }
-        }
+    function buildEditTable(products) {
+        let tableHTML = `
+            <div class="overflow-x-auto max-h-[60vh]">
+                <table class="min-w-full text-sm">
+                    <thead class="sticky top-0 bg-gray-700">
+                        <tr>
+                            <th class="p-2 text-left">Produto</th>
+                            <th class="p-2 text-left w-32">Preço Custo</th>
+                            <th class="p-2 text-left w-32">Preço Venda</th>
+                            <th class="p-2 text-left w-24">Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        products.forEach(p => {
+            tableHTML += `
+                <tr class="border-b border-gray-700 bulk-edit-item" data-id="${p.id}">
+                    <td class="p-2 font-semibold">${p.produto}</td>
+                    <td class="p-2"><input type="number" step="0.01" value="${p.preco_custo}" class="w-full bg-gray-900 rounded p-1 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-field="preco_custo"></td>
+                    <td class="p-2"><input type="number" step="0.01" value="${p.preco_venda}" class="w-full bg-gray-900 rounded p-1 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-field="preco_venda"></td>
+                    <td class="p-2"><input type="number" value="${p.estoque}" class="w-full bg-gray-900 rounded p-1 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-field="estoque"></td>
+                </tr>
+            `;
+        });
+        tableHTML += `</tbody></table></div>`;
+        editTableContainer.innerHTML = tableHTML;
+    }
+
+    async function handleBulkSave() {
+        // 1. Coleta os dados de todas as linhas da tabela no modal
+        const payload = [];
+        document.querySelectorAll('.bulk-edit-item').forEach(row => {
+            const productData = { id: row.dataset.id };
+            row.querySelectorAll('input').forEach(input => {
+                productData[input.dataset.field] = input.value;
+            });
+            payload.push(productData);
+        });
 
         // Feedback de carregamento
         const originalBtnText = saveChangesBtn.innerHTML;
         saveChangesBtn.disabled = true;
-        saveChangesBtn.innerHTML = `
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Salvando...
-        `;
-        
-        fetch("{% url 'produto:bulk_edit_products' %}", {
-            method: 'POST',
-            body: mainFormData,
-            // O header CSRF não é necessário quando se usa FormData com o input do CSRF token
-        })
-        .then(response => {
+        saveChangesBtn.innerHTML = 'Salvando...';
+
+        try {
+            // 2. Envia os dados como JSON para o backend
+            const response = await fetch("{% url 'produto:bulk_edit_products' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(payload)
+            });
+
             if (response.ok) {
-                // Se a view retornar um JSON de sucesso, recarregamos a página para ver a mensagem do Django
-                window.location.reload();
+                window.location.reload(); // Recarrega para ver a mensagem de sucesso
             } else {
-                // Se der erro, pegamos a mensagem do JSON e mostramos num alerta
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Ocorreu um erro no servidor.');
-                });
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Ocorreu um erro no servidor.');
             }
-        })
-        .catch(error => {
-            alert('Erro: ' + error.message);
-        })
-        .finally(() => {
-            // Restaura o botão
+        } catch (error) {
+            alert('Erro ao salvar: ' + error.message);
+            // Restaura o botão em caso de erro
             saveChangesBtn.disabled = false;
             saveChangesBtn.innerHTML = originalBtnText;
-            closeModal();
-        });
+        }
     }
 
     // --- EVENT LISTENERS ---
-    selectAllCheckbox.addEventListener('change', () => {
-        productCheckboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-        updateSelectionState();
-    });
-
-    productCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelectionState);
-    });
-
     bulkEditBtn.addEventListener('click', openModal);
     closeModalBtn.addEventListener('click', closeModal);
     cancelModalBtn.addEventListener('click', closeModal);
     saveChangesBtn.addEventListener('click', handleBulkSave);
-
-    // Fecha o modal se clicar fora do conteúdo
-    bulkEditModal.addEventListener('click', function(event) {
-        if (event.target === bulkEditModal) {
-            closeModal();
-        }
-    });
 
     // Inicialização
     updateSelectionState();

@@ -12,4 +12,5 @@ urlpatterns = [
     path("upload/", v.upload_file, name="upload"),
     path("import/", v.import_data, name="import_data"),
     path('bulk-edit/', v.bulk_edit_products, name='bulk_edit_products'),
+    path('get-products-data/', v.get_products_data, name='get_products_data'),
 ]
