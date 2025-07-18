@@ -5,5 +5,7 @@ app_name = "core"
 
 urlpatterns = [
     path("", v.index, name="index"),
-    path("novidades", v.novidades, name="novidades"),
+    path("menu/", v.menu, name="index"),
+    path("novidades/", v.novidades, name="novidades"),
+
 ]

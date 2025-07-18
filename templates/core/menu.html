@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gonzaguinha Butiquim - Cardápio Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-dark': '#0f172a',
+                        'brand-light': '#1e293b',
+                        'brand-amber': '#f59e0b',
+                        'brand-amber-dark': '#d97706',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --brand-amber: #f59e0b;
+            --brand-dark: #0f172a;
+            --brand-light: #1e293b;
+        }
+        body {
+            background-color: var(--brand-dark);
+            color: #f1f5f9;
+            scroll-behavior: smooth;
+        }
+        .sticky-nav {
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .menu-category-title {
+            border-left: 3px solid var(--brand-amber);
+            padding-left: 0.75rem;
+        }
+        .product-card {
+            background-color: #1e293b; /* Fundo um pouco mais claro que o principal */
+            transition: all 0.3s ease;
+            border: 1px solid #334155;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-amber);
+        }
+        .price-tag {
+            background-color: var(--brand-dark);
+            border: 1px solid var(--brand-amber);
+            white-space: nowrap;
+        }
+        .floating-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+        .menu-nav-item.active {
+            color: var(--brand-amber);
+            font-weight: 600;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-sans">
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-lg shadow-lg">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+             <div class="flex items-center space-x-3">
+                <i class="fas fa-beer text-brand-amber text-2xl"></i>
+                <h1 class="text-xl font-bold text-white hidden sm:block">Gonzaguinha Butiquim</h1>
+            </div>
+            <div class="relative">
+                <input id="search-input" type="text" placeholder="Buscar no cardápio..." class="bg-brand-light border border-gray-600 rounded-full py-1.5 px-4 pl-10 text-sm w-40 sm:w-64 focus:ring-2 focus:ring-brand-amber focus:border-brand-amber focus:outline-none transition">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-4 pt-24 pb-16">
+        <nav id="category-nav" class="sticky-nav sticky top-[68px] z-40 mb-8 py-2 overflow-x-auto no-scrollbar">
+            <ul class="flex flex-nowrap text-sm justify-center">
+                {# ATUALIZADO: Loop para gerar a navegação a partir do context do Django #}
+                {% for slug, title in sections %}
+                <li><a href="#{{ slug }}" class="menu-nav-item px-4 py-2 text-gray-300 hover:text-brand-amber transition whitespace-nowrap block">{{ title }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-brand-amber mb-2 tracking-tight">BOM DRINK, BOA PROSA</h2>
+            <p class="text-gray-300 mb-6">Tudo geladinho pra você curtir com os amigos!</p>
+        </div>
+
+        <div class="space-y-12 p-2">
+            
+            <section id="cervejas-artesanais" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-6 menu-category-title">🍻 Cervejas Artesanais</h3>
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="font-semibold mb-4 text-gray-300">GARRAFA 600ML</h4>
+                        <div class="space-y-3">
+                            {% for c in cervejas_artesanais.garrafa_600ml %}
+                            <div class="product-card rounded-lg flex justify-between items-center p-3" data-name="{{ c.nome }}">
+                                <span class="font-medium text-white">{{ c.nome }}</span>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span>{{ c.unit }}</span>
+                                    <span class="text-brand-amber font-semibold">Balde c/4: {{ c.balde }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4 text-gray-300 mt-6">LONG NECK 330ML</h4>
+                        <div class="space-y-3">
+                           {% for c in cervejas_artesanais.long_neck_330ml %}
+                           <div class="product-card rounded-lg flex justify-between items-center p-3" data-name="{{ c.nome }}">
+                                <span class="font-medium text-white">{{ c.nome }}</span>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span>{{ c.unit }}</span>
+                                    <span class="text-brand-amber font-semibold">Balde c/6: {{ c.balde }}</span>
+                                </div>
+                           </div>
+                           {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="bebidas-especiais" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-6 menu-category-title">🍹 Bebidas Especiais</h3>
+                <h4 class="font-semibold mb-4 text-gray-300">CAIPIRINHAS (400ml)</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    {% for c in caipirinhas %}
+                    <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="{{ c.base }} Caipirinha">
+                        <span class="font-medium">{{ c.base }}</span>
+                        <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ c.preco }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-sm bg-brand-light p-3 rounded-md border border-gray-700">
+                    <p class="text-gray-300"><strong>SABORES:</strong> {{ sabores_caipirinhas|join:" • " }}</p>
+                    <p class="text-gray-400 italic mt-1">{{ extra_caip }}</p>
+                </div>
+
+                <h4 class="font-semibold mb-4 text-gray-300 mt-8">GIN TÔNICA PREMIUM (500ml)</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    {% for g in gin_tonica %}
+                    <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Gin Tônica {{ g.tipo }}">
+                        <span class="font-medium">{{ g.tipo }}</span>
+                        <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ g.preco }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-sm bg-brand-light p-3 rounded-md border border-gray-700">
+                     <p class="text-gray-300"><strong>COMBINAÇÕES:</strong> {{ combos_gin|join:" • " }}</p>
+                </div>
+            </section>
+            
+            <section id="refrescos" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-6 menu-category-title">🥤 Refrescos</h3>
+                 <div class="mb-6">
+                    <h4 class="font-semibold mb-3 text-gray-300">SUCOS NATURAIS (300ml) <span class="text-sm text-gray-400 italic">{{ extra_suco }}</span></h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {% for s in sucos_naturais %}
+                        <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Suco de {{ s }}">
+                            <span class="font-medium">{{ s }}</span>
+                            <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ preco_suco }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                 <div class="mb-6">
+                    <h4 class="font-semibold mb-3 text-gray-300">REFRIGERANTES (350ml)</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {% for r in refrigerantes %}
+                        <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Refrigerante {{ r.nome }}">
+                            <span class="font-medium">{{ r.nome }}</span>
+                            <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ r.preco }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3 text-gray-300">ÁGUAS</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {% for a in aguas %}
+                        <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Água {{ a.nome }}">
+                            <span class="font-medium">{{ a.nome }}</span>
+                            <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ a.preco }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <section id="almoco-executivo" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-4 menu-category-title">🌟 Almoço Executivo</h3>
+                <p class="italic text-gray-400 mb-6">{{ almoco_horario }}</p>
+                <div class="space-y-4">
+                    {% for a in almoco_executivo %}
+                    <div class="product-card p-4 rounded-lg" data-name="{{ a.prato }} {{ a.dia }}">
+                        <div class="flex justify-between items-start">
+                           <div>
+                                <div class="font-bold text-brand-amber text-sm">{{ a.dia }}</div>
+                                <div class="text-lg font-semibold text-white mt-1">{{ a.prato }}</div>
+                           </div>
+                            <div class="text-lg font-bold text-white">{{ a.preco }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p class="text-gray-400 italic mt-4 text-sm text-center">{{ almoco_acomp }}</p>
+            </section>
+            
+            <section id="espetos-brasa" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-4 menu-category-title">🔥 Espetos na Brasa</h3>
+                <p class="italic text-gray-400 mb-6">{{ espetos_acomp }}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {% for e in espetos %}
+                    <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Espeto de {{ e.nome }}">
+                        <span class="font-medium">{{ e.nome }}</span>
+                        <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ e.preco }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section id="sobremesas" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-4 menu-category-title">🍰 Sobremesas</h3>
+                <p class="italic text-gray-400 mb-6">{{ sobremesas_obs }}</p>
+                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {% for s in sobremesas %}
+                    <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Sobremesa {{ s.nome }}">
+                        <span class="font-medium">{{ s.nome }}</span>
+                        <span class="price-tag px-3 py-1 rounded-full text-brand-amber font-bold">{{ s.preco }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </div>
+        
+        <div id="no-results" class="text-center py-16 hidden">
+            <i class="fas fa-search fa-3x text-gray-600 mb-4"></i>
+            <h3 class="text-xl font-semibold text-white">Nenhum item encontrado</h3>
+            <p class="text-gray-400">Tente buscar por outro termo.</p>
+        </div>
+    </div>
+
+    <footer class="bg-black/50 py-10 border-t border-brand-light/50">
+        <div class="max-w-4xl mx-auto px-4 text-center text-gray-400 text-sm">
+            <p>{{ rodape }}</p>
+            <p class="mt-6 text-xs text-gray-500">© {% now "Y" %} Gonzaguinha Butiquim. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <div class="fixed bottom-6 right-6 space-y-3">
+        <button id="back-to-top" class="w-12 h-12 bg-brand-light hover:bg-brand-amber text-white p-3 rounded-full floating-button transition opacity-0 invisible">
+            <i class="fas fa-arrow-up text-lg"></i>
+        </button>
+        <a href="https://wa.me/5513978243504" aria-label="WhatsApp" class="w-12 h-12 flex items-center justify-center bg-green-600 hover:bg-green-700 text-white p-3 rounded-full floating-button">
+            <i class="fab fa-whatsapp text-xl"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            const categoryNav = document.getElementById('category-nav');
+            const sections = document.querySelectorAll('.menu-section');
+            const navItems = document.querySelectorAll('.menu-nav-item');
+            const searchInput = document.getElementById('search-input');
+            const noResults = document.getElementById('no-results');
+
+            // JS Robusto: Offset de scroll dinâmico baseado na altura real dos elementos fixos
+            const getScrollOffset = () => (header?.offsetHeight || 0) + (categoryNav?.offsetHeight || 0) + 20;
+
+            // JS Essencial: Scroll suave para âncoras
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - getScrollOffset(),
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // JS Útil: Destacar item do menu de navegação conforme a rolagem (Scroll Spy)
+            const onScroll = () => {
+                const scrollPosition = window.scrollY + getScrollOffset() + 50;
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    if (scrollPosition >= section.offsetTop) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+                navItems.forEach(item => item.classList.toggle('active', item.getAttribute('href').includes(currentSectionId)));
+            };
+            window.addEventListener('scroll', onScroll, { passive: true }); // Otimização
+
+            // JS Essencial: Funcionalidade de Busca em tempo real
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                let resultsFound = false;
+
+                document.querySelectorAll('.menu-section').forEach(section => {
+                    let sectionHasVisibleProducts = false;
+                    section.querySelectorAll('.product-card').forEach(card => {
+                        const productName = card.dataset.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                        const shouldShow = productName.includes(searchTerm);
+                        card.style.display = shouldShow ? '' : 'flex'; // ou 'block', dependendo do seu layout padrão
+                        if (shouldShow) {
+                            sectionHasVisibleProducts = true;
+                            resultsFound = true;
+                        }
+                    });
+                    section.style.display = sectionHasVisibleProducts ? '' : 'none';
+                });
+                
+                noResults.style.display = resultsFound ? 'none' : 'block';
+            });
+
+            // JS Útil: Botão "Voltar ao Topo"
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                backToTopButton.classList.toggle('opacity-0', window.scrollY <= 300);
+                backToTopButton.classList.toggle('invisible', window.scrollY <= 300);
+            }, { passive: true }); // Otimização
+            backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        });
+    </script>
+</body>
+</html>
