@@ -2,36 +2,58 @@
 
 {% block content %}
 {% include "includes/nav.html" %}
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
-    <header class="mb-6 flex justify-between items-center">
-        <h2 class="text-2xl font-bold">Lista de Produtos</h2>
-        <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-            <span class="fa fa-plus mr-2" aria-hidden="true"></span>
-            <span>Adicionar</span>
-        </a>
+
+<form id="bulk-edit-form" class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
+    {% csrf_token %}
+
+    <header class="mb-4 flex justify-between items-center flex-wrap gap-4">
+        <div>
+            <h2 class="text-2xl font-bold">Lista de Produtos</h2>
+        </div>
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                id="bulk-edit-btn"
+                class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                disabled>
+                <i class="fas fa-edit mr-2"></i>
+                Editar (<span id="selected-count">0</span>)
+            </button>
+            <a href="{% url 'produto:product_add' %}" class="inline-flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+                <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                <span>Adicionar</span>
+            </a>
+        </div>
     </header>
-    <form method="GET" action="">
-        <input type="text" name="q" placeholder="Buscar por nome do produto, codigo de barra, categoria.." class="px-4 py-2 w-full border text-slate-900 rounded-md mb-4">
-    </form>
+
+    <div class="mb-4">
+        <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Buscar por nome, código de barra, categoria..." class="px-4 py-2 w-full border bg-gray-700 text-white rounded-md">
+    </div>
+
     {% if page_obj.object_list %}
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm text-left rtl:text-right text-gray-400 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="text-center px-2 py-3 border-r border-gray-600">Nivel do Estoque</th>
+                    <th scope="col" class="p-4">
+                        <input type="checkbox" id="select-all-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </th>
+                    <th scope="col" class="text-center px-2 py-3 border-r border-gray-600">Nível Estoque</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Produto</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço custo</th>
+                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Custo</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Preço Venda</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem de vendas</th>
+                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem</th>
                     <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque</th>
-                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Estoque Mínimo</th>
                     <th scope="col" class="px-2.5 py-3">Código de Barra</th>
                     <th scope="col" class="px-2.5 py-3">Categoria</th>
                 </tr>
             </thead>
             <tbody>
                 {% for object in page_obj %}
-                <tr class="odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-600/70 border-b dark:border-gray-700">
+                <tr class="odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-blue-900/50 dark:hover:bg-gray-600/70 border-b dark:border-gray-700">
+                    <td class="w-4 p-4">
+                        <input type="checkbox" name="product_ids" value="{{ object.id }}" class="product-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </td>
                     <td class="px-2 py-4 text-center">
                         {% if object.nivel_estoque %}
                         <i class="fa fa-check-circle ok"></i>
@@ -40,58 +62,195 @@
                         {% endif %}
                     </td>
                     <td class="p-4">
-                        <a href="{{ object.get_absolute_url }}" class="text-blue-600 hover:underline">{{ object.produto }}</a>
+                        <a href="{{ object.get_absolute_url }}" class="text-blue-400 hover:underline">{{ object.produto }}</a>
                     </td>
                     <td class="p-4">R$ <span>{{ object.preco_custo }}</span></td>
                     <td class="p-4">R$ <span>{{ object.preco_venda }}</span></td>
-                    <td class="p-4"><span>{{ object.margem_vendas }} %</span></td>
+                    <td class="p-4"><span>{{ object.margem_vendas|floatformat:2 }} %</span></td>
                     <td class="p-4">{{ object.estoque }}</td>
-                    <td class="p-4">{{ object.estoque_minimo }}</td>
                     <td class="p-4">{{ object.codigoBarra }}</td>
-                    <td class="p-4">{{ object.categoria }}</td>
+                    <td class="p-4">{{ object.categoria|default:"Sem Categoria" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     
-    <!-- Navegação de paginação -->
-    <nav aria-label="Page navigation example" class="mt-6">
-        <ul class="flex justify-center items-center space-x-1 h-10 text-base overflow-x-auto scrollbar-hide">
-            {% if page_obj.has_previous %}
-            <li>
-                <a href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Previous</span>
-                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                    </svg>
-                </a>
-            </li>
-            {% endif %}
-    
-            <!-- Mostra apenas 5 páginas ao redor da página atual -->
-            {% for num in page_obj.paginator.page_range %}
-                {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-                <li>
-                    <a href="?page={{ num }}&q={{ request.GET.q }}" class="flex items-center justify-center px-3 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white {% if page_obj.number == num %}z-10 text-blue-600 border-blue-300 bg-blue-50 dark:border-gray-700 dark:bg-gray-700 dark:text-white{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-    
-            {% if page_obj.has_next %}
-            <li>
-                <a href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Next</span>
-                    <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                    </svg>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
+    {% include "includes/pagination.html" %}
+
     {% else %}
-    <p>Sem itens cadastrados</p>
+        <p class="text-center py-8">Nenhum produto encontrado com o termo "{{ request.GET.q|default:'' }}".</p>
     {% endif %}
+</form> <div id="bulk-edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl text-white transform transition-all" id="modal-content">
+        <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
+            <h3 class="text-xl font-bold">Edição em Massa de Produtos</h3>
+            <button id="close-modal-btn" class="text-gray-400 hover:text-white">&times;</button>
+        </div>
+        
+        <p class="mb-4">As alterações serão aplicadas a todos os <strong id="modal-selected-count">0</strong> produtos selecionados. Deixe um campo em branco para não alterar o valor correspondente.</p>
+        
+        <form id="modal-form">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="bulk-categoria" class="block mb-2 text-sm font-medium">Categoria</label>
+                    <select name="categoria" id="bulk-categoria" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="">-- Manter Atual --</option>
+                        {% for cat in todas_as_categorias %}
+                            <option value="{{ cat.id }}">{{ cat.categoria }}</option>
+                        {% endfor %}
+                        <option value="null">-- Remover Categoria --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="bulk-estoque-minimo" class="block mb-2 text-sm font-medium">Estoque Mínimo</label>
+                    <input type="number" name="estoque_minimo" id="bulk-estoque-minimo" placeholder="Ex: 10" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+                <div>
+                    <label for="bulk-preco-custo" class="block mb-2 text-sm font-medium">Preço de Custo</label>
+                    <input type="text" name="preco_custo" id="bulk-preco-custo" placeholder="Ex: 25.90, +10%, -2.50" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+                <div>
+                    <label for="bulk-preco-venda" class="block mb-2 text-sm font-medium">Preço de Venda</label>
+                    <input type="text" name="preco_venda" id="bulk-preco-venda" placeholder="Ex: 49.90, +15%, +5.00" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-6 flex justify-end gap-3">
+            <button type="button" id="cancel-modal-btn" class="py-2 px-4 bg-gray-600 hover:bg-gray-500 rounded-md font-bold transition-colors">Cancelar</button>
+            <button type="button" id="save-bulk-changes-btn" class="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md font-bold transition-colors">
+                Salvar Alterações
+            </button>
+        </div>
+    </div>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- ELEMENTOS DO DOM ---
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    const productCheckboxes = document.querySelectorAll('.product-checkbox');
+    const bulkEditBtn = document.getElementById('bulk-edit-btn');
+    const selectedCountSpan = document.getElementById('selected-count');
+    const bulkEditForm = document.getElementById('bulk-edit-form');
+    
+    // Elementos do Modal
+    const bulkEditModal = document.getElementById('bulk-edit-modal');
+    const modalForm = document.getElementById('modal-form');
+    const modalSelectedCount = document.getElementById('modal-selected-count');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const cancelModalBtn = document.getElementById('cancel-modal-btn');
+    const saveChangesBtn = document.getElementById('save-bulk-changes-btn');
+
+    // --- FUNÇÕES ---
+    function updateSelectionState() {
+        const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+        const count = selectedCheckboxes.length;
+
+        selectedCountSpan.textContent = count;
+        bulkEditBtn.disabled = count === 0;
+
+        if (count === 0) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
+        } else if (count === productCheckboxes.length) {
+            selectAllCheckbox.checked = true;
+            selectAllCheckbox.indeterminate = false;
+        } else {
+            selectAllCheckbox.indeterminate = true;
+        }
+    }
+
+    function openModal() {
+        const selectedCount = document.querySelectorAll('.product-checkbox:checked').length;
+        if (selectedCount > 0) {
+            modalSelectedCount.textContent = selectedCount;
+            bulkEditModal.classList.remove('hidden');
+        }
+    }
+
+    function closeModal() {
+        bulkEditModal.classList.add('hidden');
+        modalForm.reset(); // Limpa o formulário do modal ao fechar
+    }
+
+    function handleBulkSave() {
+        const mainFormData = new FormData(bulkEditForm); // Pega product_ids e csrf token
+        const modalFormData = new FormData(modalForm);   // Pega os campos de edição
+        
+        // Combina os dados dos dois formulários
+        for (let [key, value] of modalFormData.entries()) {
+            if (value) { // Só adiciona se o campo tiver valor
+                mainFormData.append(key, value);
+            }
+        }
+
+        // Feedback de carregamento
+        const originalBtnText = saveChangesBtn.innerHTML;
+        saveChangesBtn.disabled = true;
+        saveChangesBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Salvando...
+        `;
+        
+        fetch("{% url 'produto:bulk_edit_products' %}", {
+            method: 'POST',
+            body: mainFormData,
+            // O header CSRF não é necessário quando se usa FormData com o input do CSRF token
+        })
+        .then(response => {
+            if (response.ok) {
+                // Se a view retornar um JSON de sucesso, recarregamos a página para ver a mensagem do Django
+                window.location.reload();
+            } else {
+                // Se der erro, pegamos a mensagem do JSON e mostramos num alerta
+                return response.json().then(data => {
+                    throw new Error(data.message || 'Ocorreu um erro no servidor.');
+                });
+            }
+        })
+        .catch(error => {
+            alert('Erro: ' + error.message);
+        })
+        .finally(() => {
+            // Restaura o botão
+            saveChangesBtn.disabled = false;
+            saveChangesBtn.innerHTML = originalBtnText;
+            closeModal();
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+    selectAllCheckbox.addEventListener('change', () => {
+        productCheckboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+        updateSelectionState();
+    });
+
+    productCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectionState);
+    });
+
+    bulkEditBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+    saveChangesBtn.addEventListener('click', handleBulkSave);
+
+    // Fecha o modal se clicar fora do conteúdo
+    bulkEditModal.addEventListener('click', function(event) {
+        if (event.target === bulkEditModal) {
+            closeModal();
+        }
+    });
+
+    // Inicialização
+    updateSelectionState();
+});
+</script>
 {% endblock content %}
