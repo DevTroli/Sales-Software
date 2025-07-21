@@ -19,12 +19,33 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap"
         />
-
-
         <!-- Font-awesome (optional) -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <style>
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        /* Definindo nossas classes de componentes reutilizáveis */
+        @layer components {
+            .form-input {
+                @apply block w-full bg-gray-700 border border-gray-600 text-white rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200;
+            }
+            .form-input-inline {
+                @apply bg-transparent text-2xl font-bold text-white p-1 rounded-md focus:outline-none focus:bg-gray-600 transition;
+            }
+            .btn {
+                @apply py-2 px-4 font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+            }
+            .btn-primary {
+                @apply bg-blue-600 hover:bg-blue-700 text-white;
+            }
+            .btn-danger {
+                @apply bg-red-600 hover:bg-red-700 text-white;
+            }
+        }
+        
         * {
             font-family: "Inknut Antiqua", serif;
             resize: none;

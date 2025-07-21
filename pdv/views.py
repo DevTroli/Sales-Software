@@ -13,9 +13,10 @@ from produto.models import Produto
 
 @login_required
 def pdv(request):
+    # ✅ CORREÇÃO: Usar chave específica para PDV
     if "nova_venda" not in request.session or request.session["nova_venda"]:
-        request.session["itens"] = []
-        request.session["subtotal"] = "0"
+        request.session["pdv_itens"] = []
+        request.session["pdv_subtotal"] = "0"
         request.session["nova_venda"] = False
 
     if request.method == "POST":
@@ -27,7 +28,7 @@ def pdv(request):
             quantidade = item_form.cleaned_data["quantidade"]
 
             if produto:
-                itens = request.session.get("itens", [])
+                itens = request.session.get("pdv_itens", [])
 
                 preco_unitario = produto.preco_venda
                 subtotal_item = preco_unitario * quantidade
@@ -43,13 +44,13 @@ def pdv(request):
                     },
                 )
 
-                request.session["itens"] = itens
+                request.session["pdv_itens"] = itens
 
                 subtotal = sum(
                     Decimal(item["preco_unitario"]) * item["quantidade"]
                     for item in itens
                 )
-                request.session["subtotal"] = str(subtotal)
+                request.session["pdv_subtotal"] = str(subtotal)
 
                 messages.success(
                     request, f"Produto {produto.produto} adicionado com sucesso."
@@ -61,8 +62,8 @@ def pdv(request):
 
         elif compra_form.is_valid() and "finalizar_compra" in request.POST:
             metodo_pagamento = compra_form.cleaned_data["metodo_pagamento"]
-            itens = request.session.get("itens", [])
-            subtotal = request.session.get("subtotal", "0")
+            itens = request.session.get("pdv_itens", [])
+            subtotal = request.session.get("pdv_subtotal", "0")
 
             compra = Compra.objects.create(
                 metodo_pagamento=metodo_pagamento, total=subtotal
@@ -88,8 +89,8 @@ def pdv(request):
                     return redirect("pdv:pdv")
 
             # Limpa os dados da sessão para nova venda
-            request.session["itens"] = []
-            request.session["subtotal"] = "0"
+            request.session["pdv_itens"] = []
+            request.session["pdv_subtotal"] = "0"
             request.session["nova_venda"] = True
 
             messages.success(request, "Compra finalizada com sucesso.")
@@ -99,8 +100,8 @@ def pdv(request):
         item_form = ItemCompraForm()
         compra_form = CompraForm()
 
-    itens = request.session.get("itens", [])
-    subtotal = Decimal(request.session.get("subtotal", "0.00"))
+    itens = request.session.get("pdv_itens", [])
+    subtotal = Decimal(request.session.get("pdv_subtotal", "0.00"))
 
     context = {
         "item_form": item_form,
@@ -123,19 +124,19 @@ def purchase_details(request, pk):
 def remove_item(request):
     produto_id = request.POST.get("produto_id")
 
-    # Remover o item da sessão
-    if "itens" in request.session:
-        itens = request.session["itens"]
-        request.session["itens"] = [
+    # Remover o item da sessão do PDV
+    if "pdv_itens" in request.session:
+        itens = request.session["pdv_itens"]
+        request.session["pdv_itens"] = [
             item for item in itens if item["produto_id"] != int(produto_id)
         ]
 
         # Atualizar subtotal
         subtotal = sum(
             Decimal(item["preco_unitario"]) * item["quantidade"]
-            for item in request.session["itens"]
+            for item in request.session["pdv_itens"]
         )
-        request.session["subtotal"] = str(subtotal)
+        request.session["pdv_subtotal"] = str(subtotal)
 
     return redirect("pdv:pdv")
 
@@ -143,9 +144,9 @@ def remove_item(request):
 @login_required
 @require_POST
 def clear_checkout(request):
-    # Limpa todos os itens e o subtotal da sessão
-    request.session.pop("itens", None)
-    request.session.pop("subtotal", None)
+    # Limpa todos os itens e o subtotal da sessão do PDV
+    request.session.pop("pdv_itens", None)
+    request.session.pop("pdv_subtotal", None)
 
     messages.success(request, "Todos os itens foram removidos do checkout.")
     return redirect("pdv:pdv")

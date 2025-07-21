@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include "includes/nav.html" %}
+<div class="p-6">
+  <div class="flex justify-between mb-4">
+    <h4 class="text-white">Dashboard de comandas</h4>
+    <a href="{% url 'comandas:abrir_comanda' %}" class="btn btn-primary rounded-md bg-blue-600 p-2"
+      <i class="fa fa-plus mr-2"></i> + Nova Comanda
+    </a>
+  </div>
+
+    <form method="GET" action="" class="mb-6">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nome do cliente ou telefone" class="px-4 py-2 w-full border text-slate-900 rounded-md">
+    </form>
+
+  <section class="mb-8">
+    <h3 class="text-green-400">Em Uso ({{ tabs_ativas.count }})</h3>
+    {% if tabs_ativas %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {% for tab in tabs_ativas %}
+          {% include 'includes/_comanda_card.html' with tab=tab status_class='border-green-500' %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-500">Nenhuma comanda em uso.</p>
+    {% endif %}
+  </section>
+
+  <!-- Disponíveis -->
+  <section class="mb-8">
+    <h3 class="text-gray-400">Disponíveis ({{ tabs_vazias.count }})</h3>
+    {% if tabs_vazias %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {% for tab in tabs_vazias %}
+          {% include 'includes/_comanda_card.html' with tab=tab status_class='border-gray-600' %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-500">Nenhuma comanda disponível.</p>
+    {% endif %}
+  </section>
+
+  <!-- Histórico -->
+  {% if tabs_fechadas %}
+  <section>
+    <h3 class="text-gray-500">Histórico</h3>
+    <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden">
+      <thead>
+        <tr>
+          <th>Cliente</th><th>Data</th><th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tab in tabs_fechadas %}
+        <tr>
+          <td class="px-4 py-2">{{ tab.nome_cliente }}</td>
+          <td class="px-4 py-2">{{ tab.data_fechamento|date:"d/m/Y H:i" }}</td>
+          <td class="px-4 py-2">R$ {{ tab.subtotal|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+</div>
+
+{% include 'includes/confirmation_modal.html' %}
+{% endblock %}

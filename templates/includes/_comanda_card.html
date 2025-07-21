@@ -1,0 +1,31 @@
+<div class="relative p-4 bg-gray-800 rounded-lg shadow {{ status_class }} flex flex-col h-36">
+  <a href="{% url 'comandas:detalhes_tab' tab.pk %}" class="flex-grow">
+    <h5 class="truncate text-white font-bold">{{ tab.nome_cliente }}</h5>
+    {% if tab.status == 'ATIVA' %}
+      <p class="text-green-300 text-2xl">R$ {{ tab.subtotal|floatformat:2 }}</p>
+      <p class="text-gray-400 text-xs">{{ tab.itens.count }} item(s)</p>
+    {% else %}
+      <p class="text-gray-500 text-center mt-8">Vazia</p>
+    {% endif %}
+  </a>
+
+  <div class="absolute top-2 right-2">
+    {% if tab.status == 'ATIVA' %}
+      <button class="action-btn text-gray-400" 
+              data-action-url="{% url 'comandas:fechar_tab' tab.pk %}"
+              data-modal-title="Fechar comanda"
+              data-modal-body="Debitar estoque e fechar?"
+              data-modal-btn-text="Fechar">
+        <i class="fas fa-lock"></i>
+      </button>
+    {% elif tab.status == 'VAZIA' %}
+      <button class="action-btn text-red-500"
+              data-action-url="{% url 'comandas:fechar_tab' tab.pk %}"
+              data-modal-title="Excluir comanda"
+              data-modal-body="Remover esta comanda vazia?"
+              data-modal-btn-text="Excluir">
+        <i class="fas fa-times"></i>
+      </button>
+    {% endif %}
+  </div>
+</div>
