@@ -23,11 +23,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# SAT
-# Configurações do SAT
-# SAT_CODIGO_ATIVACAO = config('SAT_CODIGO_ATIVACAO', default='12345678')  # Código de ativação do SAT
-# SAT_DLL_PATH = config('SAT_DLL_PATH', default='C:\Program Files (x86)\Control iD\S@T-iD\lib')  # Caminho para a DLL do SAT
-
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+SECURE_REFERRER_POLICY = 'same-origin'
 
 # Application definition
 
@@ -65,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "produto.views.NavigationHistoryMiddleware",  
 ]
 
 ROOT_URLCONF = "setup.urls"

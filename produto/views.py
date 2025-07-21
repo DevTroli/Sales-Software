@@ -27,7 +27,7 @@ import pandas as pd
 
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
 
-# from satcfe import BibliotecaSAT, ClienteSATLocal
+from django.utils.deprecation import MiddlewareMixin
 
 from pdv.models import Compra, ItemCompra
 from produto.models import Categoria, Produto
@@ -36,6 +36,22 @@ from produto.forms import (
     UploadFileForm,
 )
 
+class NavigationHistoryMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if 'navigation_history' not in request.session:
+            request.session['navigation_history'] = []
+        
+        # Não adiciona POST nem URLs de edição ao histórico
+        if request.method == 'GET' and not request.path.startswith('/produtos/') or not any(k in request.path for k in ['edit', 'add']):
+            history = request.session['navigation_history']
+            
+            # Evita duplicatas consecutivas
+            if not history or history[-1] != request.get_full_path():
+                # Mantém apenas os últimos 5 itens
+                if len(history) >= 5:
+                    history.pop(0)
+                history.append(request.get_full_path())
+                request.session['navigation_history'] = history
 
 @login_required
 def index(request):
@@ -60,6 +76,9 @@ def index(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    if 'list_origin' not in request.session:
+        request.session['list_origin'] = request.get_full_path()
+
     # Adicionado para popular o <select> no modal de edição em massa
     todas_as_categorias = Categoria.objects.all()
 
@@ -71,6 +90,9 @@ def index(request):
 
 
 def product_detail(request, pk):
+    if 'detail_origin' not in request.session:
+        request.session['detail_origin'] = request.META.get('HTTP_REFERER', reverse('produto:index'))
+
     template_name = "produto/product_detail.html"
     obj = get_object_or_404(Produto, pk=pk)
     context = {"object": obj}
@@ -110,6 +132,15 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     template_name = "produto/product_form.html"
     form_class = ProdutoForm
     login_url = "/login"
+
+    def get(self, request, *args, **kwargs):
+        # Armazena origem da edição (página de detalhes)
+        request.session['edit_origin'] = request.META.get('HTTP_REFERER', reverse('produto:index'))
+        return super().get(request, *args, **kwargs)
+    
+    def get_success_url(self):
+        # Volta para a origem da edição (página de detalhes)
+        return self.request.session.get('edit_origin', reverse('produto:product_detail', kwargs={'pk': self.object.pk}))
 
     def get_success_url(self):
         # Redireciona para a página de detalhes do produto após a atualização
