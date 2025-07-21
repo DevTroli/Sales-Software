@@ -5,7 +5,6 @@
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full p-4 items-center">
     <form id="bulk-edit-form">
-        {% csrf_token %}
 
         <header class="mb-4 flex justify-between items-center flex-wrap gap-4">
             <div><h2 class="text-2xl font-bold">Lista de Produtos</h2></div>
@@ -21,7 +20,7 @@
         </header>
 
         <div class="mb-4">
-            <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Buscar por nome, código de barra, categoria..." class="px-4 py-2 w-full border bg-gray-700 text-white rounded-md">
+            Buscar por nome, código de barra, categoria...<input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="" class="px-4 py-2 w-full border bg-gray-700 text-white rounded-md">
         </div>
     </form>
     
@@ -35,6 +34,7 @@
                     <th scope="col" class="px-2.5 py-3">Produto</th>
                     <th scope="col" class="px-2.5 py-3">Preço Custo</th>
                     <th scope="col" class="px-2.5 py-3">Preço Venda</th>
+                    <th scope="col" class="px-2.5 py-3 border-r border-gray-600">Margem</th>
                     <th scope="col" class="px-2.5 py-3">Estoque</th>
                 </tr>
             </thead>
@@ -43,9 +43,15 @@
                 <tr class="odd:dark:bg-gray-900 even:dark:bg-gray-800 hover:bg-blue-900/50 border-b dark:border-gray-700">
                     <td class="w-4 p-4"><input type="checkbox" name="product_ids" value="{{ object.id }}" class="product-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"></td>
                     <td class="px-2 py-4 text-center">{% if object.nivel_estoque %}<i class="fa fa-check-circle ok"></i>{% else %}<i class="fa fa-minus-circle no"></i>{% endif %}</td>
-                    <td class="p-4"><a href="{{ object.get_absolute_url }}" class="text-blue-400 hover:underline">{{ object.produto }}</a></td>
+                    <td class="p-4">
+                        <a href="{% url 'produto:product_detail' object.id %}?origin={{ request.get_full_path|urlencode }}" 
+                        class="text-blue-400 hover:underline">
+                            {{ object.produto }}
+                        </a>
+                    </td>
                     <td class="p-4">R$ <span>{{ object.preco_custo }}</span></td>
                     <td class="p-4">R$ <span>{{ object.preco_venda }}</span></td>
+                    <td class="p-4"><span>{{ object.margem_vendas|floatformat:2 }} %</span></td>
                     <td class="p-4">{{ object.estoque }}</td>
                 </tr>
                 {% endfor %}
