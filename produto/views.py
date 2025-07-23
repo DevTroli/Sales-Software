@@ -1,57 +1,54 @@
-from datetime import timedelta
-from io import BytesIO
+import json
 import os
 import re
-import json
-from django.http import JsonResponse
-from django.db import transaction
-from django.db.models import F
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from decimal import Decimal, InvalidOperation
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse
-
-from django.db.models import Q
-from django.http import HttpResponse
-from django.views.decorators.http import require_POST
-from django.contrib import messages
-from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal, InvalidOperation
+from io import BytesIO
 
-from openpyxl import load_workbook
 import pandas as pd
-
-from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, NamedStyle
-
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import F, Q
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
+from django.views.decorators.http import require_POST
+from django.views.generic.edit import CreateView, UpdateView
+from openpyxl import load_workbook
+from openpyxl.styles import (Alignment, Border, Font, NamedStyle, PatternFill,
+                             Side)
 
 from pdv.models import Compra, ItemCompra
+from produto.forms import ProdutoForm, UploadFileForm
 from produto.models import Categoria, Produto
-from produto.forms import (
-    ProdutoForm,
-    UploadFileForm,
-)
+
 
 class NavigationHistoryMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        if 'navigation_history' not in request.session:
-            request.session['navigation_history'] = []
-        
+        if "navigation_history" not in request.session:
+            request.session["navigation_history"] = []
+
         # Não adiciona POST nem URLs de edição ao histórico
-        if request.method == 'GET' and not request.path.startswith('/produtos/') or not any(k in request.path for k in ['edit', 'add']):
-            history = request.session['navigation_history']
-            
+        if (
+            request.method == "GET"
+            and not request.path.startswith("/produtos/")
+            or not any(k in request.path for k in ["edit", "add"])
+        ):
+            history = request.session["navigation_history"]
+
             # Evita duplicatas consecutivas
             if not history or history[-1] != request.get_full_path():
                 # Mantém apenas os últimos 5 itens
                 if len(history) >= 5:
                     history.pop(0)
                 history.append(request.get_full_path())
-                request.session['navigation_history'] = history
+                request.session["navigation_history"] = history
+
 
 @login_required
 def index(request):
@@ -76,22 +73,24 @@ def index(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    if 'list_origin' not in request.session:
-        request.session['list_origin'] = request.get_full_path()
+    if "list_origin" not in request.session:
+        request.session["list_origin"] = request.get_full_path()
 
     # Adicionado para popular o <select> no modal de edição em massa
     todas_as_categorias = Categoria.objects.all()
 
     context = {
         "page_obj": page_obj,
-        "todas_as_categorias": todas_as_categorias, # Passando para o template
+        "todas_as_categorias": todas_as_categorias,  # Passando para o template
     }
     return render(request, template_name, context)
 
 
 def product_detail(request, pk):
-    if 'detail_origin' not in request.session:
-        request.session['detail_origin'] = request.META.get('HTTP_REFERER', reverse('produto:index'))
+    if "detail_origin" not in request.session:
+        request.session["detail_origin"] = request.META.get(
+            "HTTP_REFERER", reverse("produto:index")
+        )
 
     template_name = "produto/product_detail.html"
     obj = get_object_or_404(Produto, pk=pk)
@@ -135,37 +134,41 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         # Armazena origem da edição (página de detalhes)
-        request.session['edit_origin'] = request.META.get('HTTP_REFERER', reverse('produto:index'))
+        request.session["edit_origin"] = request.META.get(
+            "HTTP_REFERER", reverse("produto:index")
+        )
         return super().get(request, *args, **kwargs)
-    
+
     def get_success_url(self):
         # Volta para a origem da edição (página de detalhes)
-        return self.request.session.get('edit_origin', reverse('produto:product_detail', kwargs={'pk': self.object.pk}))
+        return self.request.session.get(
+            "edit_origin",
+            reverse("produto:product_detail", kwargs={"pk": self.object.pk}),
+        )
 
     def get_success_url(self):
         # Redireciona para a página de detalhes do produto após a atualização
         return reverse("produto:product_detail", kwargs={"pk": self.object.pk})
+
+
 @login_required
 def get_products_data(request):
-    product_ids_str = request.GET.get('ids')
+    product_ids_str = request.GET.get("ids")
     if not product_ids_str:
-        return JsonResponse({'error': 'Nenhum ID fornecido'}, status=400)
-    
-    product_ids = [int(id) for id in product_ids_str.split(',')]
-    
+        return JsonResponse({"error": "Nenhum ID fornecido"}, status=400)
+
+    product_ids = [int(id) for id in product_ids_str.split(",")]
+
     # Usamos values() para buscar apenas os campos que precisamos de forma eficiente
     products = Produto.objects.filter(id__in=product_ids).values(
-        'id', 
-        'produto', 
-        'preco_custo', 
-        'preco_venda', 
-        'estoque'
+        "id", "produto", "preco_custo", "preco_venda", "estoque"
     )
-    
+
     # Convertemos o QuerySet para uma lista de dicionários
     data = list(products)
-    
+
     return JsonResponse(data, safe=False)
+
 
 @login_required
 @require_POST
@@ -173,44 +176,63 @@ def bulk_edit_products(request):
     try:
         # Carregamos os dados do corpo da requisição JSON
         data = json.loads(request.body)
-        
+
         if not isinstance(data, list) or not data:
-            return JsonResponse({'status': 'error', 'message': 'Dados inválidos ou vazios.'}, status=400)
+            return JsonResponse(
+                {"status": "error", "message": "Dados inválidos ou vazios."}, status=400
+            )
 
         with transaction.atomic():
             # Itera sobre cada produto enviado no JSON
             for product_data in data:
-                product_id = product_data.get('id')
-                
+                product_id = product_data.get("id")
+
                 # Encontra o produto no banco
                 produto_obj = Produto.objects.get(pk=product_id)
-                
+
                 # Atualiza os campos se eles foram fornecidos e não estão vazios
                 # Usamos .get() com um valor padrão para evitar erros se a chave não existir
-                if 'preco_custo' in product_data and product_data['preco_custo'] != '':
-                    produto_obj.preco_custo = Decimal(product_data['preco_custo'])
-                
-                if 'preco_venda' in product_data and product_data['preco_venda'] != '':
-                    produto_obj.preco_venda = Decimal(product_data['preco_venda'])
-                
-                if 'estoque' in product_data and product_data['estoque'] != '':
-                    produto_obj.estoque = int(product_data['estoque'])
-                
-                # Salvamos o objeto individualmente para garantir que o método .save() 
+                if "preco_custo" in product_data and product_data["preco_custo"] != "":
+                    produto_obj.preco_custo = Decimal(product_data["preco_custo"])
+
+                if "preco_venda" in product_data and product_data["preco_venda"] != "":
+                    produto_obj.preco_venda = Decimal(product_data["preco_venda"])
+
+                if "estoque" in product_data and product_data["estoque"] != "":
+                    produto_obj.estoque = int(product_data["estoque"])
+
+                # Salvamos o objeto individualmente para garantir que o método .save()
                 # customizado do seu modelo (que recalcula margem e nível de estoque) seja executado.
                 produto_obj.save()
 
-        messages.success(request, f'{len(data)} produtos foram atualizados com sucesso!')
-        return JsonResponse({'status': 'success', 'message': 'Produtos atualizados.'})
+        messages.success(
+            request, f"{len(data)} produtos foram atualizados com sucesso!"
+        )
+        return JsonResponse({"status": "success", "message": "Produtos atualizados."})
 
     except json.JSONDecodeError:
-        return JsonResponse({'status': 'error', 'message': 'JSON mal formatado.'}, status=400)
+        return JsonResponse(
+            {"status": "error", "message": "JSON mal formatado."}, status=400
+        )
     except Produto.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': f'Produto com ID {product_id} não encontrado.'}, status=404)
+        return JsonResponse(
+            {
+                "status": "error",
+                "message": f"Produto com ID {product_id} não encontrado.",
+            },
+            status=404,
+        )
     except (KeyError, TypeError, ValueError) as e:
-        return JsonResponse({'status': 'error', 'message': f'Erro nos dados fornecidos: {str(e)}'}, status=400)
+        return JsonResponse(
+            {"status": "error", "message": f"Erro nos dados fornecidos: {str(e)}"},
+            status=400,
+        )
     except Exception as e:
-        return JsonResponse({'status': 'error', 'message': f'Ocorreu um erro inesperado: {str(e)}'}, status=500)
+        return JsonResponse(
+            {"status": "error", "message": f"Ocorreu um erro inesperado: {str(e)}"},
+            status=500,
+        )
+
 
 def import_xlsx(file_path):
     """
