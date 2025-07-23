@@ -1,11 +1,12 @@
-from django.utils import timezone 
-from decimal import Decimal
 import re
-from django.db import models
-from django.core.exceptions import ValidationError
+from decimal import Decimal
+
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save, post_delete
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from produto.models import Produto
 
@@ -52,15 +53,12 @@ class Tab(models.Model):
             return
 
         total = sum(item.subtotal() for item in self.itens.all())
-        self.subtotal = total
-        
-        # Lógica de status simplificada
         novo_status = 'ATIVA' if total > 0 else 'VAZIA'
-        
-        # Salva apenas se houver mudança para evitar loops de signal
-        if self.subtotal != total or self.status != novo_status:
-            self.status = novo_status
-            self.save(update_fields=['subtotal', 'status', 'aberta'])
+
+        self.subtotal = total
+        self.status = novo_status
+        self.aberta = True if novo_status != 'FECHADA' else False
+        self.save(update_fields=['subtotal', 'status', 'aberta'])
 
     # MODIFICAÇÃO: Lógica de fechamento encapsulada
     def fechar(self):
