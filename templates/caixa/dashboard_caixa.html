@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load widget_tweaks %} {% block content %}
+{% include "includes/nav.html" %}
+<style>
+  .form-input {
+    @apply block w-full bg-gray-900 border-2 border-gray-700 text-gray-200 rounded-lg p-3 text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300;
+  }
+
+  .btn {
+    @apply py-2 px-4 font-semibold rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-4;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-500 text-white focus:ring-blue-800;
+  }
+
+  .btn-success {
+    @apply bg-green-600 hover:bg-green-500 text-white focus:ring-green-800;
+  }
+
+  .btn-warning {
+    @apply bg-yellow-500 hover:bg-yellow-400 text-gray-900 focus:ring-yellow-700;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-500 text-white focus:ring-red-800;
+  }
+
+  .modal-container {
+    @apply hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-content {
+    @apply bg-gray-800 rounded-2xl shadow-2xl p-6 w-full max-w-sm text-white border border-gray-700 animate-fade-in-up;
+  }
+</style>
+
+<div class="container mx-auto p-12 text-gray-200">
+  <header class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold">Gestão de Caixa</h1>
+    <a href="{% url 'caixa:relatorio' %}" class="inline-flex items-center btn btn-info mt-4 md:mt-0"
+      aria-label="Ver relatórios de caixa">
+      <i class="fas fa-chart-bar mr-2"></i>
+      Relatórios
+    </a>
+  </header>
+
+  {% if sessao_aberta %} {% include 'includes/_dashboard_aberto.html' %}
+  {% else %} {% include 'includes/_dashboard_fechado.html' %} {% endif %}
+</div>
+
+{% include 'includes/_modais.html' %} {% endblock %} {% block extra_js %}
+<script>
+  // Script simples para abrir e fechar modais
+  document.querySelectorAll("[data-modal-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const modalId = button.dataset.modalToggle;
+      document.getElementById(modalId).classList.toggle("hidden");
+    });
+  });
+</script>
+{% endblock %}

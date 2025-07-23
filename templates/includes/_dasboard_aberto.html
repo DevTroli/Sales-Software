@@ -1,0 +1,150 @@
+<div class="max-w-7xl mx-auto">
+  <!-- Status e Saldo Principal -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Status do Caixa -->
+    <div class="card p-6">
+      <div class="card-header">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-bold text-white">Status do Caixa</h2>
+          <span class="status-badge status-open">
+            <span class="h-2 w-2 bg-green-400 rounded-full animate-pulse"></span>
+            Aberto
+          </span>
+        </div>
+        <p class="text-sm text-gray-400 mt-2">
+          Sessão iniciada por <span class="text-blue-400 font-medium">{{ sessao_aberta.usuario_abertura.username }}</span>
+          {% if sessao_aberta.data_abertura %}
+            às <span class="text-blue-400 font-medium">{{ sessao_aberta.data_abertura|date:"H:i" }}</span>
+            em <span class="text-blue-400 font-medium">{{ sessao_aberta.data_abertura|date:"d/m/Y" }}</span>
+          {% endif %}
+        </p>
+      </div>
+      
+      <!-- Informações Adicionais -->
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-400">Valor de Abertura:</span>
+          <span class="text-green-400 font-medium">
+            R$ {{ sessao_aberta.valor_abertura|floatformat:2|default:"0,00" }}
+          </span>
+        </div>
+        {% if ultima_movimentacao %}
+        <div class="flex justify-between">
+          <span class="text-gray-400">Última Movimentação:</span>
+          <span class="text-blue-400 font-medium">
+            {{ ultima_movimentacao.data_movimentacao|date:"H:i" }}
+          </span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Saldo Atual -->
+    <div class="card p-6">
+      <div class="text-center">
+        <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Saldo Atual em Caixa</p>
+        <p class="text-5xl font-bold text-green-300 mb-6">
+          R$ {{ saldo_atual|floatformat:2|default:"0,00" }}
+        </p>
+        
+        <!-- Botões de Ação -->
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <button data-modal-toggle="sangria-modal" class="btn btn-warning">
+            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+            </svg>
+            Sangria
+          </button>
+          <button data-modal-toggle="suprimento-modal" class="btn btn-primary">
+            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Suprimento
+          </button>
+        </div>
+        
+        <button data-modal-toggle="fechar-caixa-modal" class="btn btn-danger w-full">
+          <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+          Fechar Caixa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Últimas Movimentações -->
+  <div class="card p-6">
+    <div class="card-header">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xl font-bold text-white">Últimas Movimentações</h3>
+        <span class="text-gray-400 text-sm">
+          {{ movimentacoes|length }} movimentação{% if movimentacoes|length != 1 %}ões{% endif %}
+        </span>
+      </div>
+    </div>
+    
+    <div class="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
+      {% for mov in movimentacoes %}
+      <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50 hover:border-gray-600/50 transition-colors">
+        <div class="flex justify-between items-start">
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                {% if mov.tipo == 'SANGRIA' %}bg-yellow-500/20 text-yellow-400{% elif mov.tipo == 'SUPRIMENTO' %}bg-blue-500/20 text-blue-400{% else %}bg-green-500/20 text-green-400{% endif %}">
+                {{ mov.get_tipo_display }}
+              </span>
+              <span class="text-xs text-gray-500">
+                {{ mov.data_movimentacao|date:"d/m/Y H:i" }}
+              </span>
+            </div>
+            
+            {% if mov.descricao %}
+            <p class="text-sm text-gray-300 mb-1">{{ mov.descricao }}</p>
+            {% endif %}
+            
+            <p class="text-xs text-gray-500">
+              Realizado por <span class="text-blue-400">{{ mov.usuario.username|default:"Sistema" }}</span>
+            </p>
+          </div>
+          
+          <div class="text-right ml-4">
+            <p class="font-bold text-lg
+              {% if mov.tipo == 'SANGRIA' %}text-red-400{% else %}text-green-400{% endif %}">
+              {% if mov.tipo == 'SANGRIA' %}-{% else %}+{% endif %}R$ {{ mov.valor|floatformat:2|default:"0,00" }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="text-center py-8">
+        <svg class="w-12 h-12 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        <p class="text-gray-500">Nenhuma movimentação registrada ainda</p>
+        <p class="text-gray-600 text-sm mt-1">As transações aparecerão aqui conforme forem realizadas</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #374151;
+    border-radius: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #6B7280;
+    border-radius: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+  }
+</style>

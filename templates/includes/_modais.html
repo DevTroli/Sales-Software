@@ -1,0 +1,311 @@
+{% load widget_tweaks %}
+<!-- Modal para Abrir Caixa -->
+<div id="abrir-caixa-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden">
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0 modal-content">
+    <!-- Header do Modal -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-cash-register text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Abrir Caixa</h3>
+      </div>
+      <button type="button" class="text-gray-400 hover:text-white transition-colors"
+        data-modal-toggle="abrir-caixa-modal">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Formulário -->
+    <form action="{% url 'caixa:abrir' %}" method="POST" class="space-y-6">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Valor Inicial do Caixa</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">R$</span>
+          {% render_field abertura_form.valor_abertura placeholder="0,00" class="text-black form-input pl-12 text-lg font-semibold"%}
+        </div>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="flex space-x-3 pt-4">
+        <button type="button"
+          class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105"
+          data-modal-toggle="abrir-caixa-modal">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+          <i class="fas fa-check mr-2"></i>
+          Confirmar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Sangria -->
+<div id="sangria-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden">
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0 modal-content">
+    <!-- Header do Modal -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-arrow-down text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Registrar Sangria</h3>
+      </div>
+      <button type="button" class="text-gray-400 hover:text-white transition-colors" data-modal-toggle="sangria-modal">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Formulário -->
+    <form action="{% url 'caixa:registrar_movimentacao' tipo='sangria' %}" method="POST" class="space-y-6">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Valor a Retirar</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">R$</span>
+          {% render_field movimentacao_form.valor placeholder="0,00" class="text-black form-input pl-12 text-lg font-semibold" %}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Descrição</label>
+        {% render_field movimentacao_form.descricao placeholder="Ex: Pagamento fornecedor" class="text-black form-input" %}
+      </div>
+
+      <!-- Botões de A��ão -->
+      <div class="flex space-x-3 pt-4">
+        <button type="button"
+          class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105"
+          data-modal-toggle="sangria-modal">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+          <i class="fas fa-minus mr-2"></i>
+          Retirar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Suprimento -->
+<div id="suprimento-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden">
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0 modal-content">
+    <!-- Header do Modal -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-arrow-up text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Registrar Suprimento</h3>
+      </div>
+      <button type="button" class="text-gray-400 hover:text-white transition-colors"
+        data-modal-toggle="suprimento-modal">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Formulário -->
+    <form action="{% url 'caixa:registrar_movimentacao' tipo='suprimento' %}" method="POST" class="space-y-6">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Valor a Adicionar</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">R$</span>
+          {% render_field movimentacao_form.valor placeholder="0,00" class="text-black form-input pl-12 text-lg font-semibold" %}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Descrição</label>
+        {% render_field movimentacao_form.descricao placeholder="Ex: Troco extra" class="form-input" %}
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="flex space-x-3 pt-4">
+        <button type="button"
+          class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105"
+          data-modal-toggle="suprimento-modal">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+          <i class="fas fa-plus mr-2"></i>
+          Adicionar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Fechar Caixa -->
+<div id="fechar-caixa-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden">
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0 modal-content">
+    <!-- Header do Modal -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-lock text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Fechar Caixa</h3>
+      </div>
+      <button type="button" class="text-gray-400 hover:text-white transition-colors"
+        data-modal-toggle="fechar-caixa-modal">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Formulário -->
+    <form action="{% url 'caixa:fechar' %}" method="POST" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Saldo Calculado -->
+      <div class="bg-gray-700 rounded-xl p-4 border-l-4 border-green-500">
+        <p class="text-sm text-gray-400 mb-1">Saldo Calculado pelo Sistema:</p>
+        <p class="text-2xl font-bold text-green-400 flex items-center">
+          <i class="fas fa-calculator mr-2 text-lg"></i>
+          R$ {{ saldo_atual|floatformat:2|default:"0.00" }}
+        </p>
+      </div>
+
+      <!-- Valor Contado -->
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Valor Contado em Caixa</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-black font-semibold">R$</span>
+          {% render_field fechamento_form.valor_fechamento_informado placeholder="0,00" class=" text-black form-input pl-12 text-lg font-regular" %}
+        </div>
+        <p class="text-xs text-gray-500 mt-1">
+          <i class="fas fa-info-circle mr-1"></i>
+          Digite o valor real contado no caixa
+        </p>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="flex space-x-3 pt-4">
+        <button type="button"
+          class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105"
+          data-modal-toggle="fechar-caixa-modal">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+          <i class="fas fa-lock mr-2"></i>
+          Fechar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Animações para os modais */
+  .modal-content {
+    animation: modalFadeIn 0.3s ease-out forwards;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Melhoria nos campos de entrada */
+  .form-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+  }
+
+  /* Efeito hover nos botões */
+  button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Função para abrir modal
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      const modalContent = modal.querySelector('.modal-content');
+
+      modal.classList.remove('hidden');
+      // Pequeno delay para permitir a transição
+      setTimeout(() => {
+        modalContent.style.opacity = '1';
+        modalContent.style.transform = 'scale(1)';
+      }, 10);
+
+      // Focar no primeiro input
+      const firstInput = modal.querySelector('input[type="text"], input[type="number"], textarea');
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 100);
+      }
+    }
+
+    // Função para fechar modal
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      const modalContent = modal.querySelector('.modal-content');
+
+      modalContent.style.opacity = '0';
+      modalContent.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // Event listeners para botões de toggle
+    document.querySelectorAll('[data-modal-toggle]').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const modalId = this.getAttribute('data-modal-toggle');
+        const modal = document.getElementById(modalId);
+
+        if (modal.classList.contains('hidden')) {
+          openModal(modalId);
+        } else {
+          closeModal(modalId);
+        }
+      });
+    });
+
+    // Fechar modal ao clicar fora
+    document.querySelectorAll('[id$="-modal"]').forEach(modal => {
+      modal.addEventListener('click', function (e) {
+        if (e.target === this) {
+          closeModal(this.id);
+        }
+      });
+    });
+
+    // Fechar modal com ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[id$="-modal"]:not(.hidden)').forEach(modal => {
+          closeModal(modal.id);
+        });
+      }
+    });
+  });
+</script>

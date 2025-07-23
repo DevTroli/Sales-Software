@@ -1,0 +1,88 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4">
+  <div class="lg:col-span-1 space-y-6">
+    <div class="bg-gray-800 p-6 rounded-xl border border-green-500/30">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold">Status do Caixa</h2>
+        <span class="flex items-center gap-2 text-sm text-green-400"
+          ><span class="h-3 w-3 bg-green-400 rounded-full animate-pulse"></span
+          >Aberto</span
+        >
+      </div>
+      <p class="text-sm text-gray-400 mt-2">
+        Sessão iniciada por
+        <span class="text-blue-400 font-medium">
+          {{ sessao_aberta.usuario_abertura.username }}
+        </span>
+        às
+        <span class="text-blue-400 font-medium">
+          {{ sessao_aberta.data_abertura|date:"H:i" }}
+        </span>
+        em
+        <span class="text-blue-400 font-medium">
+          {{ sessao_aberta.data_abertura|date:"d/m/Y" }}
+        </span>
+      </p>
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+      <p class="text-gray-400 text-sm">SALDO ATUAL EM CAIXA</p>
+      <p class="text-4xl font-bold text-green-300 p-2 mt-2">
+        R$ {{ saldo_atual|floatformat:2 }}
+      </p>
+      <div class="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-gray-700">
+        <button
+          data-modal-toggle="sangria-modal"
+          class="btn btn-warning w-full"
+        >
+          Sangria
+        </button>
+        <button
+          data-modal-toggle="suprimento-modal"
+          class="btn btn-primary w-full"
+        >
+          Suprimento
+        </button>
+      </div>
+      <button
+        data-modal-toggle="fechar-caixa-modal"
+        class="btn btn-danger w-full mt-4 rounded-lg p-4 bg-amber-500"
+      >
+        Fechar Caixa
+      </button>
+    </div>
+  </div>
+  <div class="lg:col-span-2 bg-gray-800 p-6 rounded-xl border border-gray-700">
+    <h3 class="text-lg font-bold mb-4">Últimas Movimentações</h3>
+    <div class="space-y-3 max-h-[60vh] overflow-y-auto">
+      {% for mov in movimentacoes %}
+      <div
+        class="flex justify-between items-center bg-gray-900/50 p-3 rounded-lg"
+      >
+        <div>
+          <p
+            class="font-semibold {% if mov.tipo == 'SANGRIA' %}text-yellow-400{% else %}text-blue-400{% endif %}"
+          >
+            {{ mov.get_tipo_display }}
+          </p>
+          <p class="text-sm text-gray-400">
+            {{ mov.descricao|default_if_none:"" }}
+          </p>
+        </div>
+        <div class="text-right">
+          <p
+            class="font-bold text-lg {% if mov.tipo == 'SANGRIA' %}text-red-500{% else %}text-green-500{% endif %}"
+          >
+            {% if mov.tipo == 'SANGRIA' %}-{% else %}+{% endif %} 
+            R$ {{ mov.valor|default:"0.00"|floatformat:2 }}
+          </p>
+          <p class="text-xs text-gray-500">
+            {{ mov.data_movimentacao|date:"H:i" }} por {{ mov.usuario.username}}
+          </p>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center text-gray-500 py-4">Nenhuma movimentação ainda.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>

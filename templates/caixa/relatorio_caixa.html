@@ -1,0 +1,94 @@
+{% extends 'base.html' %} {% load widget_tweaks %} {% block content %}
+<div class="container mx-auto p-6 text-gray-200">
+  <a href="{% url 'caixa:dashboard' %}" class="flex items-center gap-2 text-blue-500 hover:text-blue-400">
+            <i class="fas fa-arrow-left"></i>
+            <span>Caixa</span>
+        </a>
+  <div class="flex flex-wrap items-center justify-between gap-4 my-6">
+    <h1 class="text-3xl font-bold">Relatório de Caixa</h1>
+    <a
+      href="{% url 'caixa:exportar' %}?{{ request.GET.urlencode }}"
+      class="btn btn-success flex items-center gap-2"
+    >
+      <i class="fas fa-file-excel"></i> Exportar para Excel
+    </a>
+  </div>
+
+  <div class="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700 mb-6">
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+      <div>
+        <label class="block text-sm font-medium text-gray-400"
+          >Data de Início</label
+        >
+        {% render_field form.data_inicio class="text-black form-input mt-1" %}
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-400"
+          >Data Final</label
+        >
+        {% render_field form.data_fim class=" text-black form-input mt-1" %}
+      </div>
+      <div class="flex gap-2">
+        <button type="submit" class="btn btn-primary w-full">Filtrar</button>
+        <a
+          href="{% url 'caixa:relatorio' %}"
+          class="btn bg-gray-600 w-full text-center"
+          >Limpar</a
+        >
+      </div>
+    </form>
+  </div>
+
+  {% if sumario %}
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    {% for item in sumario %}
+    <div class="bg-gray-800 p-4 rounded-xl text-center border border-gray-700">
+      <p class="text-sm text-gray-400">{{ item.tipo|capfirst }}</p>
+      <p class="text-2xl font-bold">R$ {{ item.total|floatformat:2 }}</p>
+      <p class="text-xs text-gray-500">({{ item.quantidade }} operações)</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div
+    class="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden"
+  >
+    <table class="min-w-full">
+      <thead class="bg-gray-700/50">
+        <tr>
+          <th class="p-3 text-left text-sm font-semibold">Data/Hora</th>
+          <th class="p-3 text-left text-sm font-semibold">Tipo</th>
+          <th class="p-3 text-right text-sm font-semibold">Valor</th>
+          <th class="p-3 text-left text-sm font-semibold">Descrição</th>
+          <th class="p-3 text-left text-sm font-semibold">Usuário</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-700">
+        {% for mov in movimentacoes %}
+        <tr class="hover:bg-gray-700/50">
+          <td class="p-3">{{ mov.data_movimentacao|date:"d/m/Y H:i" }}</td>
+          <td class="p-3">
+            <span
+              class="font-semibold {% if mov.tipo == 'SANGRIA' %}text-red-400{% else %}text-green-400{% endif %}"
+              >{{ mov.get_tipo_display }}</span
+            >
+          </td>
+          <td class="p-3 text-right font-mono">
+            R$ {{ mov.valor|floatformat:2 }}
+          </td>
+          <td class="p-3 text-gray-400">{{ mov.descricao }}</td>
+          <td class="p-3">{{ mov.usuario.username }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="p-6 text-center text-gray-500">
+            Nenhuma movimentação encontrada.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
