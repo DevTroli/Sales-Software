@@ -44,12 +44,13 @@ INSTALLED_APPS = [
     "produto.apps.ProdutoConfig",
     "pdv.apps.PdvConfig",
     "comandas.apps.ComandasConfig",
+    "caixa.apps.CaixaConfig",
 ]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",  # Backend padrão
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 

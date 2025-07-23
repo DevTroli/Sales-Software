@@ -8,6 +8,7 @@ urlpatterns = [
     path("produtos/", include("produto.urls")),
     path("pdv/", include("pdv.urls")),
     path("comandas/", include("comandas.urls")),
+    path("caixa/", include("caixa.urls")),
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="/login/"), name="logout"),
 ]
