@@ -82,7 +82,9 @@
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-lg shadow-lg">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
              <div class="flex items-center space-x-3">
-                <i class="fas fa-beer text-brand-amber text-2xl"></i>
+                <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="https://raw.githubusercontent.com/DevTroli/servidor_estaticos/main/icon.svg" class="h-14" alt="Logo">
+                </a>
                 <h1 class="text-xl font-bold text-white hidden sm:block">Gonzaguinha Butiquim</h1>
             </div>
             <div class="relative">
@@ -94,7 +96,7 @@
 
     <div class="max-w-4xl mx-auto px-4 pt-24 pb-16">
         <nav id="category-nav" class="sticky-nav sticky top-[68px] z-40 mb-8 py-2 overflow-x-auto no-scrollbar">
-            <ul class="flex flex-nowrap text-sm justify-center">
+            <ul class="flex flex-nowrap text-sm justify-start sm:justify-center">
                 {# ATUALIZADO: Loop para gerar a navegação a partir do context do Django #}
                 {% for slug, title in sections %}
                 <li><a href="#{{ slug }}" class="menu-nav-item px-4 py-2 text-gray-300 hover:text-brand-amber transition whitespace-nowrap block">{{ title }}</a></li>
@@ -109,8 +111,8 @@
 
         <div class="space-y-12 p-2">
             
-            <section id="cervejas-artesanais" class="scroll-mt-32 menu-section">
-                <h3 class="text-2xl font-bold text-white mb-6 menu-category-title">🍻 Cervejas Artesanais</h3>
+            <section id="cervejas" class="scroll-mt-32 menu-section">
+                <h3 class="text-2xl font-bold text-white mb-6 menu-category-title">🍻 Cervejas</h3>
                 <div class="space-y-8">
                     <div>
                         <h4 class="font-semibold mb-4 text-gray-300">GARRAFA 600ML</h4>
@@ -159,7 +161,7 @@
                     <p class="text-gray-400 italic mt-1">{{ extra_caip }}</p>
                 </div>
 
-                <h4 class="font-semibold mb-4 text-gray-300 mt-8">GIN TÔNICA PREMIUM (500ml)</h4>
+                <h4 class="font-semibold mb-4 text-gray-300 mt-8">GIN TÔNICA (500ml)</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     {% for g in gin_tonica %}
                     <div class="product-card p-3 rounded-lg flex justify-between items-center" data-name="Gin Tônica {{ g.tipo }}">
@@ -280,75 +282,100 @@
         </a>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const header = document.getElementById('main-header');
-            const categoryNav = document.getElementById('category-nav');
-            const sections = document.querySelectorAll('.menu-section');
-            const navItems = document.querySelectorAll('.menu-nav-item');
-            const searchInput = document.getElementById('search-input');
-            const noResults = document.getElementById('no-results');
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const header = document.getElementById('main-header');
+        const categoryNav = document.getElementById('category-nav');
+        const sections = document.querySelectorAll('.menu-section');
+        const navItems = document.querySelectorAll('.menu-nav-item');
+        const searchInput = document.getElementById('search-input');
+        const noResults = document.getElementById('no-results');
 
-            // JS Robusto: Offset de scroll dinâmico baseado na altura real dos elementos fixos
-            const getScrollOffset = () => (header?.offsetHeight || 0) + (categoryNav?.offsetHeight || 0) + 20;
+        const getScrollOffset = () => (header?.offsetHeight || 0) + (categoryNav?.offsetHeight || 0) + 20;
 
-            // JS Essencial: Scroll suave para âncoras
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetElement = document.querySelector(this.getAttribute('href'));
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - getScrollOffset(),
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+        // NOVO: Função para centralizar o item ativo na navegação
+        const scrollNavToActive = (activeItem) => {
+            if (!activeItem || !categoryNav) return;
+            const navRect = categoryNav.getBoundingClientRect();
+            const itemRect = activeItem.getBoundingClientRect();
+
+            const scrollOffset = activeItem.offsetLeft - (navRect.width / 2) + (itemRect.width / 2);
+
+            categoryNav.scrollTo({
+                left: scrollOffset,
+                behavior: 'smooth'
             });
+        };
 
-            // JS Útil: Destacar item do menu de navegação conforme a rolagem (Scroll Spy)
-            const onScroll = () => {
-                const scrollPosition = window.scrollY + getScrollOffset() + 50;
-                let currentSectionId = '';
-                sections.forEach(section => {
-                    if (scrollPosition >= section.offsetTop) {
-                        currentSectionId = section.getAttribute('id');
-                    }
-                });
-                navItems.forEach(item => item.classList.toggle('active', item.getAttribute('href').includes(currentSectionId)));
-            };
-            window.addEventListener('scroll', onScroll, { passive: true }); // Otimização
-
-            // JS Essencial: Funcionalidade de Busca em tempo real
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                let resultsFound = false;
-
-                document.querySelectorAll('.menu-section').forEach(section => {
-                    let sectionHasVisibleProducts = false;
-                    section.querySelectorAll('.product-card').forEach(card => {
-                        const productName = card.dataset.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                        const shouldShow = productName.includes(searchTerm);
-                        card.style.display = shouldShow ? '' : 'flex'; // ou 'block', dependendo do seu layout padrão
-                        if (shouldShow) {
-                            sectionHasVisibleProducts = true;
-                            resultsFound = true;
-                        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - getScrollOffset(),
+                        behavior: 'smooth'
                     });
-                    section.style.display = sectionHasVisibleProducts ? '' : 'none';
-                });
-                
-                noResults.style.display = resultsFound ? 'none' : 'block';
+                     // NOVO: Chama a função de scroll no clique
+                    setTimeout(() => scrollNavToActive(this), 300); // Pequeno delay para sincronia
+                }
             });
-
-            // JS Útil: Botão "Voltar ao Topo"
-            const backToTopButton = document.getElementById('back-to-top');
-            window.addEventListener('scroll', () => {
-                backToTopButton.classList.toggle('opacity-0', window.scrollY <= 300);
-                backToTopButton.classList.toggle('invisible', window.scrollY <= 300);
-            }, { passive: true }); // Otimização
-            backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         });
-    </script>
+
+        const onScroll = () => {
+            const scrollPosition = window.scrollY + getScrollOffset() + 50;
+            let currentSectionId = '';
+
+            sections.forEach(section => {
+                if (scrollPosition >= section.offsetTop) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+            
+            let activeNavItem = null;
+            navItems.forEach(item => {
+                const isActive = item.getAttribute('href').includes(currentSectionId);
+                item.classList.toggle('active', isActive);
+                if (isActive) {
+                    activeNavItem = item; // Guarda o item ativo
+                }
+            });
+            
+            // NOVO: Chama a função de scroll ao rolar a página
+            if(activeNavItem) {
+                scrollNavToActive(activeNavItem);
+            }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            let resultsFound = false;
+            document.querySelectorAll('.menu-section').forEach(section => {
+                let sectionHasVisibleProducts = false;
+                section.querySelectorAll('.product-card').forEach(card => {
+                    const productName = card.dataset.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    const shouldShow = productName.includes(searchTerm);
+                    card.style.display = shouldShow ? 'flex' : 'none';
+                    if (shouldShow) {
+                        sectionHasVisibleProducts = true;
+                        resultsFound = true;
+                    }
+                });
+                section.style.display = sectionHasVisibleProducts ? '' : 'none';
+            });
+            noResults.style.display = resultsFound ? 'none' : 'block';
+        });
+
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            backToTopButton.classList.toggle('opacity-0', window.scrollY <= 300);
+            backToTopButton.classList.toggle('invisible', window.scrollY <= 300);
+        }, { passive: true });
+
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    });
+</script>
 </body>
 </html>

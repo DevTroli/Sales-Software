@@ -11,32 +11,38 @@ def novidades(request):
 def menu(request):
     # Navegação
     sections = [
-        ("cervejas-artesanais", "🍻 Cervejas"),
-        ("bebidas-especiais", "🍹 Drinks"),
-        ("refrescos", "🥤 Refrescos"),
-        ("almoco-executivo", "🌟 Almoços"),
-        ("espetos-brasa", "🔥 Espetões"),
-        ("sobremesas", "🍰 Sobremesas"),
+        ("cervejas", "🍻Cerveja"),
+        ("bebidas-especiais", "🍹Drinks"),
+        ("refrescos", "🥤Refrescos"),
+        ("almoco-executivo", "🌟Almoços"),
+        ("espetos-brasa", "🔥Espetões"),
+        ("sobremesas", "🍰 Doces"),
     ]
 
     # 1. Cervejas Artesanais
     cervejas_artesanais = {
         "garrafa_600ml": [
-            {"nome": "Skol",            "unit": "R$ 11,90", "balde": "R$ 40,00"},
+            {"nome": "Skol",            "unit": "R$ 11,90", "balde": "R$ 44,00"},
             {"nome": "Petra",           "unit": "R$ 11,90", "balde": "R$ 44,00"},
-            {"nome": "Original",        "unit": "R$ 11,90", "balde": "R$ 44,00"},
-            {"nome": "Imperio",        "unit": "R$ 11,90", "balde": "R$ 44,00"},
-            {"nome": "Imperio Lager",   "unit": "R$ 14,90", "balde": "R$ 55,60"},
+            {"nome": "Original",        "unit": "R$ 14,90", "balde": "R$ 56,00"},
+            {"nome": "Imperio",         "unit": "R$ 11,90", "balde": "R$ 44,00"},
+            {"nome": "Imperio Lager",   "unit": "R$ 14,90", "balde": "R$ 56,00"},
             {"nome": "Duplo Malte",     "unit": "R$ 13,90", "balde": "R$ 52,00"},
-            {"nome": "Budweiser",       "unit": "R$ 13,90", "balde": "R$ 52,00"},
-            {"nome": "Spaten/Stella",   "unit": "R$ 14,90", "balde": "R$ 55,60"},
+            {"nome": "Budweiser",       "unit": "R$ 14,90", "balde": "R$ 56,00"},
+            {"nome": "Eisenbahn",       "unit": "R$ 14,50", "balde": "R$ 54,00"},
+            {"nome": "Therezopolis",    "unit": "R$ 14,50", "balde": "R$ 54,00"},
+            {"nome": "Spaten/Stella",   "unit": "R$ 14,90", "balde": "R$ 56,00"},
             {"nome": "Heinken/Corona",  "unit": "R$ 17,90", "balde": "R$ 72,00"},
         ],
         "long_neck_330ml": [
-            {"nome": "Amstel",          "unit": "R$ 8,90",  "balde": "R$ 48,00"},
+            {"nome": "Amstel Ultra",    "unit": "R$ 9,90",  "balde": "R$ 54,00"},
             {"nome": "Budweiser",       "unit": "R$ 9,90",  "balde": "R$ 54,00"},
-            {"nome": "Spaten/Stella",   "unit": "R$ 10,90", "balde": "R$ 60,00"},
+            {"nome": "Spaten",          "unit": "R$ 9,90", "balde": "R$ 54,00"},
+            {"nome": "Stella",          "unit": "R$ 10,90", "balde": "R$ 60,00"},
+            {"nome": "Stella Pure Gold", "unit": "R$ 11,90", "balde": "R$ 66,00"},
             {"nome": "Heineken",        "unit": "R$ 10,90", "balde": "R$ 60,00"},
+            {"nome": "Heineken Zero",   "unit": "R$ 10,90",  "balde": "R$ 60,00"},
+            {"nome": "Corona",        "unit": "R$ 11,90", "balde": "R$ 66,00"},
         ],
     }
 
@@ -45,6 +51,8 @@ def menu(request):
         {"base": "Cachaça VB",        "preco": "R$ 18,90"},
         {"base": "Cachaça Sagatiba",  "preco": "R$ 21,90"},
         {"base": "Vodka Nacional",    "preco": "R$ 22,90"},
+        {"base": "Whisky Nacional",    "preco": "R$ 24,90"},
+        {"base": "Whisky Importada",   "preco": "R$ 27,90"},
         {"base": "Vodka Importada",   "preco": "R$ 25,90"},
         {"base": "Saquê",             "preco": "R$ 21,90"},
     ]
