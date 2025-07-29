@@ -1,4 +1,5 @@
 from datetime import datetime, time
+from django.db.models import Sum, Count
 from decimal import Decimal
 from io import BytesIO
 
@@ -6,6 +7,7 @@ import pandas as pd
 from django.utils import timezone
 from openpyxl.styles import Alignment, Font, PatternFill
 
+from django.db import models
 from .models import MovimentacaoCaixa, SessaoCaixa
 
 
@@ -83,7 +85,7 @@ def gerar_dados_relatorio(data_inicio=None, data_fim=None):
 
     sumario = (
         movimentacoes.values("tipo")
-        .annotate(total=Sum("valor"), quantidade=models.Count("id"))
+        .annotate(total=Sum("valor"), quantidade=Count("id"))
         .order_by("tipo")
     )
 
