@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from decimal import Decimal 
+from django.core.exceptions import ValidationError
+from django.db import DatabaseError
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
@@ -16,16 +18,17 @@ def abrir_comanda(request):
                 nova_comanda = form.save()
                 messages.success(request, f"Nova comanda aberta para {nova_comanda.nome_cliente}.")
                 return redirect("comandas:detalhes_tab", pk=nova_comanda.pk)
+            
             except ValidationError as e:
-                # Captura o erro de validação do modelo e exibe
-                messages.error(request, ', '.join(e.messages))
+                messages.error(request, f"Erro de validação: {', '.join(e.messages)}")
+
         else:
-             messages.error(request, "Ocorreu um erro. Verifique os dados.")
+            # Isso mostrará os erros do formulário na interface
+            messages.error(request, "Verifique os erros abaixo.")
     else:
         form = AbrirComandaForm()
-        
-    context = {"form": form}
-    return render(request, "comandas/abrir_comanda.html", context)
+    
+    return render(request, "comandas/abrir_comanda.html", {"form": form})
 
 # MODIFICAÇÃO: A antiga 'listar_tabs' agora é o dashboard principal.
 @login_required
