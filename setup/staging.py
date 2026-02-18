@@ -10,18 +10,19 @@ from decouple import config
 DEBUG = False
 
 # SECURITY
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key-for-build')
 ALLOWED_HOSTS = ["*"]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+DATABASE_URL = config('DATABASE_URL', default='')
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
+        default=DATABASE_URL,
         conn_max_age=600,
         ssl_require=True
     )
-}
+} if DATABASE_URL else DATABASES
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

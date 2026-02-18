@@ -21,6 +21,7 @@
     }
   ],
   "env": {
-    "DJANGO_SETTINGS_MODULE": "setup.staging"
+    "DJANGO_SETTINGS_MODULE": "setup.staging",
+    "PYTHON_VERSION": "3.11"
   }
 }
