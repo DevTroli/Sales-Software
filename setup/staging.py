@@ -15,14 +15,19 @@ ALLOWED_HOSTS = ["*"]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASE_URL = config('DATABASE_URL', default='')
-DATABASES = {
-    'default': dj_database_url.config(
-        default=DATABASE_URL,
-        conn_max_age=600,
-        ssl_require=True
-    )
-} if DATABASE_URL else DATABASES
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # Mantém o banco de dados padrão do settings.py se DATABASE_URL não estiver definida
+    pass
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
