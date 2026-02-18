@@ -2,6 +2,7 @@
 Production settings for the project.
 """
 import os
+import dj_database_url
 from .settings import *
 from decouple import config
 
@@ -15,15 +16,11 @@ ALLOWED_HOSTS = ["*"]
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST'),
-        'PORT': config('POSTGRES_PORT'),
-        'CONN_MAX_AGE': 600,
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # Static files (CSS, JavaScript, Images)
