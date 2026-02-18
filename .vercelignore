@@ -1,0 +1,21 @@
+# Ignorar estes arquivos do deploy, mas limpa cache
+.git
+.gitignore
+node_modules/
+.env
+.env.local
+*.pyc
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.python-version
