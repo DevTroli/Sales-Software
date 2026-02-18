@@ -1,6 +1,5 @@
 """
-Production settings for the project.
-Corrige o problema de parsing de DATABASE_URL vazia
+Production settings for the project - Vercel + NeonDB
 """
 import os
 import sys
@@ -8,31 +7,35 @@ import dj_database_url
 from .settings import *
 from decouple import config
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG deve estar False em produção
 DEBUG = False
 
-# SECURITY
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key-for-build')
+# =====================================================
+# SECURITY SETTINGS
+# =====================================================
+SECRET_KEY = config('SECRET_KEY', default='')
+
+if not SECRET_KEY:
+    # Em produção, SECRET_KEY DEVE ser definida
+    raise ValueError(
+        "❌ ERRO CRÍTICO: SECRET_KEY não foi definida nas variáveis de ambiente do Vercel!\n"
+        "Adicione a variável 'SECRET_KEY' em Settings > Environment Variables no Vercel\n"
+        "Você pode gerar uma em: https://djecrety.ir/"
+    )
+
 ALLOWED_HOSTS = ["*"]
 
 # =====================================================
-# DATABASE CONFIGURATION - CORRIGIDO
+# DATABASE CONFIGURATION
 # =====================================================
-# O erro acontecia porque dj_database_url.config() tentava parsear
-# uma string vazia quando DATABASE_URL não era fornecida ou era inválida
+# O dj_database_url parseia a CONNECTION STRING do NeonDB
+# Formato esperado: postgresql://user:password@host:port/database?sslmode=require
 
 DATABASE_URL = config('DATABASE_URL', default='').strip()
 
 if DATABASE_URL:
     try:
-        # Valida que a URL começa com um esquema reconhecido
-        valid_schemes = ('postgresql://', 'postgres://', 'mysql://', 'sqlite://')
-        if not any(DATABASE_URL.startswith(scheme) for scheme in valid_schemes):
-            raise ValueError(
-                f"URL do banco inválida. Deve começar com um dos esquemas: {valid_schemes}. "
-                f"Você forneceu: {DATABASE_URL[:50]}..."
-            )
-        
+        # Parse a URL e configure o Django
         DATABASES = {
             'default': dj_database_url.config(
                 default=DATABASE_URL,
@@ -41,33 +44,36 @@ if DATABASE_URL:
                 conn_health_checks=True,
             )
         }
-        print("✅ Banco de dados conectado via DATABASE_URL", file=sys.stderr)
-        
     except ValueError as e:
-        print(
-            f"❌ ERRO: DATABASE_URL inválida. {str(e)}\n"
-            f"Usando configuração padrão do settings.py",
-            file=sys.stderr
+        raise ValueError(
+            f"❌ DATABASE_URL inválida!\n"
+            f"Erro: {str(e)}\n"
+            f"Certifique-se de que a URL começa com 'postgresql://'\n"
+            f"Não use 'psql://' ou 'psql' no início"
         )
-        # Mantém a configuração padrão do settings.py (já foi importada acima)
 else:
-    print(
-        "⚠️  DATABASE_URL não foi configurada nas variáveis de ambiente.\n"
-        "Usando configuração padrão do settings.py",
-        file=sys.stderr
+    raise ValueError(
+        "❌ DATABASE_URL não foi configurada!\n"
+        "Adicione em Settings > Environment Variables no Vercel\n"
+        "Obtenha a URL no seu dashboard do NeonDB\n"
+        "Formato: postgresql://user:password@host:port/database?sslmode=require"
     )
-    # A configuração padrão já foi carregada via: from .settings import *
 
-# Static files (CSS, JavaScript, Images)
+# =====================================================
+# STATIC FILES CONFIGURATION
+# =====================================================
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# WhiteNoise configuration
+# WhiteNoise serves static files in production
 if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# HTTPS settings
+# =====================================================
+# HTTPS/SECURITY SETTINGS
+# =====================================================
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
@@ -76,7 +82,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Log all to console (for Vercel)
+# =====================================================
+# LOGGING
+# =====================================================
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
