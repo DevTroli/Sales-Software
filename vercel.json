@@ -1,29 +1,26 @@
 {
   "version": 2,
   "builds": [
-      {
-          "src": "setup/wsgi.py",
-          "use": "@vercel/python",
-          "config": {
-              "maxLambdaSize": "40mb",
-              "runtime": "python3.11",
-              "installCommand": "bash build_files.sh",
-              "includeFiles": "staticfiles/**"
-          }
+    {
+      "src": "setup/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.11"
       }
+    }
   ],
   "routes": [
-      {
-          "src": "/static/(.*)",
-          "dest": "/static/$1"
-      },
-      {
-          "src": "/(.*)",
-          "dest": "setup/wsgi.py",
-          "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"]
-      }
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "setup/wsgi.py"
+    }
   ],
   "env": {
-      "DJANGO_SETTINGS_MODULE": "setup.staging"
+    "DJANGO_SETTINGS_MODULE": "setup.staging"
   }
 }
