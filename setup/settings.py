@@ -98,6 +98,23 @@ DATABASES = {
         "HOST": config("POSTGRES_HOST", default=""),
         "PORT": config("POSTGRES_PORT", default="5432"),
         "PASSWORD": config("POSTGRES_PASSWORD", default=""),
+        # Otimização: connection pooling para reutilizar conexões
+        "CONN_MAX_AGE": 600,  # 10 minutos
+    }
+}
+
+# Otimização: usar signed cookies para sessões (evita queries ao banco)
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_AGE = 3600  # 1 hora
+SESSION_SAVE_EVERY_REQUEST = False  # Evita write constante
+
+# Cache em memória para templates e queries frequentes
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "OPTIONS": {
+            "MAX_ENTRIES": 1000,
+        }
     }
 }
 

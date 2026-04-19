@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from decimal import Decimal 
 from django.core.exceptions import ValidationError
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
@@ -61,7 +61,13 @@ def dashboard_comandas(request):
 
 @login_required
 def detalhes_tab(request, pk):
-    tab = get_object_or_404(Tab, pk=pk)
+    # Otimizacao: prefetch_related para evitar N+1 queries
+    tab = get_object_or_404(
+        Tab.objects
+        .prefetch_related('itens__produto')
+        .prefetch_related('comments__author'),
+        pk=pk
+    )
     
     # Instancia todos os formulários
     item_form = TabItemForm()
@@ -161,17 +167,19 @@ def atualizar_comentario(request, pk):
 
 @login_required
 @require_POST
+@transaction.atomic  # Otimizacao: garante atomicidade
 def fechar_tab(request, pk):
-    tab = get_object_or_404(Tab, pk=pk)
+    # Otimizacao: prefetch_related para evitar queries N+1
+    tab = get_object_or_404(Tab.objects.prefetch_related('itens__produto'), pk=pk)
 
     if tab.status == 'ATIVA':
-        # 1️⃣ Primeira “fechada”: limpa a comanda (ATIVA → VAZIA)
+        # 1️⃣ Primeira "fechada": limpa a comanda (ATIVA → VAZIA)
 
-        # Ajusta o estoque
-        for item in tab.itens.all():
+        # Ajusta o estoque otimizado
+        for item in tab.itens.all():  # Ja prefetchado
             prod = item.produto
             prod.estoque -= item.quantidade
-            prod.save()
+            prod.save(update_fields=["estoque"])
 
         # Remove itens e zera subtotal
         tab.itens.all().delete()
@@ -181,12 +189,12 @@ def fechar_tab(request, pk):
         tab.data_fechamento = None
         tab.save(update_fields=['subtotal','status','aberta','data_fechamento'])
 
-        messages.success(request, f"Comanda “{tab.nome_cliente}” esvaziada e liberada (VAZIA).")
+        messages.success(request, f"Comanda '{tab.nome_cliente}' esvaziada e liberada (VAZIA).")
     
     elif tab.status == 'VAZIA':
-        # 2️⃣ Segunda “fechada”: manda para histórico (VAZIA → FECHADA)
+        # 2️⃣ Segunda "fechada": manda para histórico (VAZIA → FECHADA)
         tab.fechar()  # usa seu método de modelo, que seta status='FECHADA' e data_fechamento
-        messages.success(request, f"Comanda “{tab.nome_cliente}” movida para o histórico (FECHADA).")
+        messages.success(request, f"Comanda '{tab.nome_cliente}' movida para o histórico (FECHADA).")
 
     else:
         messages.warning(request, "Esta comanda já está fechada.")

@@ -48,16 +48,23 @@ class Tab(models.Model):
         super().save(*args, **kwargs)
 
     def atualizar_status_e_subtotal(self):
-        """Recalcula o subtotal e atualiza o status com base nos itens."""
+        """Recalcula o subtotal usando SQL aggregation em vez de Python loop."""
         if self.status == 'FECHADA':
             return
 
-        total = sum(item.subtotal() for item in self.itens.all())
+        # Otimização: usar SQL aggregation em vez de soma em Python
+        # Isso elimina N+1 queries e é muito mais rápido
+        from django.db.models import Sum, F
+        result = self.itens.aggregate(
+            total=Sum(F('quantidade') * F('preco_unitario'))
+        )
+        total = result['total'] or Decimal('0.00')
+
         novo_status = 'ATIVA' if total > 0 else 'VAZIA'
 
         self.subtotal = total
         self.status = novo_status
-        self.aberta = True if novo_status != 'FECHADA' else False
+        self.aberta = novo_status != 'FECHADA'
         self.save(update_fields=['subtotal', 'status', 'aberta'])
 
     # MODIFICAÇÃO: Lógica de fechamento encapsulada
@@ -93,11 +100,30 @@ class TabItem(models.Model):
     def __str__(self):
         return f"{self.quantidade}x {self.produto.produto} - {self.tab.nome_cliente}"
 
-# MODIFICAÇÃO: Signal para automatizar a atualização da comanda
+    def save(self, *args, **kwargs):
+        # Armazena quantidade anterior para otimizar o signal
+        if self.pk:
+            try:
+                self._pre_save_quantidade = TabItem.objects.get(pk=self.pk).quantidade
+            except TabItem.DoesNotExist:
+                self._pre_save_quantidade = None
+        super().save(*args, **kwargs)
+
+
+# MODIFICAÇÃO: Signal otimizado para atualização da comanda
 @receiver([post_save, post_delete], sender=TabItem)
 def on_item_change_update_tab(sender, instance, **kwargs):
-    """Quando um item é adicionado ou removido, atualiza a comanda pai."""
-    instance.tab.atualizar_status_e_subtotal()
+    """Atualiza comanda pai apenas quando necessário."""
+    # Só recalcula em criação (created=True) ou deleção
+    if kwargs.get('created'):
+        instance.tab.atualizar_status_e_subtotal()
+    elif kwargs.get('signal') == post_delete:
+        instance.tab.atualizar_status_e_subtotal()
+    else:
+        # Para updates, verifica se quantidade mudou para evitar recálculos desnecessários
+        pre_save_qty = getattr(instance, '_pre_save_quantidade', None)
+        if pre_save_qty is not None and pre_save_qty != instance.quantidade:
+            instance.tab.atualizar_status_e_subtotal()
 
 # O modelo Comment permanece o mesmo.
 class Comment(models.Model):

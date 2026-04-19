@@ -57,9 +57,13 @@ class Produto(models.Model):
             return f"{self.margem_vendas:.2f}%"
         return "0.00%"
 
-
-class Meta:
-    ordering = ("produto",)
+    class Meta:
+        ordering = ("produto",)
+        indexes = [
+            models.Index(fields=["produto"], name="idx_produto_nome"),
+            models.Index(fields=["codigoBarra"], name="idx_produto_codbar"),
+            models.Index(fields=["estoque", "estoque_minimo"], name="idx_produto_estoque"),
+        ]
 
 
 class Categoria(models.Model):
