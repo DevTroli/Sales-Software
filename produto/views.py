@@ -201,12 +201,31 @@ def bulk_edit_products(request):
             )
 
         with transaction.atomic():
+            # Obter todos os produtos que serão atualizados em uma única consulta
+            product_ids = [product_data.get("id") for product_data in data]
+            produtos_dict = {
+                produto.id: produto
+                for produto in Produto.objects.filter(id__in=product_ids)
+            }
+
+            # Lista para armazenar produtos que precisam ser atualizados via bulk_update
+            produtos_atualizar = []
+
             # Itera sobre cada produto enviado no JSON
             for product_data in data:
                 product_id = product_data.get("id")
 
-                # Encontra o produto no banco
-                produto_obj = Produto.objects.get(pk=product_id)
+                # Verifica se o produto existe
+                if product_id not in produtos_dict:
+                    return JsonResponse(
+                        {
+                            "status": "error",
+                            "message": f"Produto com ID {product_id} não encontrado.",
+                        },
+                        status=404,
+                    )
+
+                produto_obj = produtos_dict[product_id]
 
                 # Atualiza os campos se eles foram fornecidos e não estão vazios
                 # Usamos .get() com um valor padrão para evitar erros se a chave não existir
@@ -219,9 +238,18 @@ def bulk_edit_products(request):
                 if "estoque" in product_data and product_data["estoque"] != "":
                     produto_obj.estoque = int(product_data["estoque"])
 
-                # Salvamos o objeto individualmente para garantir que o método .save()
-                # customizado do seu modelo (que recalcula margem e nível de estoque) seja executado.
+                # Atualiza o nível de estoque e calcula a margem de vendas usando o método save customizado
+                # Precisamos chamar save() para garantir que a lógica do modelo seja executada
                 produto_obj.save()
+
+                # Adiciona à lista para bulk_update (mesmo que já tenha sido salvo,
+                # isso permite atualizar campos específicos de forma eficiente)
+                produtos_atualizar.append(produto_obj)
+
+            # Se houver muitos produtos, usar bulk_update para campos específicos para melhor performance
+            if len(produtos_atualizar) > 10:  # Threshold para usar bulk_update
+                # Atualiza campos em batch mantendo a lógica do save()
+                Produto.objects.bulk_update(produtos_atualizar, ['preco_custo', 'preco_venda', 'estoque', 'margem_vendas', 'nivel_estoque'])
 
         messages.success(
             request, f"{len(data)} produtos foram atualizados com sucesso!"
