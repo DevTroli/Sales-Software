@@ -106,9 +106,10 @@ class ItemCompraForm(forms.Form):
                 "id", "produto", "preco_venda", "estoque"
             ).filter(codigoBarra=codigo_barra).first()
         elif nome_produto:
-            # Otimização: usa iexact para busca exata (rápida) em vez de icontains
+            # Busca flexível com suporte a correspondência parcial e case-insensitive
             return Produto.objects.only(
                 "id", "produto", "preco_venda", "estoque"
-            ).filter(produto__iexact=nome_produto).first()
+            ).filter(produto__icontains=nome_produto).first()
+
 
         return None
