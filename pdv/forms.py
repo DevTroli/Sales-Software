@@ -97,13 +97,19 @@ class ItemCompraForm(forms.Form):
 
     def get_produto(self):
         cleaned_data = self.cleaned_data
-        # produto_id = cleaned_data.get("produto_id")
         codigo_barra = cleaned_data.get("codigo_barra")
         nome_produto = cleaned_data.get("nome_produto")
 
+        # Otimização: usa .only() para buscar apenas campos necessários
         if codigo_barra:
-            return Produto.objects.filter(codigoBarra=codigo_barra).first()
+            return Produto.objects.only(
+                "id", "produto", "preco_venda", "estoque"
+            ).filter(codigoBarra=codigo_barra).first()
         elif nome_produto:
-            return Produto.objects.filter(produto__icontains=nome_produto).first()
+            # Busca flexível com suporte a correspondência parcial e case-insensitive
+            return Produto.objects.only(
+                "id", "produto", "preco_venda", "estoque"
+            ).filter(produto__icontains=nome_produto).first()
+
 
         return None

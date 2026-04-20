@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from decouple import config, Csv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,13 +92,25 @@ WSGI_APPLICATION = "setup.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+      "default": dj_database_url.parse(
+          config("DATABASE_URL"),
+          conn_max_age=600,
+          ssl_require=True
+      )
+  }
+
+# Otimização: usar signed cookies para sessões (evita queries ao banco)
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_AGE = 3600
+SESSION_SAVE_EVERY_REQUEST = False
+
+# Cache em memória para templates e queries frequentes
+CACHES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB", default=""),
-        "USER": config("POSTGRES_USER", default=""),
-        "HOST": config("POSTGRES_HOST", default=""),
-        "PORT": config("POSTGRES_PORT", default="5432"),
-        "PASSWORD": config("POSTGRES_PASSWORD", default=""),
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "OPTIONS": {
+            "MAX_ENTRIES": 1000,
+        }
     }
 }
 

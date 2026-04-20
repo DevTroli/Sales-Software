@@ -29,32 +29,48 @@ from produto.models import Categoria, Produto
 
 
 class NavigationHistoryMiddleware(MiddlewareMixin):
-    def process_request(self, request):
-        if "navigation_history" not in request.session:
-            request.session["navigation_history"] = []
+    def process_response(self, request, response):
+        # Só rastreia GET bem-sucedidos para evitar processar requests desnecessários
+        if request.method != "GET" or response.status_code != 200:
+            return response
 
-        # Não adiciona POST nem URLs de edição ao histórico
-        if (
-            request.method == "GET"
-            and not request.path.startswith("/produtos/")
-            or not any(k in request.path for k in ["edit", "add"])
-        ):
-            history = request.session["navigation_history"]
+        # Condição corrigida com precedência explícita (bug: usava OR em vez de AND)
+        should_track = (
+            not request.path.startswith("/produtos/")
+            and not any(k in request.path for k in ["edit", "add"])
+        )
+        if not should_track:
+            return response
 
-            # Evita duplicatas consecutivas
-            if not history or history[-1] != request.get_full_path():
-                # Mantém apenas os últimos 5 itens
-                if len(history) >= 5:
-                    history.pop(0)
-                history.append(request.get_full_path())
-                request.session["navigation_history"] = history
+        history = request.session.get("navigation_history", [])
+
+        current_path = request.get_full_path()
+        # Evita duplicatas consecutivas
+        if history and history[-1] == current_path:
+            return response
+
+        # O(1) usando slice em vez de pop(0) que é O(n)
+        history.append(current_path)
+        if len(history) > 5:
+            history = history[-5:]  # Mantém últimos 5
+
+        request.session["navigation_history"] = history
+        # Marca explicitamente como modificado para salvar eficientemente
+        request.session.modified = True
+        return response
 
 
 @login_required
 def index(request):
     template_name = "produto/index.html"
     query = request.GET.get("q")
-    objects = Produto.objects.all()
+
+    # Otimização: select_related para evitar N+1 queries na categoria
+    # Otimização: only() para buscar apenas campos usados no template
+    objects = Produto.objects.select_related("categoria").only(
+        "id", "produto", "preco_venda", "estoque", "codigoBarra",
+        "categoria__categoria"
+    )
 
     if query:
         queries = query.split()
@@ -63,25 +79,27 @@ def index(request):
             q_objects |= (
                 Q(produto__icontains=q)
                 | Q(codigoBarra__icontains=q)
-                | Q(preco_venda__icontains=q)
                 | Q(categoria__categoria__icontains=q)
+                # Removido preco_venda__icontains - não faz sentido buscar por preço parcial
             )
         objects = objects.filter(q_objects)
+        request.session["list_origin"] = request.get_full_path()
 
     objects = objects.order_by("produto")
     paginator = Paginator(objects, 50)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    if "list_origin" not in request.session:
-        request.session["list_origin"] = request.get_full_path()
-
-    # Adicionado para popular o <select> no modal de edição em massa
-    todas_as_categorias = Categoria.objects.all()
+    # Cache para categorias que raramente mudam
+    from django.core.cache import cache
+    todas_as_categorias = cache.get("todas_categorias")
+    if todas_as_categorias is None:
+        todas_as_categorias = list(Categoria.objects.all())
+        cache.set("todas_categorias", todas_as_categorias, 300)  # 5 minutos
 
     context = {
         "page_obj": page_obj,
-        "todas_as_categorias": todas_as_categorias,  # Passando para o template
+        "todas_as_categorias": todas_as_categorias,
     }
     return render(request, template_name, context)
 
@@ -183,12 +201,31 @@ def bulk_edit_products(request):
             )
 
         with transaction.atomic():
+            # Obter todos os produtos que serão atualizados em uma única consulta
+            product_ids = [product_data.get("id") for product_data in data]
+            produtos_dict = {
+                produto.id: produto
+                for produto in Produto.objects.filter(id__in=product_ids)
+            }
+
+            # Lista para armazenar produtos que precisam ser atualizados via bulk_update
+            produtos_atualizar = []
+
             # Itera sobre cada produto enviado no JSON
             for product_data in data:
                 product_id = product_data.get("id")
 
-                # Encontra o produto no banco
-                produto_obj = Produto.objects.get(pk=product_id)
+                # Verifica se o produto existe
+                if product_id not in produtos_dict:
+                    return JsonResponse(
+                        {
+                            "status": "error",
+                            "message": f"Produto com ID {product_id} não encontrado.",
+                        },
+                        status=404,
+                    )
+
+                produto_obj = produtos_dict[product_id]
 
                 # Atualiza os campos se eles foram fornecidos e não estão vazios
                 # Usamos .get() com um valor padrão para evitar erros se a chave não existir
@@ -201,9 +238,18 @@ def bulk_edit_products(request):
                 if "estoque" in product_data and product_data["estoque"] != "":
                     produto_obj.estoque = int(product_data["estoque"])
 
-                # Salvamos o objeto individualmente para garantir que o método .save()
-                # customizado do seu modelo (que recalcula margem e nível de estoque) seja executado.
+                # Atualiza o nível de estoque e calcula a margem de vendas usando o método save customizado
+                # Precisamos chamar save() para garantir que a lógica do modelo seja executada
                 produto_obj.save()
+
+                # Adiciona à lista para bulk_update (mesmo que já tenha sido salvo,
+                # isso permite atualizar campos específicos de forma eficiente)
+                produtos_atualizar.append(produto_obj)
+
+            # Se houver muitos produtos, usar bulk_update para campos específicos para melhor performance
+            if len(produtos_atualizar) > 10:  # Threshold para usar bulk_update
+                # Atualiza campos em batch mantendo a lógica do save()
+                Produto.objects.bulk_update(produtos_atualizar, ['preco_custo', 'preco_venda', 'estoque', 'margem_vendas', 'nivel_estoque'])
 
         messages.success(
             request, f"{len(data)} produtos foram atualizados com sucesso!"

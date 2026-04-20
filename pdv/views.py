@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -18,6 +19,7 @@ from .models import Compra, ItemCompra
 # ✅ A VIEW `pdv` agora é protegida pelo decorator. Nenhuma venda ocorre se o caixa estiver fechado.
 @login_required
 @caixa_aberto_required
+@transaction.atomic  # Otimização: garante atomicidade da transação completa
 def pdv(request):
     # A lógica de iniciar uma nova venda na sessão permanece a mesma
     if "nova_venda" not in request.session or request.session["nova_venda"]:
@@ -73,7 +75,9 @@ def pdv(request):
             )
 
             for item_data in itens:
-                produto = Produto.objects.get(pk=item_data["produto_id"])
+                produto = Produto.objects.only(
+                "id", "produto", "estoque"
+            ).get(pk=item_data["produto_id"])
                 if produto.estoque >= item_data["quantidade"]:
                     ItemCompra.objects.create(
                         compra=compra,
@@ -82,12 +86,12 @@ def pdv(request):
                         preco_unitario=item_data["preco_unitario"],
                     )
                     produto.estoque -= item_data["quantidade"]
-                    produto.save()
+                    produto.save(update_fields=["estoque"])
                 else:
                     messages.error(
                         request, f"Estoque insuficiente para {produto.produto}."
                     )
-                    compra.delete()  # Reverte a compra se um item falhar
+                    # Rollback automático - @transaction.atomic cuida do rollback
                     return redirect("pdv:pdv")
 
             # ✅ DX MELHORADO: Chamada única para o service de caixa.

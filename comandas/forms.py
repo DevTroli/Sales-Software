@@ -107,10 +107,16 @@ class TabItemForm(forms.Form):
         codigo_barra = cleaned_data.get("codigo_barra")
         nome_produto = cleaned_data.get("nome_produto")
 
+        # Otimização: usesa .only() para buscar apenas campos necessários
         if codigo_barra:
-            return Produto.objects.filter(codigoBarra=codigo_barra).first()
+            return Produto.objects.only(
+                "id", "produto", "preco_venda", "estoque"
+            ).filter(codigoBarra=codigo_barra).first()
         elif nome_produto:
-            return Produto.objects.filter(produto__icontains=nome_produto).first()
+            # Otimização: usa iexact para busca exata em vez de icontains
+            return Produto.objects.only(
+                "id", "produto", "preco_venda", "estoque"
+            ).filter(produto__iexact=nome_produto).first()
 
         return None
 

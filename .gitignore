@@ -177,3 +177,19 @@ cython_debug/
 
 .vercel
 .env*.local
+
+# Arquivos de captura de tela (screenshots)
+*.png
+*.jpg
+*.jpeg
+*.gif
+hyprshot*.png
+
+# Backups locais (usar S3 ou similar em produção)
+backups/*.sql
+backups/*.json
+
+# Outras plataformas de deploy (usando Vercel)
+railway.json
+fly.toml
+render.yaml
