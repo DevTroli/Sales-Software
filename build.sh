@@ -97,7 +97,13 @@ fi
 echo -e "${GREEN}   ✓ Migrations aplicadas com sucesso${NC}"
 echo ""
 
-# PASSO 4: Coletar arquivos estáticos
+# PASSO 4: Limpar sessões expiradas (importante em serverless!)
+echo -e "${BLUE}4️⃣ LIMPANDO SESSÕES EXPIRADAS${NC}"
+$PYTHON_CMD manage.py cleanup_sessions --verbosity=0 2>/dev/null || true
+echo -e "${GREEN} ✓ Sessões expiradas limpas${NC}"
+echo ""
+
+# PASSO 5: Coletar arquivos estáticos
 echo -e "${BLUE}4️⃣  COLETANDO ARQUIVOS ESTÁTICOS${NC}"
 $PYTHON_CMD manage.py collectstatic --noinput --clear --verbosity=1 > /dev/null 2>&1
 
