@@ -23,5 +23,11 @@
   "env": {
     "DJANGO_SETTINGS_MODULE": "setup.staging",
     "PYTHON_VERSION": "3.11"
-  }
+  },
+  "crons": [
+    {
+      "path": "/health/",
+      "schedule": "*/2 * * * *"
+    }
+  ]
 }
