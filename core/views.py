@@ -1,7 +1,20 @@
+from django.db import connection
+from django.http import JsonResponse
 from django.shortcuts import render
+
 
 def index(request):
     return render(request, "core/index.html")
+
+
+def health_check(request):
+    """Endpoint leve para keep-alive do banco Neon e verificação de saúde."""
+    try:
+        # Query mínima para manter o compute do Neon ativo
+        connection.ensure_connection()
+        return JsonResponse({"status": "ok", "db": "connected"}, status=200)
+    except Exception as e:
+        return JsonResponse({"status": "error", "db": "disconnected", "detail": str(e)}, status=503)
 
 def novidades(request):
     return render(request, "core/novidades.html")

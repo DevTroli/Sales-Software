@@ -368,5 +368,16 @@
         }
     });
 </script>
-    </body>
+    
+{# Keep-alive: ping leve a cada 2 min para evitar cold start do Neon #}
+<script>
+(function() {
+    const KEEPALIVE_INTERVAL = 120000; // 2 minutos
+    setInterval(function() {
+        fetch('/health/', {method: 'GET', cache: 'no-store'})
+            .catch(function() { /* silencioso - falha nao afeta o usuario */ });
+    }, KEEPALIVE_INTERVAL);
+})();
+</script>
+</body>
 </html>

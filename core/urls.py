@@ -7,5 +7,6 @@ urlpatterns = [
     path("", v.index, name="index"),
     path("menu/", v.menu, name="index"),
     path("novidades/", v.novidades, name="novidades"),
+    path("health/", v.health_check, name="health_check"),
 
 ]
