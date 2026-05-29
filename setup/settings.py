@@ -64,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "core.keepalive.NeonKeepAliveMiddleware",
     "produto.views.NavigationHistoryMiddleware",  
 ]
 
@@ -94,24 +95,26 @@ WSGI_APPLICATION = "setup.wsgi.application"
 DATABASES = {
       "default": dj_database_url.parse(
           config("DATABASE_URL"),
-          conn_max_age=600,
+          conn_max_age=0,
           ssl_require=True
       )
   }
 
-# Otimização: usar signed cookies para sessões (evita queries ao banco)
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-SESSION_COOKIE_AGE = 3600
-SESSION_SAVE_EVERY_REQUEST = False
+# ── Sessão: persistência + segurança ──────────────────────────
+# DB-backed sessions para persistir entre fechamentos do browser.
+# Cookie dura 30 dias e é renovado a cada request (sliding expiry).
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30          # 30 dias
+SESSION_SAVE_EVERY_REQUEST = True                # renova a cada click
+SESSION_COOKIE_HTTPONLY = True                   # JS não lê o cookie (XSS)
+SESSION_COOKIE_SAMESITE = "Lax"                  # proteção CSRF
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False          # NÃO perde ao fechar o browser
 
-# Cache em memória para templates e queries frequentes
+# ── Cache: Dummy em serverless (LocMemCache não persiste entre lambdas) ──
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "OPTIONS": {
-            "MAX_ENTRIES": 1000,
-        }
-    }
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
 }
 
 

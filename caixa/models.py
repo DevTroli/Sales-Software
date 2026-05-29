@@ -48,7 +48,7 @@ class SessaoCaixa(models.Model):
 
     data_abertura = models.DateTimeField(auto_now_add=True)
     data_fechamento = models.DateTimeField(null=True, blank=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="ABERTO")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="ABERTO", db_index=True)
 
     objects = SessaoCaixaManager()
 
